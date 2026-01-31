@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            padding: 10px;
+            background-color: red;
+            border-radius: 50%;
+            animation-name: x;
+            animation-duration: 2s;
+            width: 90px;
+
+            animation-iteration-count: infinite;
+            transition: 0.5 ease;
+        }
+        div:hover{
+            transform: scale(1.1);
+        }
+        @keyframes x{
+            from{
+                transform: rotate(0deg);
+            }
+            to{
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>hello</div>
+</body>
+</html>

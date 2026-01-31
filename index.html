@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soufiane Arrahou - Full Stack Developer & Trader</title>
+  <meta name="description" content="Portfolio of Soufiane Arrahou - Full Stack Developer specializing in modern web technologies and trading education">
+  <meta name="keywords" content="web developer, full stack, portfolio, trading, Morocco, Rabat">
+  
+  <!-- Favicons -->
+  <link rel="icon" href="./img/favicon.png">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <div class="spinner"></div>
+      <h2 class="loading-text">Loading<span class="dots"></span></h2>
+    </div>
+  </div>
+
+  <!-- Cursor -->
+  <div class="custom-cursor">
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+  </div>
+
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="logo-container">
+        <a href="#home" class="logo">
+          <span class="logo-bracket">&lt;</span>
+          Ra7oox
+          <span class="logo-bracket">/&gt;</span>
+        </a>
+      </div>
+      
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+        <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-greeting">
+          <span class="wave">👋</span>
+          <span>Hello, I'm</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="name-highlight">Soufiane Arrahou</span>
+          <br>
+          <span class="typing-container">
+            <span class="typing-text"></span>
+            <span class="cursor-blink">|</span>
+          </span>
+        </h1>
+        <p class="hero-description">
+          Passionate Full Stack Developer with 2 years of experience crafting exceptional digital experiences. 
+          Specializing in modern web technologies, trading strategies, and creating user-centric solutions that make a difference.
+        </p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <i class="fas fa-code"></i>
+            <div>
+              <h3>60+</h3>
+              <p>Projects</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <div>
+              <h3>50+</h3>
+              <p>Clients</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-trophy"></i>
+            <div>
+              <h3>2</h3>
+              <p>Awards</p>
+            </div>
+          </div>
+        </div>
+        <div class="cta-buttons">
+          <a href="#portfolio" class="btn btn-primary">
+            <span>View My Work</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="#contact" class="btn btn-secondary">
+            <span>Get In Touch</span>
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+        <div class="social-links-hero">
+          <a href="https://github.com/Ra7oox" target="_blank" class="social-link" data-tooltip="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/soufiane-arrahou" target="_blank" class="social-link" data-tooltip="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/soufianeGa6552" target="_blank" class="social-link" data-tooltip="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.instagram.com/ra7oox/" target="_blank" class="social-link" data-tooltip="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="floating-card code-card">
+          <div class="card-header">
+            <div class="window-controls">
+              <span class="control close"></span>
+              <span class="control minimize"></span>
+              <span class="control maximize"></span>
+            </div>
+            <span class="file-name">developer.js</span>
+          </div>
+          <div class="code-content">
+            <pre><code><span class="code-keyword">const</span> <span class="code-variable">developer</span> = {
+  <span class="code-property">name</span>: <span class="code-string">"Soufiane Arrahou"</span>,
+  <span class="code-property">role</span>: <span class="code-string">"Full Stack Developer"</span>,
+  <span class="code-property">location</span>: <span class="code-string">"Rabat, Morocco"</span>,
+  <span class="code-property">skills</span>: [
+    <span class="code-string">"HTML"</span>, <span class="code-string">"CSS"</span>, <span class="code-string">"JavaScript"</span>,
+    <span class="code-string">"Python"</span>, <span class="code-string">"PHP"</span>, <span class="code-string">"Java"</span>
+  ],
+  <span class="code-property">passion</span>: <span class="code-string">"Creating amazing experiences"</span>
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll Down</span>
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section-padding">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-tag">Get To Know</span>
+        <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+        <p class="section-subtitle">My journey as a developer and trader</p>
+      </div>
+
+      <div class="about-content">
+        <div class="about-image-container fade-in">
+          <div class="image-wrapper">
+            <img src="./img/WhatsApp Image 2025-11-24 at 22.22.07.jpeg" alt="Soufiane Arrahou" class="about-image" onerror="this.src='https://via.placeholder.com/500x600/151B36/00D9FF?text=Soufiane+Arrahou'">
+            <div class="image-overlay"></div>
+          </div>
+          <div class="experience-badge">
+            <h3>3+</h3>
+            <p>Years<br>Experience</p>
+          </div>
+        </div>
+
+        <div class="about-text fade-in">
+          <h3 class="about-subtitle">Full Stack Developer & Trading Enthusiast</h3>
+          <p class="about-description">
+            Hello! I'm Soufiane Arrahou, a passionate full-stack developer based in Rabat, Morocco. 
+            My journey in web development started 2 years ago, and since then, I've been on an exciting 
+            path of continuous learning and growth.
+          </p>
+          <p class="about-description">
+            I specialize in creating modern, responsive, and user-friendly web applications. My expertise 
+            spans across both frontend and backend technologies, allowing me to build complete solutions 
+            from concept to deployment. I'm particularly passionate about clean code, innovative design, 
+            and solving complex problems.
+          </p>
+          <p class="about-description">
+            Beyond web development, I'm also deeply interested in financial markets and trading. This 
+            unique combination allows me to bring analytical thinking and strategic planning to every 
+            project I undertake.
+          </p>
+
+          <div class="about-info-grid">
+            <div class="info-card">
+              <i class="fas fa-user"></i>
+              <div>
+                <h4>Name</h4>
+                <p>Soufiane Arrahou</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-briefcase"></i>
+              <div>
+                <h4>Role</h4>
+                <p>Full Stack Developer</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <h4>Email</h4>
+                <p>soufianearrahou7@gmail.com</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-phone"></i>
+              <div>
+                <h4>Phone</h4>
+                <p>+212 632 326 544</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <h4>Location</h4>
+                <p>Rabat, Morocco</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-graduation-cap"></i>
+              <div>
+                <h4>Education</h4>
+                <p>Computer Science</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="#contact" class="btn btn-primary">
+            <span>Let's Work Together</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="section-padding bg-dark">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-tag">My Expertise</span>
+        <h2 class="section-title">Technical <span class="gradient-text">Skills</span></h2>
+        <p class="section-subtitle">Technologies I work with</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-category fade-in">
+          <div class="category-header">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Frontend Development</h3>
+          </div>
+          <div class="skills-list">
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">HTML5</span>
+                <span class="skill-percent">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="90"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">CSS3 / SASS</span>
+                <span class="skill-percent">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="85"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">JavaScript / ES6+</span>
+                <span class="skill-percent">75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="75"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">React.js</span>
+                <span class="skill-percent">60%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <div class="category-header">
+            <i class="fas fa-server"></i>
+            <h3>Backend Development</h3>
+          </div>
+          <div class="skills-list">
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Python</span>
+                <span class="skill-percent">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="90"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">PHP</span>
+                <span class="skill-percent">70%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="70"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Java</span>
+                <span class="skill-percent">65%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="65"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">MySQL / MongoDB</span>
+                <span class="skill-percent">75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="75"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <div class="category-header">
+            <i class="fas fa-tools"></i>
+            <h3>Tools & Others</h3>
+          </div>
+          <div class="skills-list">
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Git / GitHub</span>
+                <span class="skill-percent">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="85"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">VS Code</span>
+                <span class="skill-percent">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="90"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Responsive Design</span>
+                <span class="skill-percent">88%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="88"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">UI/UX Design</span>
+                <span class="skill-percent">70%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-progress="70"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technology Icons -->
+      <div class="tech-icons fade-in">
+        <div class="tech-icon"><i class="fab fa-html5"></i></div>
+        <div class="tech-icon"><i class="fab fa-css3-alt"></i></div>
+        <div class="tech-icon"><i class="fab fa-js"></i></div>
+        <div class="tech-icon"><i class="fab fa-react"></i></div>
+        <div class="tech-icon"><i class="fab fa-python"></i></div>
+        <div class="tech-icon"><i class="fab fa-php"></i></div>
+        <div class="tech-icon"><i class="fab fa-java"></i></div>
+        <div class="tech-icon"><i class="fab fa-git-alt"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="section-padding">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-tag">What I Offer</span>
+        <h2 class="section-title">My <span class="gradient-text">Services</span></h2>
+        <p class="section-subtitle">Comprehensive solutions for your digital needs</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card fade-in">
+          <div class="service-icon">
+            <i class="fas fa-palette"></i>
+          </div>
+          <h3>Web Design</h3>
+          <p>Creating beautiful, modern, and responsive web designs that captivate users and enhance user experience. From wireframes to final mockups.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Responsive Design</li>
+            <li><i class="fas fa-check"></i> UI/UX Design</li>
+            <li><i class="fas fa-check"></i> Wireframing</li>
+            <li><i class="fas fa-check"></i> Prototyping</li>
+          </ul>
+          <a href="#contact" class="service-link">
+            Get Started <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="service-card featured fade-in">
+          <div class="featured-badge">Popular</div>
+          <div class="service-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Web Development</h3>
+          <p>Full-stack web development services including frontend and backend development, database design, and API integration for robust applications.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Frontend Development</li>
+            <li><i class="fas fa-check"></i> Backend Development</li>
+            <li><i class="fas fa-check"></i> Database Design</li>
+            <li><i class="fas fa-check"></i> API Development</li>
+          </ul>
+          <a href="#contact" class="service-link">
+            Get Started <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Trading Education</h3>
+          <p>Comprehensive trading education covering technical analysis, risk management, and trading psychology to help you navigate financial markets.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Technical Analysis</li>
+            <li><i class="fas fa-check"></i> Risk Management</li>
+            <li><i class="fas fa-check"></i> Trading Psychology</li>
+            <li><i class="fas fa-check"></i> Market Analysis</li>
+          </ul>
+          <a href="#contact" class="service-link">
+            Get Started <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Mobile Optimization</h3>
+          <p>Ensuring your website looks and performs perfectly on all devices with mobile-first design and optimization techniques.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Mobile-First Design</li>
+            <li><i class="fas fa-check"></i> Performance Optimization</li>
+            <li><i class="fas fa-check"></i> Cross-Browser Testing</li>
+            <li><i class="fas fa-check"></i> Progressive Web Apps</li>
+          </ul>
+          <a href="#contact" class="service-link">
+            Get Started <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3>Website Optimization</h3>
+          <p>Speed up your website and improve SEO rankings with performance optimization, code minification, and best practices implementation.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Speed Optimization</li>
+            <li><i class="fas fa-check"></i> SEO Enhancement</li>
+            <li><i class="fas fa-check"></i> Code Optimization</li>
+            <li><i class="fas fa-check"></i> Security Hardening</li>
+          </ul>
+          <a href="#contact" class="service-link">
+            Get Started <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon">
+            <i class="fas fa-life-ring"></i>
+          </div>
+          <h3>Maintenance & Support</h3>
+          <p>Ongoing website maintenance and technical support to keep your site running smoothly, secure, and up-to-date.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Regular Updates</li>
+            <li><i class="fas fa-check"></i> Bug Fixes</li>
+            <li><i class="fas fa-check"></i> Security Monitoring</li>
+            <li><i class="fas fa-check"></i> Technical Support</li>
+          </ul>
+          <a href="#contact" class="service-link">
+            Get Started <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="section-padding bg-dark">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-tag">My Work</span>
+        <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+        <p class="section-subtitle">Recent projects I'm proud of</p>
+      </div>
+
+      <!-- Portfolio Filter -->
+      <div class="portfolio-filters fade-in">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="frontend">Frontend</button>
+        <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+      </div>
+
+      <div class="portfolio-grid">
+        <div class="portfolio-item fade-in" data-category="fullstack">
+          <div class="portfolio-image">
+            <img src="./img/biblioflow.png" alt="BiblioFlow" onerror="this.src='https://via.placeholder.com/600x400/151B36/00D9FF?text=BiblioFlow'">
+            <div class="portfolio-overlay">
+              <div class="portfolio-content">
+                <h3>BiblioFlow</h3>
+                <p>Modern library management system with user authentication and book tracking</p>
+                <div class="portfolio-tags">
+                  <span>React</span>
+                  <span>Node.js</span>
+                  <span>MongoDB</span>
+                </div>
+                <div class="portfolio-links">
+                  <a href="https://ra7oox.github.io/bibilioflow-frontend" target="_blank" class="portfolio-link">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-code"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in" data-category="fullstack">
+          <div class="portfolio-image">
+            <img src="./img/ticketwave.png" alt="TicketWave" onerror="this.src='https://via.placeholder.com/600x400/151B36/00D9FF?text=TicketWave'">
+            <div class="portfolio-overlay">
+              <div class="portfolio-content">
+                <h3>TicketWave</h3>
+                <p>Event ticket booking platform with real-time availability and secure payments</p>
+                <div class="portfolio-tags">
+                  <span>PHP</span>
+                  <span>MySQL</span>
+                  <span>JavaScript</span>
+                </div>
+                <div class="portfolio-links">
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-code"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in" data-category="frontend">
+          <div class="portfolio-image">
+            <img src="./img/website2.PNG" alt="First Portfolio" onerror="this.src='https://via.placeholder.com/600x400/151B36/00D9FF?text=Portfolio+V1'">
+            <div class="portfolio-overlay">
+              <div class="portfolio-content">
+                <h3>First Project</h3>
+                <p>My first portfolio website showcasing early projects and skills</p>
+                <div class="portfolio-tags">
+                  <span>HTML</span>
+                  <span>CSS</span>
+                  <span>JavaScript</span>
+                </div>
+                <div class="portfolio-links">
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-code"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in" data-category="design">
+          <div class="portfolio-image">
+            <img src="./img/website1.PNG" alt="E-Commerce Design" onerror="this.src='https://via.placeholder.com/600x400/151B36/00D9FF?text=E-Commerce'">
+            <div class="portfolio-overlay">
+              <div class="portfolio-content">
+                <h3>E-Commerce Platform</h3>
+                <p>Modern e-commerce website with shopping cart and payment integration</p>
+                <div class="portfolio-tags">
+                  <span>UI/UX</span>
+                  <span>Design</span>
+                  <span>Frontend</span>
+                </div>
+                <div class="portfolio-links">
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-code"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in" data-category="frontend">
+          <div class="portfolio-image">
+            <img src="https://via.placeholder.com/600x400/151B36/00D9FF?text=Weather+App" alt="Weather App">
+            <div class="portfolio-overlay">
+              <div class="portfolio-content">
+                <h3>Weather Dashboard</h3>
+                <p>Real-time weather application with geolocation and forecast features</p>
+                <div class="portfolio-tags">
+                  <span>React</span>
+                  <span>API</span>
+                  <span>CSS3</span>
+                </div>
+                <div class="portfolio-links">
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-code"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in" data-category="fullstack">
+          <div class="portfolio-image">
+            <img src="https://via.placeholder.com/600x400/151B36/00D9FF?text=Task+Manager" alt="Task Manager">
+            <div class="portfolio-overlay">
+              <div class="portfolio-content">
+                <h3>Task Management System</h3>
+                <p>Collaborative task management tool with team features and notifications</p>
+                <div class="portfolio-tags">
+                  <span>Python</span>
+                  <span>Django</span>
+                  <span>PostgreSQL</span>
+                </div>
+                <div class="portfolio-links">
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a href="#" class="portfolio-link">
+                    <i class="fas fa-code"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="section-padding">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-tag">Client Feedback</span>
+        <h2 class="section-title">What Clients <span class="gradient-text">Say</span></h2>
+        <p class="section-subtitle">Testimonials from satisfied clients</p>
+      </div>
+
+      <div class="testimonials-slider">
+        <div class="testimonial-card fade-in">
+          <div class="testimonial-content">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "Soufiane delivered an exceptional website for our business. His attention to detail 
+              and technical expertise exceeded our expectations. Highly recommended!"
+            </p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://via.placeholder.com/80/151B36/00D9FF?text=Client" alt="Client">
+            <div class="author-info">
+              <h4>Mohamed Alami</h4>
+              <p>CEO, TechStart</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in">
+          <div class="testimonial-content">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "Working with Soufiane was a pleasure. He understood our requirements perfectly and 
+              delivered a modern, responsive website that our customers love."
+            </p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <div class="testimonial-author">
+            <img src="./img/oussama elmloudi.jfif" alt="Oussama" onerror="this.src='https://via.placeholder.com/80/151B36/00D9FF?text=Oussama'">
+            <div class="author-info">
+              <h4>Oussama Elmloudi</h4>
+              <p>Friend & Supporter</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in">
+          <div class="testimonial-content">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "Excellent developer! Soufiane's trading education helped me understand market analysis. 
+              His ability to explain complex concepts simply is remarkable."
+            </p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <div class="testimonial-author">
+            <img src="./img/youssef abis.jfif" alt="Youssef" onerror="this.src='https://via.placeholder.com/80/151B36/00D9FF?text=Youssef'">
+            <div class="author-info">
+              <h4>Youssef Abis</h4>
+              <p>Trading Student</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section-padding bg-dark">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-title">Contact <span class="gradient-text">Me</span></h2>
+        <p class="section-subtitle">Let's discuss your next project</p>
+      </div>
+
+      <div class="contact-content">
+        <div class="contact-info fade-in">
+          <h3>Let's Work Together</h3>
+          <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-text">
+                <h4>Location</h4>
+                <p>240 HAY ELOUAHDA, Rabat, Morocco</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-text">
+                <h4>Email</h4>
+                <p>soufianearrahou7@gmail.com</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="contact-text">
+                <h4>Phone</h4>
+                <p>+212 632 326 544</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-links-contact">
+            <a href="https://www.facebook.com/soufiane.arrahou" target="_blank" class="social-link">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/ra7oox/" target="_blank" class="social-link">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com/soufianeGa6552" target="_blank" class="social-link">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://wa.me/+212632326544" target="_blank" class="social-link">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://github.com/Ra7oox" target="_blank" class="social-link">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/soufiane-arrahou" target="_blank" class="social-link">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-form-container fade-in">
+          <form action="connexion.php" method="POST" class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="John Doe">
+              </div>
+              <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required placeholder="john@example.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" required placeholder="Project Inquiry">
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" required placeholder="Tell me about your project..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <span>Send Message</span>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3 class="logo">
+            <span class="logo-bracket">&lt;</span>
+            Ra7oox
+            <span class="logo-bracket">/&gt;</span>
+          </h3>
+          <p>Full Stack Developer & Trading Enthusiast</p>
+          <p class="copyright">&copy; 2024 Ra7oox. All rights reserved.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-services">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Web Design</a></li>
+            <li><a href="#services">Web Development</a></li>
+            <li><a href="#services">Trading Education</a></li>
+            <li><a href="#services">Consultation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact Info</h4>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> Rabat, Morocco</li>
+            <li><i class="fas fa-envelope"></i> soufianearrahou7@gmail.com</li>
+            <li><i class="fas fa-phone"></i> +212 632 326 544</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Designed & Developed with <i class="fas fa-heart"></i> by Soufiane Arrahou</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script src="index.js"></script>
+</body>
+</html>
