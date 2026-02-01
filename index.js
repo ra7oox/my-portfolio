@@ -268,39 +268,64 @@ if (backToTopButton) {
   });
 }
 
-// ============ FORM VALIDATION ============
+// ============ FORM VALIDATION & SUBMISSION ============
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const subject = document.getElementById('subject').value.trim();
     const message = document.getElementById('message').value.trim();
+    const submitButton = contactForm.querySelector('button[type="submit"]');
     
     // Basic validation
     if (!name || !email || !subject || !message) {
-      showNotification('Please fill in all fields', 'error');
+      showNotification('Veuillez remplir tous les champs', 'error');
       return;
     }
     
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      showNotification('Please enter a valid email address', 'error');
+      showNotification('Veuillez entrer une adresse email valide', 'error');
       return;
     }
     
-    // If validation passes, submit form
-    showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+    // Disable submit button and show loading state
+    submitButton.disabled = true;
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Envoi en cours...</span>';
     
-    // You can uncomment this to actually submit the form
-    // contactForm.submit();
-    
-    // Reset form
-    contactForm.reset();
+    try {
+      // Prepare form data
+      const formData = new FormData(contactForm);
+      
+      // Send data to PHP backend
+      const response = await fetch('contact.php', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        showNotification(result.message || 'Message envoyé avec succès ! Je vous répondrai bientôt.', 'success');
+        contactForm.reset();
+      } else {
+        showNotification(result.message || 'Une erreur est survenue. Veuillez réessayer.', 'error');
+      }
+      
+    } catch (error) {
+      console.error('Error:', error);
+      showNotification('Erreur de connexion. Veuillez vérifier votre connexion internet.', 'error');
+    } finally {
+      // Re-enable submit button
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
+    }
   });
 }
 
