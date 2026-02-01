@@ -5,8 +5,7 @@
  */
 
 // Prevent any output before JSON
-    use PHPMailer\PHPMailer\PHPMailer;
-            use PHPMailer\PHPMailer\Exception;
+    
 ob_start();
 
 // Error reporting
@@ -119,7 +118,8 @@ function send_email($name, $email, $subject, $message) {
         isset($config['smtp']['username']) && 
         $config['smtp']['username'] !== 'votre-email@gmail.com') {
         
-        require 'vendor/autoload.php';
+        require __DIR__ . '/vendor/autoload.php';
+
         
         if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
             $use_phpmailer = true;
@@ -195,7 +195,8 @@ function send_email($name, $email, $subject, $message) {
         try {
         
             
-            $mail = new PHPMailer(true);
+            $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+
             
             // SMTP Configuration
             $mail->isSMTP();

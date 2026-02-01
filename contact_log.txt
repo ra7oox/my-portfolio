@@ -1,3 +1,5 @@
 2026-02-01 14:10:32 | ERROR (PHP mail) | Failed to send | From: sssss@gmail.com
 2026-02-01 14:10:39 | ERROR (PHP mail) | Failed to send | From: sssss@gmail.com
 2026-02-01 14:11:19 | ERROR (PHP mail) | Failed to send | From: sssss@gmail.com
+2026-02-01 15:13:54 | ERROR (PHP mail) | Failed to send | From: soufianearr32@gmail.com
+2026-02-01 15:24:18 | SUCCESS (PHPMailer) | From: soufianearr32@gmail.com | Subject: sssss

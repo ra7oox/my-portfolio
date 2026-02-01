@@ -3,7 +3,7 @@
         'name' => 'ra7oox/portfolio',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'b85ac6a53939883bd7d9749498d8f87cf549d565',
+        'reference' => 'e370a51859a143fbd138441a14c36f2c1ac320d0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'ra7oox/portfolio' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'b85ac6a53939883bd7d9749498d8f87cf549d565',
+            'reference' => 'e370a51859a143fbd138441a14c36f2c1ac320d0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

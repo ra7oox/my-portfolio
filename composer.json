@@ -4,13 +4,9 @@
     "type": "project",
     "require": {
         "php": ">=7.0",
-        "phpmailer/phpmailer": "*"
+        "phpmailer/phpmailer": "^7.0"
     },
-    "autoload": {
-        "classmap": [
-            "src/"
-        ]
-    },
+    
     "authors": [
         {
             "name": "Soufiane Arrahou",
