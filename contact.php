@@ -1,99 +1,80 @@
 <?php
 /**
- * Contact Form Handler with PHPMailer (SMTP)
- * More reliable email delivery with SMTP authentication
- * 
- * INSTALLATION:
- * 1. Install Composer: https://getcomposer.org/
- * 2. Run: composer require phpmailer/phpmailer
- * 3. Configure SMTP settings below
+ * Contact Form Handler - Version Hybride
+ * Fonctionne AVEC PHPMailer (si installé) OU avec mail() PHP
  */
 
-// Uncomment after installing PHPMailer via Composer
-// require 'vendor/autoload.php';
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
+// Prevent any output before JSON
+    use PHPMailer\PHPMailer\PHPMailer;
+            use PHPMailer\PHPMailer\Exception;
+ob_start();
 
-// ============ CONFIGURATION ============
-define('RECIPIENT_EMAIL', 'soufianearrahou7@gmail.com');
-define('RECIPIENT_NAME', 'Soufiane Arrahou');
-define('SITE_NAME', 'Ra7oox Portfolio');
+// Error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
-// SMTP Configuration (pour Gmail)
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_PORT', 587);
-define('SMTP_USERNAME', 'iarrahpu@gmail.com'); // Remplacez par votre email
-define('SMTP_PASSWORD', 'icpk qdht yerw lzqo'); // Mot de passe d'application Google
-define('SMTP_ENCRYPTION', 'tls'); // 'tls' ou 'ssl'
-
-// Alternative: Autres fournisseurs SMTP
-// SendGrid: smtp.sendgrid.net, port 587
-// Mailgun: smtp.mailgun.org, port 587
-// Amazon SES: email-smtp.region.amazonaws.com, port 587
-
-// ============ SECURITY ============
-session_start();
-
-// Generate CSRF token if not exists
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+// Set JSON header
+header('Content-Type: application/json; charset=utf-8');
 
 // Security headers
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block');
 
-// ============ FUNCTIONS ============
+/**
+ * Send JSON response
+ */
+function send_response($success, $message, $data = []) {
+    ob_clean();
+    
+    $response = [
+        'success' => $success,
+        'message' => $message,
+        'data' => $data,
+        'timestamp' => date('Y-m-d H:i:s')
+    ];
+    
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+/**
+ * Sanitize input
+ */
 function sanitize_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
     return $data;
 }
 
+/**
+ * Validate email
+ */
 function validate_email($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-function send_response($success, $message, $data = []) {
-    header('Content-Type: application/json');
-    echo json_encode([
-        'success' => $success,
-        'message' => $message,
-        'data' => $data
-    ]);
-    exit;
+/**
+ * Log message
+ */
+function log_message($message) {
+    $log_entry = date('Y-m-d H:i:s') . " | " . $message . "\n";
+    @file_put_contents('contact_log.txt', $log_entry, FILE_APPEND);
 }
 
-function is_spam($name, $email, $message) {
-    // Check for common spam patterns
-    $spam_words = ['viagra', 'casino', 'lottery', 'porn', 'xxx'];
-    $text = strtolower($name . ' ' . $email . ' ' . $message);
-    
-    foreach ($spam_words as $word) {
-        if (strpos($text, $word) !== false) {
-            return true;
-        }
-    }
-    
-    // Check for too many links
-    if (substr_count($message, 'http') > 3) {
-        return true;
-    }
-    
-    return false;
-}
-
-// ============ RATE LIMITING ============
+/**
+ * Check rate limit
+ */
 function check_rate_limit($ip) {
     $limit_file = 'rate_limit.json';
-    $max_requests = 5; // Maximum 5 messages
-    $time_window = 3600; // Per hour
+    $max_requests = 5;
+    $time_window = 3600; // 1 hour
     
     $data = [];
     if (file_exists($limit_file)) {
-        $data = json_decode(file_get_contents($limit_file), true);
+        $data = json_decode(file_get_contents($limit_file), true) ?: [];
     }
     
     $current_time = time();
@@ -119,193 +100,201 @@ function check_rate_limit($ip) {
         ];
     }
     
-    file_put_contents($limit_file, json_encode($data));
+    @file_put_contents($limit_file, json_encode($data));
 }
 
-// ============ MAIN LOGIC ============
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // Check rate limit
-    $ip = $_SERVER['REMOTE_ADDR'];
-    check_rate_limit($ip);
-    
-    // Verify CSRF token (optional, uncomment to enable)
-    // if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-    //     send_response(false, "Invalid security token");
-    // }
-    
-    // Check honeypot (add hidden field in HTML: <input type="text" name="website" style="display:none">)
-    if (!empty($_POST['website'])) {
-        send_response(false, "Spam detected");
+/**
+ * Send email with PHPMailer or fallback to mail()
+ */
+function send_email($name, $email, $subject, $message) {
+    // Try to load config
+    $config = null;
+    if (file_exists('config.php')) {
+        $config = @include 'config.php';
     }
     
-    $errors = [];
-    
-    // Get and sanitize data
-    $name = isset($_POST['name']) ? sanitize_input($_POST['name']) : '';
-    $email = isset($_POST['email']) ? sanitize_input($_POST['email']) : '';
-    $subject = isset($_POST['subject']) ? sanitize_input($_POST['subject']) : '';
-    $message = isset($_POST['message']) ? sanitize_input($_POST['message']) : '';
-    
-    // Validate
-    if (empty($name) || strlen($name) < 2) {
-        $errors[] = "Nom invalide";
-    }
-    
-    if (empty($email) || !validate_email($email)) {
-        $errors[] = "Email invalide";
-    }
-    
-    if (empty($subject) || strlen($subject) < 5) {
-        $errors[] = "Sujet trop court";
-    }
-    
-    if (empty($message) || strlen($message) < 10) {
-        $errors[] = "Message trop court";
-    }
-    
-    // Check for spam
-    if (is_spam($name, $email, $message)) {
-        send_response(false, "Message détecté comme spam");
-    }
-    
-    if (!empty($errors)) {
-        send_response(false, implode(', ', $errors));
+    // Check if PHPMailer is available and configured
+    $use_phpmailer = false;
+    if (file_exists('vendor/autoload.php') && $config && 
+        isset($config['smtp']['username']) && 
+        $config['smtp']['username'] !== 'votre-email@gmail.com') {
+        
+        require 'vendor/autoload.php';
+        
+        if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
+            $use_phpmailer = true;
+        }
     }
     
     // Prepare email content
-    $email_subject = "[" . SITE_NAME . "] " . $subject;
+    $to_email = $config ? $config['recipient']['email'] : 'soufianearrahou7@gmail.com';
+    $to_name = $config ? $config['recipient']['name'] : 'Soufiane Arrahou';
+    $site_name = $config ? $config['site']['name'] : 'Ra7oox Portfolio';
     
+    $email_subject = "[$site_name] $subject";
+    
+    // HTML Email Template
     $email_body = "
     <!DOCTYPE html>
     <html>
     <head>
         <meta charset='UTF-8'>
         <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f4f4f4; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-            .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px; text-align: center; }
-            .header h1 { margin: 0; font-size: 24px; }
-            .content { padding: 30px; }
-            .info-row { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: #f4f4f4; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 20px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 40px 30px; text-align: center; }
+            .header h1 { margin: 0; font-size: 28px; }
+            .content { padding: 40px 30px; }
+            .info-row { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
             .info-row:last-child { border-bottom: none; }
-            .label { font-weight: bold; color: #00D9FF; margin-bottom: 5px; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+            .label { font-weight: 600; color: #00D9FF; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; }
             .value { color: #333; font-size: 16px; }
-            .message-box { background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #00D9FF; margin-top: 10px; white-space: pre-wrap; }
-            .footer { background: #0A0E27; color: #9BA4B5; padding: 20px; text-align: center; font-size: 14px; }
-            .footer a { color: #00D9FF; text-decoration: none; }
-            .btn { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; text-decoration: none; border-radius: 50px; margin-top: 20px; }
+            .value a { color: #00D9FF; text-decoration: none; }
+            .message-box { background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #00D9FF; margin-top: 10px; white-space: pre-wrap; }
+            .footer { background: #0A0E27; color: #9BA4B5; padding: 30px; text-align: center; font-size: 14px; }
         </style>
     </head>
     <body>
         <div class='container'>
             <div class='header'>
-                <h1>📧 Nouveau Message de Contact</h1>
+                <h1>📧 Nouveau Message</h1>
             </div>
             <div class='content'>
                 <div class='info-row'>
                     <div class='label'>👤 Nom</div>
-                    <div class='value'>" . htmlspecialchars($name) . "</div>
+                    <div class='value'>" . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . "</div>
                 </div>
                 <div class='info-row'>
                     <div class='label'>📧 Email</div>
-                    <div class='value'><a href='mailto:" . htmlspecialchars($email) . "'>" . htmlspecialchars($email) . "</a></div>
+                    <div class='value'><a href='mailto:" . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . "</a></div>
                 </div>
                 <div class='info-row'>
                     <div class='label'>📋 Sujet</div>
-                    <div class='value'>" . htmlspecialchars($subject) . "</div>
+                    <div class='value'>" . htmlspecialchars($subject, ENT_QUOTES, 'UTF-8') . "</div>
                 </div>
                 <div class='info-row'>
                     <div class='label'>💬 Message</div>
-                    <div class='message-box'>" . nl2br(htmlspecialchars($message)) . "</div>
+                    <div class='message-box'>" . nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')) . "</div>
                 </div>
                 <div class='info-row'>
-                    <div class='label'>🌐 IP Address</div>
-                    <div class='value'>" . $_SERVER['REMOTE_ADDR'] . "</div>
-                </div>
-                <div class='info-row'>
-                    <div class='label'>🕐 Date & Heure</div>
+                    <div class='label'>🕐 Date</div>
                     <div class='value'>" . date('d/m/Y à H:i:s') . "</div>
                 </div>
-                <a href='mailto:" . htmlspecialchars($email) . "' class='btn'>Répondre à " . htmlspecialchars($name) . "</a>
             </div>
             <div class='footer'>
-                <p>Ce message a été envoyé depuis le formulaire de contact de <strong>" . SITE_NAME . "</strong></p>
-                <p>IP: " . $_SERVER['REMOTE_ADDR'] . " | User Agent: " . htmlspecialchars($_SERVER['HTTP_USER_AGENT']) . "</p>
+                <p><strong>$site_name</strong></p>
+                <p>Ce message a été envoyé depuis le formulaire de contact.</p>
             </div>
         </div>
     </body>
     </html>
     ";
     
-    // ============ SEND EMAIL ============
-    
-    // METHOD 1: Using PHPMailer (Recommended - uncomment after installing)
-    /*
-    try {
-        $mail = new PHPMailer(true);
+    // Try PHPMailer first
+    if ($use_phpmailer) {
+        try {
         
-        // SMTP Configuration
-        $mail->isSMTP();
-        $mail->Host       = SMTP_HOST;
-        $mail->SMTPAuth   = true;
-        $mail->Username   = SMTP_USERNAME;
-        $mail->Password   = SMTP_PASSWORD;
-        $mail->SMTPSecure = SMTP_ENCRYPTION;
-        $mail->Port       = SMTP_PORT;
-        $mail->CharSet    = 'UTF-8';
-        
-        // Recipients
-        $mail->setFrom(SMTP_USERNAME, SITE_NAME);
-        $mail->addAddress(RECIPIENT_EMAIL, RECIPIENT_NAME);
-        $mail->addReplyTo($email, $name);
-        
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = $email_subject;
-        $mail->Body    = $email_body;
-        $mail->AltBody = strip_tags($email_body);
-        
-        $mail->send();
-        
-        // Log
-        $log_message = date('Y-m-d H:i:s') . " | SUCCESS | From: $email | Subject: $subject | IP: " . $_SERVER['REMOTE_ADDR'] . "\n";
-        @file_put_contents('contact_log.txt', $log_message, FILE_APPEND);
-        
-        send_response(true, "Merci pour votre message ! Je vous répondrai dans les plus brefs délais.");
-        
-    } catch (Exception $e) {
-        $log_message = date('Y-m-d H:i:s') . " | ERROR | " . $mail->ErrorInfo . "\n";
-        @file_put_contents('contact_log.txt', $log_message, FILE_APPEND);
-        
-        send_response(false, "Erreur lors de l'envoi: " . $mail->ErrorInfo);
+            
+            $mail = new PHPMailer(true);
+            
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host       = $config['smtp']['host'];
+            $mail->SMTPAuth   = $config['smtp']['auth'];
+            $mail->Username   = $config['smtp']['username'];
+            $mail->Password   = $config['smtp']['password'];
+            $mail->SMTPSecure = $config['smtp']['encryption'];
+            $mail->Port       = $config['smtp']['port'];
+            $mail->CharSet    = 'UTF-8';
+            
+            // Recipients
+            $mail->setFrom($config['smtp']['username'], $site_name);
+            $mail->addAddress($to_email, $to_name);
+            $mail->addReplyTo($email, $name);
+            
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = $email_subject;
+            $mail->Body    = $email_body;
+            $mail->AltBody = "Nom: $name\nEmail: $email\nSubject: $subject\n\nMessage:\n$message";
+            
+            $mail->send();
+            
+            log_message("SUCCESS (PHPMailer) | From: $email | Subject: $subject");
+            return [true, "Message envoyé avec succès via PHPMailer !"];
+            
+        } catch (Exception $e) {
+            log_message("ERROR (PHPMailer) | " . $mail->ErrorInfo);
+            // Fall back to mail()
+        }
     }
-    */
     
-    // METHOD 2: Using PHP mail() function (Fallback)
+    // Fallback to PHP mail()
     $headers = [];
     $headers[] = "MIME-Version: 1.0";
     $headers[] = "Content-Type: text/html; charset=UTF-8";
-    $headers[] = "From: " . SITE_NAME . " <noreply@" . $_SERVER['HTTP_HOST'] . ">";
-    $headers[] = "Reply-To: " . $name . " <" . $email . ">";
+    $headers[] = "From: $site_name <noreply@" . $_SERVER['HTTP_HOST'] . ">";
+    $headers[] = "Reply-To: $name <$email>";
     $headers[] = "X-Mailer: PHP/" . phpversion();
     
-    $mail_sent = mail(RECIPIENT_EMAIL, $email_subject, $email_body, implode("\r\n", $headers));
+    $mail_sent = @mail($to_email, $email_subject, $email_body, implode("\r\n", $headers));
     
     if ($mail_sent) {
-        $log_message = date('Y-m-d H:i:s') . " | SUCCESS | From: $email | Subject: $subject | IP: " . $_SERVER['REMOTE_ADDR'] . "\n";
-        @file_put_contents('contact_log.txt', $log_message, FILE_APPEND);
-        
-        send_response(true, "Merci pour votre message ! Je vous répondrai dans les plus brefs délais.");
+        log_message("SUCCESS (PHP mail) | From: $email | Subject: $subject");
+        return [true, "Merci pour votre message ! Je vous répondrai dans les plus brefs délais."];
     } else {
-        $log_message = date('Y-m-d H:i:s') . " | ERROR | mail() failed | From: $email\n";
-        @file_put_contents('contact_log.txt', $log_message, FILE_APPEND);
-        
-        send_response(false, "Une erreur est survenue. Veuillez réessayer ou me contacter directement.");
+        log_message("ERROR (PHP mail) | Failed to send | From: $email");
+        return [false, "Erreur lors de l'envoi. Veuillez me contacter directement à $to_email"];
+    }
+}
+
+// ============ MAIN LOGIC ============
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $ip = $_SERVER['REMOTE_ADDR'];
+    
+    // Check rate limit
+    check_rate_limit($ip);
+    
+    // Check honeypot
+    if (!empty($_POST['website'])) {
+        log_message("SPAM BLOCKED | Honeypot | IP: $ip");
+        send_response(false, "Spam détecté");
     }
     
+    // Validate inputs
+    $errors = [];
+    
+    $name = isset($_POST['name']) ? sanitize_input($_POST['name']) : '';
+    $email = isset($_POST['email']) ? sanitize_input($_POST['email']) : '';
+    $subject = isset($_POST['subject']) ? sanitize_input($_POST['subject']) : '';
+    $message = isset($_POST['message']) ? sanitize_input($_POST['message']) : '';
+    
+    if (empty($name) || strlen($name) < 2) {
+        $errors[] = "Le nom doit contenir au moins 2 caractères";
+    }
+    
+    if (empty($email) || !validate_email($email)) {
+        $errors[] = "L'adresse email n'est pas valide";
+    }
+    
+    if (empty($subject) || strlen($subject) < 5) {
+        $errors[] = "Le sujet doit contenir au moins 5 caractères";
+    }
+    
+    if (empty($message) || strlen($message) < 10) {
+        $errors[] = "Le message doit contenir au moins 10 caractères";
+    }
+    
+    if (!empty($errors)) {
+        send_response(false, implode(', ', $errors));
+    }
+    
+    // Send email
+    list($success, $msg) = send_email($name, $email, $subject, $message);
+    send_response($success, $msg, ['sent_at' => date('Y-m-d H:i:s')]);
+    
 } else {
-    header('Location: index.html');
-    exit;
+    send_response(false, "Méthode non autorisée");
 }
-?>

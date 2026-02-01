@@ -1,0 +1,21 @@
+{
+    "name": "ra7oox/portfolio",
+    "description": "Portfolio website contact form with PHPMailer",
+    "type": "project",
+    "require": {
+        "php": ">=7.0",
+        "phpmailer/phpmailer": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Soufiane Arrahou",
+            "email": "soufianearrahou7@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
