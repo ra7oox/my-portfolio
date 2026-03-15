@@ -4,12 +4,28 @@
  */
 
 // ============ PRELOADER ============
-window.addEventListener('load', () => {
+function hidePreloader() {
   const preloader = document.getElementById('preloader');
-  setTimeout(() => {
+  if (preloader && !preloader.classList.contains('hidden')) {
     preloader.classList.add('hidden');
-  }, 1500);
+    console.log('Preloader hidden');
+  }
+}
+
+// Hide on window load
+window.addEventListener('load', () => {
+  setTimeout(hidePreloader, 1000);
 });
+
+// Safety fallback: hide after 5 seconds regardless
+setTimeout(hidePreloader, 5000);
+
+// Also try to hide when DOM is interactive
+document.onreadystatechange = () => {
+  if (document.readyState === 'interactive') {
+    setTimeout(hidePreloader, 3000);
+  }
+};
 
 // ============ CUSTOM CURSOR ============
 const cursor = document.querySelector('.cursor-dot');
