@@ -319,24 +319,28 @@ if (contactForm) {
       // Prepare form data
       const formData = new FormData(contactForm);
       
-      // Send data to PHP backend
-      const response = await fetch('contact.php', {
+      // Send data to Formspree
+      const response = await fetch(contactForm.action, {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
       
       const result = await response.json();
       
-      if (result.success) {
-        showNotification(result.message || 'Message envoyé avec succès ! Je vous répondrai bientôt.', 'success');
+      if (response.ok) {
+        showNotification('Message envoyé avec succès ! Je vous répondrai bientôt.', 'success');
         contactForm.reset();
       } else {
-        showNotification(result.message || 'Une erreur est survenue. Veuillez réessayer.', 'error');
+        const errorMsg = result.errors ? result.errors.map(error => error.message).join(', ') : 'Une erreur est survenue.';
+        showNotification(errorMsg, 'error');
       }
       
     } catch (error) {
       console.error('Error:', error);
-      showNotification('Erreur de connexion. Veuillez vérifier votre connexion internet.', 'error');
+      showNotification('Erreur lors de l\'envoi. Veuillez vérifier votre connexion.', 'error');
     } finally {
       // Re-enable submit button
       submitButton.disabled = false;

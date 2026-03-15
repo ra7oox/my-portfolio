@@ -10,16 +10,33 @@ ob_start();
 
 // Error reporting
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1); // Set to 1 for debugging
 ini_set('log_errors', 1);
 
 // Set JSON header
 header('Content-Type: application/json; charset=utf-8');
 
-// Security headers
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
+// Global error handler to catch everything and return as JSON
+set_error_handler(function($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) return;
+    ob_clean();
+    echo json_encode([
+        'success' => false,
+        'message' => "PHP Error: $message in $file on line $line",
+        'debug' => true
+    ]);
+    exit;
+});
+
+set_exception_handler(function($e) {
+    ob_clean();
+    echo json_encode([
+        'success' => false,
+        'message' => "PHP Exception: " . $e->getMessage(),
+        'debug' => true
+    ]);
+    exit;
+});
 
 /**
  * Send JSON response
