@@ -141,11 +141,11 @@ if (typingText) {
     if (isDeleting) {
       typingText.textContent = currentWord.substring(0, charIndex - 1);
       charIndex--;
-      typingSpeed = 50;
+      typingSpeed = 30; // Faster deletion
     } else {
       typingText.textContent = currentWord.substring(0, charIndex + 1);
       charIndex++;
-      typingSpeed = 150;
+      typingSpeed = 80; // Faster typing
     }
     
     if (!isDeleting && charIndex === currentWord.length) {
