@@ -145,7 +145,7 @@ window.addEventListener('scroll', () => {
 // ============ TYPING EFFECT ============
 const typingText = document.querySelector('.typing-text');
 if (typingText) {
-  const words = ['Full Stack Developer', 'Web Designer', 'Trader', 'Problem Solver', 'Creative Coder'];
+  const words = ['Full Stack Developer', 'Web Designer', 'Problem Solver', 'Creative Coder'];
   let wordIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
@@ -450,15 +450,15 @@ function animateCounters() {
     const target = parseInt(counter.textContent);
     const duration = 2000; // 2 seconds
     const increment = target / (duration / 16); // 60 FPS
-    let current = 0;
+    const hasPlus = counter.textContent.includes('+');
     
     const updateCounter = () => {
       current += increment;
       if (current < target) {
-        counter.textContent = Math.floor(current) + '+';
+        counter.textContent = Math.floor(current) + (hasPlus ? '+' : '');
         requestAnimationFrame(updateCounter);
       } else {
-        counter.textContent = target + '+';
+        counter.textContent = target + (hasPlus ? '+' : '');
       }
     };
     
@@ -642,3 +642,60 @@ if ('serviceWorker' in navigator) {
     //   .catch(err => console.log('Service Worker registration failed'));
   });
 }
+
+// ============ MAGNETIC BUTTONS ============
+const magneticButtons = document.querySelectorAll('.btn-primary, .btn-secondary, .social-link');
+magneticButtons.forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    
+    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+  });
+  
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'translate(0, 0)';
+  });
+});
+
+// ============ INTERACTIVE CARD TILT & GLOW ============
+const interactiveCards = document.querySelectorAll('.service-card, .portfolio-item, .process-item, .info-card');
+interactiveCards.forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Update CSS variables for dynamic glow
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+    
+    // Subtle Tilt
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+  });
+});
+
+// ============ REVEAL ANIMATIONS ON SCROLL ============
+const revealOnScroll = () => {
+  const elements = document.querySelectorAll('.fade-in');
+  elements.forEach(el => {
+    const elementTop = el.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+    if (elementTop < windowHeight * 0.85) {
+      el.classList.add('visible');
+    }
+  });
+};
+
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
