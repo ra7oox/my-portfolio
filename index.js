@@ -685,6 +685,163 @@ interactiveCards.forEach(card => {
   });
 });
 
+// ============ PROJECT SLIDER LOGIC ============
+function initProjectSliders() {
+  const sliders = document.querySelectorAll('.project-slider');
+  
+  sliders.forEach(slider => {
+    const wrapper = slider.querySelector('.slider-wrapper');
+    const slides = slider.querySelectorAll('.slide');
+    const prevBtn = slider.querySelector('.prev');
+    const nextBtn = slider.querySelector('.next');
+    const pagination = slider.querySelector('.slider-pagination');
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    
+    // Store currentIndex on the slider element for global zoom access
+    slider.dataset.currentIndex = currentIndex;
+    
+    // Create dots
+    slides.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      pagination.appendChild(dot);
+    });
+    
+    const dots = pagination.querySelectorAll('.dot');
+    
+    function updateSlider() {
+      wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+      slider.dataset.currentIndex = currentIndex; // Update stored index
+      // Update dots
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+    
+    function goToSlide(index) {
+      currentIndex = index;
+      updateSlider();
+    }
+    
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+    }
+    
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      updateSlider();
+    }
+    
+    if (nextBtn) nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nextSlide();
+    });
+    
+    if (prevBtn) prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      prevSlide();
+    });
+    
+    // Auto slide
+    let interval = setInterval(nextSlide, 5000);
+    
+    slider.addEventListener('mouseenter', () => clearInterval(interval));
+    slider.addEventListener('mouseleave', () => {
+      interval = setInterval(nextSlide, 5000);
+    });
+    
+    // Touch support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    slider.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    slider.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) nextSlide();
+      if (touchEndX > touchStartX + 50) prevSlide();
+    }
+  });
+}
+
+// ============ LIGHTBOX LOGIC ============
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCaption = document.getElementById('lightbox-caption');
+const lightboxClose = document.querySelector('.lightbox-close');
+const lightboxOverlay = document.querySelector('.lightbox-overlay');
+
+function openLightbox(src, caption) {
+  if (!lightbox) return;
+  lightboxImg.src = src;
+  lightboxCaption.textContent = caption;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Stop scrolling
+}
+
+function closeLightbox() {
+  if (!lightbox) return;
+  lightbox.classList.remove('active');
+  document.body.style.overflow = ''; // Resume scrolling
+}
+
+function initLightboxActions() {
+  const zoomBtns = document.querySelectorAll('.zoom-btn');
+  
+  zoomBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const portfolioItem = btn.closest('.portfolio-item');
+      const projectTitle = portfolioItem.querySelector('h3').textContent;
+      const slider = portfolioItem.querySelector('.project-slider');
+      
+      let imgSrc = "";
+      let caption = projectTitle;
+      
+      if (slider) {
+        // Slider project: get the image from the currently active slide
+        const currentIndex = parseInt(slider.dataset.currentIndex) || 0;
+        const slides = slider.querySelectorAll('.slide img');
+        imgSrc = slides[currentIndex].src;
+        caption += ` - Aperçu ${currentIndex + 1}`;
+      } else {
+        // Regular project: get the main image
+        const img = portfolioItem.querySelector('.portfolio-image img');
+        imgSrc = img.src;
+      }
+      
+      openLightbox(imgSrc, caption);
+    });
+  });
+}
+
+if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+if (lightboxOverlay) lightboxOverlay.addEventListener('click', closeLightbox);
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+  initProjectSliders();
+  initLightboxActions();
+});
+
 // ============ REVEAL ANIMATIONS ON SCROLL ============
 const revealOnScroll = () => {
   const elements = document.querySelectorAll('.fade-in');
