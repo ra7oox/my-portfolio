@@ -13,7 +13,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Clash+Display:wght@400;600;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,7 +26,7 @@
   <div class="preloader" id="preloader">
     <div class="preloader-content">
       <div class="spinner"></div>
-      <h2 class="loading-text">Loading<span class="dots"></span></h2>
+      <h2 class="loading-text"><span data-i18n="loading">Chargement</span><span class="dots"></span></h2>
     </div>
   </div>
 
@@ -56,16 +56,25 @@
       </div>
       
       <ul class="nav-links" id="navLinks">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#experience" class="nav-link">Experience</a></li>
-        <li><a href="#skills" class="nav-link">Skills</a></li>
-        <li><a href="#services" class="nav-link">Services</a></li>
-        <li><a href="#process" class="nav-link">Process</a></li>
-        <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-        <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="#home" class="nav-link active" data-i18n="nav_home">Accueil</a></li>
+        <li><a href="#about" class="nav-link" data-i18n="nav_about">À propos</a></li>
+        <li><a href="#experience" class="nav-link" data-i18n="nav_experience">Expérience</a></li>
+        <li><a href="#skills" class="nav-link" data-i18n="nav_skills">Compétences</a></li>
+        <li><a href="#services" class="nav-link" data-i18n="nav_services">Services</a></li>
+        <li><a href="#process" class="nav-link" data-i18n="nav_process">Méthode</a></li>
+        <li><a href="#portfolio" class="nav-link" data-i18n="nav_portfolio">Portfolio</a></li>
+        <li><a href="#testimonials" class="nav-link" data-i18n="nav_testimonials">Témoignages</a></li>
+        <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a></li>
       </ul>
+
+      <!-- Sleek Glassmorphic Language Switcher -->
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="fr" onclick="i18n.setLanguage('fr')">FR</button>
+        <span class="lang-separator">|</span>
+        <button class="lang-btn" data-lang="en" onclick="i18n.setLanguage('en')">EN</button>
+        <span class="lang-separator">|</span>
+        <button class="lang-btn" data-lang="ar" onclick="i18n.setLanguage('ar')">العربية</button>
+      </div>
 
       <div class="nav-toggle" id="navToggle">
         <span></span>
@@ -81,7 +90,7 @@
       <div class="hero-text">
         <div class="hero-greeting">
           <span class="wave">👋</span>
-          <span>Hello, I'm</span>
+          <span data-i18n="hero_hello">Bonjour, je suis</span>
         </div>
         <h1 class="hero-title">
           <span class="name-highlight">Soufiane Arrahou</span>
@@ -91,41 +100,40 @@
             <span class="cursor-blink">|</span>
           </span>
         </h1>
-        <p class="hero-description">
-          Passionate Full Stack Developer with 2 years of experience crafting exceptional digital experiences. 
-          Specializing in modern web technologies and creating user-centric solutions that make a difference.
+        <p class="hero-description" data-i18n="hero_description">
+          Développeur Full Stack passionné avec 2 ans d'expérience dans la création d'expériences digitales exceptionnelles. Spécialisé dans les technologies web modernes et la création de solutions centrées sur l'utilisateur qui font la différence.
         </p>
         <div class="hero-stats">
           <div class="stat-item">
             <i class="fas fa-code"></i>
             <div>
               <h3 class="stat-number">60+</h3>
-              <p>Projects</p>
+              <p data-i18n="stat_projects">Projets</p>
             </div>
           </div>
           <div class="stat-item">
             <i class="fas fa-users"></i>
             <div>
               <h3 class="stat-number">5+</h3>
-              <p>Clients</p>
+              <p data-i18n="stat_clients">Clients</p>
             </div>
           </div>
           <div class="stat-item">
             <i class="fas fa-trophy"></i>
             <div>
               <h3 class="stat-number">2</h3>
-              <p>Awards</p>
+              <p data-i18n="stat_awards">Distinctions</p>
             </div>
           </div>
         </div>
         <div class="hero-actions-container">
           <div class="cta-buttons">
             <a href="#portfolio" class="btn btn-primary">
-              <span>View My Work</span>
+              <span data-i18n="btn_view_work">Voir Mes Projets</span>
               <i class="fas fa-arrow-right"></i>
             </a>
             <a href="#contact" class="btn btn-secondary">
-              <span>Get In Touch</span>
+              <span data-i18n="btn_get_touch">Contactez-moi</span>
               <i class="fas fa-envelope"></i>
             </a>
           </div>
@@ -146,7 +154,7 @@
         </div>
       </div>
       <div class="hero-visual">
-        <div class="floating-card code-card">
+        <div class="floating-card code-card" dir="ltr">
           <div class="card-header">
             <div class="window-controls">
               <span class="control close"></span>
@@ -158,20 +166,20 @@
           <div class="code-content">
             <pre><code><span class="code-keyword">const</span> <span class="code-variable">developer</span> = {
   <span class="code-property">name</span>: <span class="code-string">"Soufiane Arrahou"</span>,
-  <span class="code-property">role</span>: <span class="code-string">"Full Stack Developer"</span>,
-  <span class="code-property">location</span>: <span class="code-string">"Rabat, Morocco"</span>,
+  <span class="code-property">role</span>: <span class="code-string">"<span data-i18n="code_role">Développeur Full Stack</span>"</span>,
+  <span class="code-property">location</span>: <span class="code-string">"<span data-i18n="code_location">Rabat, Maroc</span>"</span>,
   <span class="code-property">skills</span>: [
     <span class="code-string">"HTML"</span>, <span class="code-string">"CSS"</span>, <span class="code-string">"JavaScript"</span>,
     <span class="code-string">"Python"</span>, <span class="code-string">"PHP"</span>, <span class="code-string">"Java"</span>
   ],
-  <span class="code-property">passion</span>: <span class="code-string">"Creating amazing experiences"</span>
+  <span class="code-property">passion</span>: <span class="code-string">"<span data-i18n="code_passion">Créer des expériences exceptionnelles</span>"</span>
 };</code></pre>
           </div>
         </div>
       </div>
     </div>
     <div class="scroll-indicator">
-      <span>Scroll Down</span>
+      <span data-i18n="scroll_down">Faire défiler</span>
       <div class="mouse">
         <div class="wheel"></div>
       </div>
@@ -182,9 +190,9 @@
   <section id="experience" class="section-padding">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">Professional Path</span>
-        <h2 class="section-title">My <span class="gradient-text">Experience</span></h2>
-        <p class="section-subtitle">A journey through innovation and learning</p>
+        <span class="section-tag" data-i18n="exp_tag">Parcours Professionnel</span>
+        <h2 class="section-title"><span data-i18n="exp_title">Mon Expérience</span></h2>
+        <p class="section-subtitle" data-i18n="exp_subtitle">Un voyage à travers l'innovation et l'apprentissage</p>
       </div>
 
       <div class="experience-timeline">
@@ -197,21 +205,21 @@
                 <i class="fas fa-building"></i>
               </div>
               <div class="header-text">
-                <h3>Développeur Full Stack</h3>
+                <h3 data-i18n="exp_samtech_role">Développeur Full Stack</h3>
                 <h4 class="company-name">SamTech</h4>
               </div>
-              <span class="experience-duration">4 Mois</span>
+              <span class="experience-duration" data-i18n="exp_samtech_duration">4 Mois</span>
             </div>
             <div class="experience-body">
-              <p>Contribution active au développement de projets variés, incluant des plateformes e-commerce, des solutions web sur mesure et des applications éducatives.</p>
+              <p data-i18n="exp_samtech_desc">Contribution active au développement de projets variés, incluant des plateformes e-commerce, des solutions web sur mesure et des applications éducatives.</p>
               <div class="experience-details">
                 <div class="detail-item">
                   <i class="fas fa-check-circle"></i>
-                  <span>Développement de fonctionnalités web complexes</span>
+                  <span data-i18n="exp_samtech_det1">Développement de fonctionnalités web complexes</span>
                 </div>
                 <div class="detail-item">
                   <i class="fas fa-check-circle"></i>
-                  <span>Optimisation d'interfaces utilisateur (UI/UX)</span>
+                  <span data-i18n="exp_samtech_det2">Optimisation d'interfaces utilisateur (UI/UX)</span>
                 </div>
               </div>
               <div class="tech-stack-tags">
@@ -235,21 +243,21 @@
                 <i class="fas fa-broadcast-tower"></i>
               </div>
               <div class="header-text">
-                <h3>Stage de fin d'études</h3>
+                <h3 data-i18n="exp_snrt_role">Stage de fin d'études</h3>
                 <h4 class="company-name">SNRT (Société Nationale de Radiodiffusion et de Télévision)</h4>
               </div>
-              <span class="experience-duration">3 Mois</span>
+              <span class="experience-duration" data-i18n="exp_snrt_duration">3 Mois</span>
             </div>
             <div class="experience-body">
-              <p>Participation au développement du projet <strong>Mplanner</strong>, une plateforme innovante de planification et de gestion des productions audiovisuelles pour la SNRT.</p>
+              <p data-i18n="exp_snrt_desc">Participation active au développement de la plateforme Mplanner, une solution innovante de planification et de gestion des productions audiovisuelles pour la SNRT.</p>
               <div class="experience-details">
                 <div class="detail-item">
                   <i class="fas fa-check-circle"></i>
-                  <span>Conception et développement de modules de planification</span>
+                  <span data-i18n="exp_snrt_det1">Conception et développement de modules de planification</span>
                 </div>
                 <div class="detail-item">
                   <i class="fas fa-check-circle"></i>
-                  <span>Intégration de workflows pour la production audiovisuelle</span>
+                  <span data-i18n="exp_snrt_det2">Intégration de workflows pour la production audiovisuelle</span>
                 </div>
               </div>
               <div class="tech-stack-tags">
@@ -269,9 +277,9 @@
   <section id="about" class="section-padding">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">Get To Know</span>
-        <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
-        <p class="section-subtitle">My journey as a developer</p>
+        <span class="section-tag" data-i18n="about_tag">Faites Connaissance</span>
+        <h2 class="section-title"><span data-i18n="about_title">À Propos de Moi</span></h2>
+        <p class="section-subtitle" data-i18n="about_subtitle">Mon parcours en tant que développeur</p>
       </div>
 
       <div class="about-content">
@@ -282,37 +290,32 @@
           </div>
           <div class="experience-badge">
             <h3>2+</h3>
-            <p>Years<br>Experience</p>
+            <p><span data-i18n="about_badge_years">Années</span><br><span data-i18n="about_badge_exp">d'Expérience</span></p>
           </div>
         </div>
 
         <div class="about-text fade-in">
-          <h3 class="about-subtitle">Full Stack Developer</h3>
-          <p class="about-description">
-            Hello! I'm Soufiane Arrahou, a passionate full-stack developer based in Rabat, Morocco. 
-            My journey in web development started 2 years ago, and since then, I've been on an exciting 
-            path of continuous learning and growth.
+          <h3 class="about-subtitle" data-i18n="about_role">Développeur Full Stack</h3>
+          <p class="about-description" data-i18n="about_desc1">
+            Bonjour ! Je suis Soufiane Arrahou, un développeur full-stack passionné basé à Rabat, au Maroc. Mon parcours dans le développement web a commencé il y a 2 ans, et depuis, je suis sur un chemin passionnant d'apprentissage continu et de croissance.
           </p>
-          <p class="about-description">
-            I specialize in creating modern, responsive, and user-friendly web applications. My expertise 
-            spans across both frontend and backend technologies, allowing me to build complete solutions 
-            from concept to deployment. I'm particularly passionate about clean code, innovative design, 
-            and solving complex problems.
+          <p class="about-description" data-i18n="about_desc2">
+            Je me spécialise dans la création d'applications web modernes, réactives et faciles à utiliser. Mon expertise s'étend à la fois aux technologies frontend et backend, me permettant de construire des solutions complètes de la conception au déploiement. Je suis particulièrement passionné par le code propre, le design innovant et la résolution de problèmes complexes.
           </p>
 
           <div class="about-info-grid">
             <div class="info-card">
               <i class="fas fa-user"></i>
               <div>
-                <h4>Name</h4>
+                <h4 data-i18n="about_info_name">Nom</h4>
                 <p>Soufiane Arrahou</p>
               </div>
             </div>
             <div class="info-card">
               <i class="fas fa-briefcase"></i>
               <div>
-                <h4>Role</h4>
-                <p>Full Stack Developer</p>
+                <h4 data-i18n="about_info_role">Rôle</h4>
+                <p data-i18n="about_role">Développeur Full Stack</p>
               </div>
             </div>
             <div class="info-card">
@@ -332,21 +335,21 @@
             <div class="info-card">
               <i class="fas fa-map-marker-alt"></i>
               <div>
-                <h4>Location</h4>
-                <p>Rabat, Morocco</p>
+                <h4 data-i18n="about_info_location">Localisation</h4>
+                <p data-i18n="about_info_loc_val">Rabat, Maroc</p>
               </div>
             </div>
             <div class="info-card">
               <i class="fas fa-graduation-cap"></i>
               <div>
-                <h4>Education</h4>
-                <p>Computer Science</p>
+                <h4 data-i18n="about_info_education">Études</h4>
+                <p data-i18n="about_info_edu_val">Informatique</p>
               </div>
             </div>
           </div>
 
           <a href="#contact" class="btn btn-primary">
-            <span>Let's Work Together</span>
+            <span data-i18n="btn_work_together">Travaillons Ensemble</span>
             <i class="fas fa-arrow-right"></i>
           </a>
         </div>
@@ -358,16 +361,16 @@
   <section id="skills" class="section-padding bg-dark">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">My Expertise</span>
-        <h2 class="section-title">Technical <span class="gradient-text">Skills</span></h2>
-        <p class="section-subtitle">Technologies I work with</p>
+        <span class="section-tag" data-i18n="skills_tag">My Expertise</span>
+        <h2 class="section-title"><span data-i18n="skills_title">Technical Skills</span></h2>
+        <p class="section-subtitle" data-i18n="skills_subtitle">Technologies I work with</p>
       </div>
 
       <div class="skills-grid">
         <div class="skill-category fade-in">
           <div class="category-header">
             <i class="fas fa-laptop-code"></i>
-            <h3>Frontend Development</h3>
+            <h3 data-i18n="skills_cat_front">Frontend Development</h3>
           </div>
           <div class="skills-list">
             <div class="skill-item">
@@ -412,7 +415,7 @@
         <div class="skill-category fade-in">
           <div class="category-header">
             <i class="fas fa-server"></i>
-            <h3>Backend Development</h3>
+            <h3 data-i18n="skills_cat_back">Backend Development</h3>
           </div>
           <div class="skills-list">
             <div class="skill-item">
@@ -457,7 +460,7 @@
         <div class="skill-category fade-in">
           <div class="category-header">
             <i class="fas fa-tools"></i>
-            <h3>Tools & Others</h3>
+            <h3 data-i18n="skills_cat_tools">Tools & Others</h3>
           </div>
           <div class="skills-list">
             <div class="skill-item">
@@ -518,9 +521,9 @@
   <section id="services" class="section-padding">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">What I Offer</span>
-        <h2 class="section-title">My <span class="gradient-text">Services</span></h2>
-        <p class="section-subtitle">Comprehensive solutions for your digital needs</p>
+        <span class="section-tag" data-i18n="services_tag">What I Offer</span>
+        <h2 class="section-title"><span data-i18n="services_title">My Services</span></h2>
+        <p class="section-subtitle" data-i18n="services_subtitle">Comprehensive solutions for your digital needs</p>
       </div>
 
       <div class="services-grid">
@@ -528,16 +531,16 @@
           <div class="service-icon">
             <i class="fas fa-palette"></i>
           </div>
-          <h3>Web Design</h3>
-          <p>Creating beautiful, modern, and responsive web designs that captivate users and enhance user experience. From wireframes to final mockups.</p>
+          <h3 data-i18n="service_design_title">Web Design</h3>
+          <p data-i18n="service_design_desc">Creating beautiful, modern, and responsive web designs that captivate users and enhance user experience. From wireframes to final mockups.</p>
           <ul class="service-features">
-            <li><i class="fas fa-check"></i> Responsive Design</li>
-            <li><i class="fas fa-check"></i> UI/UX Design</li>
-            <li><i class="fas fa-check"></i> Wireframing</li>
-            <li><i class="fas fa-check"></i> Prototyping</li>
+            <li data-i18n="service_design_f1"><i class="fas fa-check"></i> Responsive Design</li>
+            <li data-i18n="service_design_f2"><i class="fas fa-check"></i> UI/UX Design</li>
+            <li data-i18n="service_design_f3"><i class="fas fa-check"></i> Wireframing</li>
+            <li data-i18n="service_design_f4"><i class="fas fa-check"></i> Prototyping</li>
           </ul>
           <a href="#contact" class="service-link">
-            Get Started <i class="fas fa-arrow-right"></i>
+            <span data-i18n="services_btn">Get Started</span> <i class="fas fa-arrow-right"></i>
           </a>
         </div>
 
@@ -546,16 +549,16 @@
           <div class="service-icon">
             <i class="fas fa-code"></i>
           </div>
-          <h3>Web Development</h3>
-          <p>Full-stack web development services including frontend and backend development, database design, and API integration for robust applications.</p>
+          <h3 data-i18n="service_dev_title">Web Development</h3>
+          <p data-i18n="service_dev_desc">Full-stack web development services including frontend and backend development, database design, and API integration for robust applications.</p>
           <ul class="service-features">
-            <li><i class="fas fa-check"></i> Frontend Development</li>
-            <li><i class="fas fa-check"></i> Backend Development</li>
-            <li><i class="fas fa-check"></i> Database Design</li>
-            <li><i class="fas fa-check"></i> API Development</li>
+            <li data-i18n="service_dev_f1"><i class="fas fa-check"></i> Frontend Development</li>
+            <li data-i18n="service_dev_f2"><i class="fas fa-check"></i> Backend Development</li>
+            <li data-i18n="service_dev_f3"><i class="fas fa-check"></i> Database Design</li>
+            <li data-i18n="service_dev_f4"><i class="fas fa-check"></i> API Development</li>
           </ul>
           <a href="#contact" class="service-link">
-            Get Started <i class="fas fa-arrow-right"></i>
+            <span data-i18n="services_btn">Get Started</span> <i class="fas fa-arrow-right"></i>
           </a>
         </div>
 
@@ -564,16 +567,16 @@
           <div class="service-icon">
             <i class="fas fa-mobile-alt"></i>
           </div>
-          <h3>Mobile Optimization</h3>
-          <p>Ensuring your website looks and performs perfectly on all devices with mobile-first design and optimization techniques.</p>
+          <h3 data-i18n="service_mob_title">Mobile Optimization</h3>
+          <p data-i18n="service_mob_desc">Ensuring your website looks and performs perfectly on all devices with mobile-first design and optimization techniques.</p>
           <ul class="service-features">
-            <li><i class="fas fa-check"></i> Mobile-First Design</li>
-            <li><i class="fas fa-check"></i> Performance Optimization</li>
-            <li><i class="fas fa-check"></i> Cross-Browser Testing</li>
-            <li><i class="fas fa-check"></i> Progressive Web Apps</li>
+            <li data-i18n="service_mob_f1"><i class="fas fa-check"></i> Mobile-First Design</li>
+            <li data-i18n="service_mob_f2"><i class="fas fa-check"></i> Performance Optimization</li>
+            <li data-i18n="service_mob_f3"><i class="fas fa-check"></i> Cross-Browser Testing</li>
+            <li data-i18n="service_mob_f4"><i class="fas fa-check"></i> Progressive Web Apps</li>
           </ul>
           <a href="#contact" class="service-link">
-            Get Started <i class="fas fa-arrow-right"></i>
+            <span data-i18n="services_btn">Get Started</span> <i class="fas fa-arrow-right"></i>
           </a>
         </div>
 
@@ -581,16 +584,16 @@
           <div class="service-icon">
             <i class="fas fa-rocket"></i>
           </div>
-          <h3>Website Optimization</h3>
-          <p>Speed up your website and improve SEO rankings with performance optimization, code minification, and best practices implementation.</p>
+          <h3 data-i18n="service_opt_title">Website Optimization</h3>
+          <p data-i18n="service_opt_desc">Speed up your website and improve SEO rankings with performance optimization, code minification, and best practices implementation.</p>
           <ul class="service-features">
-            <li><i class="fas fa-check"></i> Speed Optimization</li>
-            <li><i class="fas fa-check"></i> SEO Enhancement</li>
-            <li><i class="fas fa-check"></i> Code Optimization</li>
-            <li><i class="fas fa-check"></i> Security Hardening</li>
+            <li data-i18n="service_opt_f1"><i class="fas fa-check"></i> Speed Optimization</li>
+            <li data-i18n="service_opt_f2"><i class="fas fa-check"></i> SEO Enhancement</li>
+            <li data-i18n="service_opt_f3"><i class="fas fa-check"></i> Code Optimization</li>
+            <li data-i18n="service_opt_f4"><i class="fas fa-check"></i> Security Hardening</li>
           </ul>
           <a href="#contact" class="service-link">
-            Get Started <i class="fas fa-arrow-right"></i>
+            <span data-i18n="services_btn">Get Started</span> <i class="fas fa-arrow-right"></i>
           </a>
         </div>
 
@@ -598,16 +601,16 @@
           <div class="service-icon">
             <i class="fas fa-life-ring"></i>
           </div>
-          <h3>Maintenance & Support</h3>
-          <p>Ongoing website maintenance and technical support to keep your site running smoothly, secure, and up-to-date.</p>
+          <h3 data-i18n="service_maint_title">Maintenance & Support</h3>
+          <p data-i18n="service_maint_desc">Ongoing website maintenance and technical support to keep your site running smoothly, secure, and up-to-date.</p>
           <ul class="service-features">
-            <li><i class="fas fa-check"></i> Regular Updates</li>
-            <li><i class="fas fa-check"></i> Bug Fixes</li>
-            <li><i class="fas fa-check"></i> Security Monitoring</li>
-            <li><i class="fas fa-check"></i> Technical Support</li>
+            <li data-i18n="service_maint_f1"><i class="fas fa-check"></i> Regular Updates</li>
+            <li data-i18n="service_maint_f2"><i class="fas fa-check"></i> Bug Fixes</li>
+            <li data-i18n="service_maint_f3"><i class="fas fa-check"></i> Security Monitoring</li>
+            <li data-i18n="service_maint_f4"><i class="fas fa-check"></i> Technical Support</li>
           </ul>
           <a href="#contact" class="service-link">
-            Get Started <i class="fas fa-arrow-right"></i>
+            <span data-i18n="services_btn">Get Started</span> <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
@@ -618,9 +621,9 @@
   <section id="process" class="section-padding bg-dark">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">Working Method</span>
-        <h2 class="section-title">My Professional <span class="gradient-text">Workflow</span></h2>
-        <p class="section-subtitle">A structured approach to delivering excellence</p>
+        <span class="section-tag" data-i18n="process_tag">Working Method</span>
+        <h2 class="section-title"><span data-i18n="process_title">My Professional Workflow</span></h2>
+        <p class="section-subtitle" data-i18n="process_subtitle">A structured approach to delivering excellence</p>
       </div>
 
       <div class="process-grid">
@@ -630,8 +633,8 @@
             <i class="fas fa-search"></i>
           </div>
           <div class="process-content">
-            <h3>Discovery</h3>
-            <p>Initial research and deep dive into requirements to understand goals and user needs.</p>
+            <h3 data-i18n="process_step1_title">Discovery</h3>
+            <p data-i18n="process_step1_desc">Initial research and deep dive into requirements to understand goals and user needs.</p>
           </div>
         </div>
         <div class="process-item fade-in">
@@ -640,8 +643,8 @@
             <i class="fas fa-layer-group"></i>
           </div>
           <div class="process-content">
-            <h3>Design</h3>
-            <p>Crafting intuitive UI/UX experiences and solid system architecture for scalability.</p>
+            <h3 data-i18n="process_step2_title">Design</h3>
+            <p data-i18n="process_step2_desc">Crafting intuitive UI/UX experiences and solid system architecture for scalability.</p>
           </div>
         </div>
         <div class="process-item fade-in">
@@ -650,8 +653,8 @@
             <i class="fas fa-laptop-code"></i>
           </div>
           <div class="process-content">
-            <h3>Development</h3>
-            <p>Building clean, robust code with the latest technologies and rigorous testing.</p>
+            <h3 data-i18n="process_step3_title">Development</h3>
+            <p data-i18n="process_step3_desc">Building clean, robust code with the latest technologies and rigorous testing.</p>
           </div>
         </div>
         <div class="process-item fade-in">
@@ -660,8 +663,8 @@
             <i class="fas fa-rocket"></i>
           </div>
           <div class="process-content">
-            <h3>Deployment</h3>
-            <p>Launching the final product with continuous monitoring and proactive support.</p>
+            <h3 data-i18n="process_step4_title">Deployment</h3>
+            <p data-i18n="process_step4_desc">Launching the final product with continuous monitoring and proactive support.</p>
           </div>
         </div>
       </div>
@@ -672,17 +675,17 @@
   <section id="portfolio" class="section-padding bg-dark">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">My Work</span>
-        <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-        <p class="section-subtitle">Recent projects I'm proud of</p>
+        <span class="section-tag" data-i18n="portfolio_tag">My Work</span>
+        <h2 class="section-title"><span data-i18n="portfolio_title">Featured Projects</span></h2>
+        <p class="section-subtitle" data-i18n="portfolio_subtitle">Recent projects I'm proud of</p>
       </div>
 
       <!-- Portfolio Filter -->
       <div class="portfolio-filters fade-in">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="frontend">Frontend</button>
-        <button class="filter-btn" data-filter="fullstack">Full Stack</button>
-        <button class="filter-btn" data-filter="design">Design</button>
+        <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All Projects</button>
+        <button class="filter-btn" data-filter="frontend" data-i18n="filter_front">Frontend</button>
+        <button class="filter-btn" data-filter="fullstack" data-i18n="filter_full">Full Stack</button>
+        <button class="filter-btn" data-filter="design" data-i18n="filter_design">Design</button>
       </div>
 
       <div class="portfolio-grid">
@@ -705,7 +708,7 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>SAMTECH</h3>
-                <p>Système complet de gestion d'entreprise (ERP) permettant le suivi et l'automatisation des ventes, des achats, des stocks et des ressources.</p>
+                <p data-i18n="project_samtech_desc">Système complet de gestion d'entreprise (ERP) permettant le suivi et l'automatisation des ventes, des achats, des stocks et des ressources.</p>
                 <div class="portfolio-tags">
                   <span>React</span>
                   <span>Node.js</span>
@@ -713,13 +716,13 @@
                   <span>ERP</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="https://moulprojet.com/" target="_blank" class="portfolio-link" title="Voir le projet">
+                  <a href="https://moulprojet.com/" target="_blank" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link" title="Code source">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -748,7 +751,7 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>SkillSwap</h3>
-                <p>Application mobile d'échange de compétences interactive permettant aux utilisateurs d'apprendre et de partager des savoirs avec agenda, chat, map et communauté.</p>
+                <p data-i18n="project_skillswap_desc">Application mobile d'échange de compétences interactive permettant aux utilisateurs d'apprendre et de partager des savoirs avec agenda, chat, map et communauté.</p>
                 <div class="portfolio-tags">
                   <span>React Native</span>
                   <span>Firebase</span>
@@ -756,13 +759,13 @@
                   <span>Node.js</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -778,20 +781,20 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>ENT Salé</h3>
-                <p>Plateforme numérique estudiantine basée sur une architecture microservices pour une gestion fluide des ressources académiques.</p>
+                <p data-i18n="project_ent_desc">Plateforme numérique estudiantine basée sur une architecture microservices pour une gestion fluide des ressources académiques.</p>
                 <div class="portfolio-tags">
                   <span>Spring Boot</span>
                   <span>Docker</span>
                   <span>Microservices</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -805,20 +808,20 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>BiblioFlow</h3>
-                <p>Modern library management system with user authentication and book tracking</p>
+                <p data-i18n="project_bib_desc">Modern library management system with user authentication and book tracking</p>
                 <div class="portfolio-tags">
                   <span>React</span>
                   <span>Node.js</span>
                   <span>MongoDB</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="https://ra7oox.github.io/bibilioflow-frontend" target="_blank" class="portfolio-link">
+                  <a href="https://ra7oox.github.io/bibilioflow-frontend" target="_blank" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -833,20 +836,20 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>TicketWave</h3>
-                <p>Event ticket booking platform with real-time availability and secure payments</p>
+                <p data-i18n="project_ticket_desc">Event ticket booking platform with real-time availability and secure payments</p>
                 <div class="portfolio-tags">
                   <span>PHP</span>
                   <span>MySQL</span>
                   <span>JavaScript</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -861,20 +864,20 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>Portfolio V1</h3>
-                <p>My first portfolio website showcasing early projects and skills</p>
+                <p data-i18n="project_portv1_desc">My first portfolio website showcasing early projects and skills</p>
                 <div class="portfolio-tags">
                   <span>HTML</span>
                   <span>CSS</span>
                   <span>JavaScript</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -889,20 +892,20 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>E-Commerce Platform</h3>
-                <p>Modern e-commerce website with shopping cart and payment integration</p>
+                <p data-i18n="project_ecom_desc">Modern e-commerce website with shopping cart and payment integration</p>
                 <div class="portfolio-tags">
                   <span>UI/UX</span>
                   <span>Design</span>
                   <span>Frontend</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -917,20 +920,20 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>Weather Dashboard</h3>
-                <p>Real-time weather application with geolocation and forecast features</p>
+                <p data-i18n="project_weather_desc">Real-time weather application with geolocation and forecast features</p>
                 <div class="portfolio-tags">
                   <span>React</span>
                   <span>API</span>
                   <span>CSS3</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -945,20 +948,20 @@
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>Task Management System</h3>
-                <p>Collaborative task management tool with team features and notifications</p>
+                <p data-i18n="project_task_desc">Collaborative task management tool with team features and notifications</p>
                 <div class="portfolio-tags">
                   <span>Python</span>
                   <span>Django</span>
                   <span>PostgreSQL</span>
                 </div>
                 <div class="portfolio-links">
-                  <a href="#" class="portfolio-link zoom-btn" title="Agrandir">
+                  <a href="#" class="portfolio-link zoom-btn" data-i18n-title="portfolio_zoom" title="Agrandir">
                     <i class="fas fa-search-plus"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_view" title="Voir le projet">
                     <i class="fas fa-external-link-alt"></i>
                   </a>
-                  <a href="#" class="portfolio-link">
+                  <a href="#" class="portfolio-link" data-i18n-title="portfolio_source" title="Code source">
                     <i class="fas fa-code"></i>
                   </a>
                 </div>
@@ -974,9 +977,9 @@
   <section id="testimonials" class="section-padding">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">Client Feedback</span>
-        <h2 class="section-title">What Clients <span class="gradient-text">Say</span></h2>
-        <p class="section-subtitle">Testimonials from satisfied clients</p>
+        <span class="section-tag" data-i18n="test_tag">Client Feedback</span>
+        <h2 class="section-title"><span data-i18n="test_title">What Clients Say</span></h2>
+        <p class="section-subtitle" data-i18n="test_subtitle">Testimonials from satisfied clients</p>
       </div>
 
       <div class="testimonials-slider">
@@ -985,9 +988,8 @@
             <div class="quote-icon">
               <i class="fas fa-quote-left"></i>
             </div>
-            <p class="testimonial-text">
-              "Soufiane delivered an exceptional website for our business. His attention to detail 
-              and technical expertise exceeded our expectations. Highly recommended!"
+            <p class="testimonial-text" data-i18n="test1_text">
+              "Soufiane delivered an exceptional website for our business. His attention to detail and technical expertise exceeded our expectations. Highly recommended!"
             </p>
             <div class="rating">
               <i class="fas fa-star"></i>
@@ -1000,8 +1002,8 @@
           <div class="testimonial-author">
             <img src="https://via.placeholder.com/80/151B36/00D9FF?text=Client" alt="Client">
             <div class="author-info">
-              <h4>Mohamed Alami</h4>
-              <p>CEO, TechStart</p>
+              <h4 data-i18n="test1_author">Mohamed Alami</h4>
+              <p data-i18n="test1_role">CEO, TechStart</p>
             </div>
           </div>
         </div>
@@ -1011,9 +1013,8 @@
             <div class="quote-icon">
               <i class="fas fa-quote-left"></i>
             </div>
-            <p class="testimonial-text">
-              "Working with Soufiane was a pleasure. He understood our requirements perfectly and 
-              delivered a modern, responsive website that our customers love."
+            <p class="testimonial-text" data-i18n="test2_text">
+              "Working with Soufiane was a pleasure. He understood our requirements perfectly and delivered a modern, responsive website that our customers love."
             </p>
             <div class="rating">
               <i class="fas fa-star"></i>
@@ -1026,8 +1027,8 @@
           <div class="testimonial-author">
             <img src="./img/oussama elmloudi.jfif" alt="Oussama" onerror="this.src='https://via.placeholder.com/80/151B36/00D9FF?text=Oussama'">
             <div class="author-info">
-              <h4>Oussama Elmloudi</h4>
-              <p>Friend & Supporter</p>
+              <h4 data-i18n="test2_author">Oussama Elmloudi</h4>
+              <p data-i18n="test2_role">Friend & Supporter</p>
             </div>
           </div>
         </div>
@@ -1037,9 +1038,8 @@
             <div class="quote-icon">
               <i class="fas fa-quote-left"></i>
             </div>
-            <p class="testimonial-text">
-              "Excellent developer! Soufiane's trading education helped me understand market analysis. 
-              His ability to explain complex concepts simply is remarkable."
+            <p class="testimonial-text" data-i18n="test3_text">
+              "Excellent developer! Soufiane's trading education helped me understand market analysis. His ability to explain complex concepts simply is remarkable."
             </p>
             <div class="rating">
               <i class="fas fa-star"></i>
@@ -1052,8 +1052,8 @@
           <div class="testimonial-author">
             <img src="./img/youssef abis.jfif" alt="Youssef" onerror="this.src='https://via.placeholder.com/80/151B36/00D9FF?text=Youssef'">
             <div class="author-info">
-              <h4>Youssef Abis</h4>
-              <p>Trading Student</p>
+              <h4 data-i18n="test3_author">Youssef Abis</h4>
+              <p data-i18n="test3_role">Trading Student</p>
             </div>
           </div>
         </div>
@@ -1065,15 +1065,15 @@
   <section id="contact" class="section-padding bg-dark">
     <div class="container">
       <div class="section-header fade-in">
-        <span class="section-tag">Get In Touch</span>
-        <h2 class="section-title">Contact <span class="gradient-text">Me</span></h2>
-        <p class="section-subtitle">Let's discuss your next project</p>
+        <span class="section-tag" data-i18n="contact_tag">Get In Touch</span>
+        <h2 class="section-title"><span data-i18n="contact_title">Contact Me</span></h2>
+        <p class="section-subtitle" data-i18n="contact_subtitle">Let's discuss your next project</p>
       </div>
 
       <div class="contact-content">
         <div class="contact-info fade-in">
-          <h3>Let's Work Together</h3>
-          <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+          <h3 data-i18n="contact_h3">Let's Work Together</h3>
+          <p data-i18n="contact_desc">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
 
           <div class="contact-items">
             <div class="contact-item">
@@ -1081,7 +1081,7 @@
                 <i class="fas fa-map-marker-alt"></i>
               </div>
               <div class="contact-text">
-                <h4>Location</h4>
+                <h4 data-i18n="about_info_location">Location</h4>
                 <p>240 HAY ELOUAHDA, Rabat, Morocco</p>
               </div>
             </div>
@@ -1133,27 +1133,27 @@
           <form action="https://formspree.io/f/xkoqvavj" method="POST" class="contact-form" id="contactForm">
             <div class="form-row">
               <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" required placeholder="John Doe">
+                <label for="name" data-i18n="contact_form_name">Your Name</label>
+                <input type="text" id="name" name="name" required data-i18n="placeholder_name" placeholder="John Doe">
               </div>
               <div class="form-group">
-                <label for="email">Your Email</label>
-                <input type="email" id="email" name="email" required placeholder="john@example.com">
+                <label for="email" data-i18n="contact_form_email">Your Email</label>
+                <input type="email" id="email" name="email" required data-i18n="placeholder_email" placeholder="john@example.com">
               </div>
             </div>
 
             <div class="form-group">
-              <label for="subject">Subject</label>
-              <input type="text" id="subject" name="subject" required placeholder="Project Inquiry">
+              <label for="subject" data-i18n="contact_form_subject">Subject</label>
+              <input type="text" id="subject" name="subject" required data-i18n="placeholder_subject" placeholder="Project Inquiry">
             </div>
 
             <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="6" required placeholder="Tell me about your project..."></textarea>
+              <label for="message" data-i18n="contact_form_message">Message</label>
+              <textarea id="message" name="message" rows="6" required data-i18n="placeholder_message" placeholder="Tell me about your project..."></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">
-              <span>Send Message</span>
+              <span data-i18n="btn_send_msg">Send Message</span>
               <i class="fas fa-paper-plane"></i>
             </button>
           </form>
@@ -1172,35 +1172,35 @@
             Ra7oox
             <span class="logo-bracket">/&gt;</span>
           </h3>
-          <p>Full Stack Developer & Trading Enthusiast</p>
-          <p class="copyright">&copy; 2024 Ra7oox. All rights reserved.</p>
+          <p data-i18n="footer_tagline">Full Stack Developer & Trading Enthusiast</p>
+          <p class="copyright">&copy; 2024 Ra7oox. <span data-i18n="footer_rights">All rights reserved.</span></p>
         </div>
 
         <div class="footer-links">
-          <h4>Quick Links</h4>
+          <h4 data-i18n="footer_quick">Quick Links</h4>
           <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#home" data-i18n="nav_home">Home</a></li>
+            <li><a href="#about" data-i18n="nav_about">About</a></li>
+            <li><a href="#services" data-i18n="nav_services">Services</a></li>
+            <li><a href="#portfolio" data-i18n="nav_portfolio">Portfolio</a></li>
+            <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-services">
-          <h4>Services</h4>
+          <h4 data-i18n="footer_services">Services</h4>
           <ul>
-            <li><a href="#services">Web Design</a></li>
-            <li><a href="#services">Web Development</a></li>
-            <li><a href="#services">Trading Education</a></li>
-            <li><a href="#services">Consultation</a></li>
+            <li><a href="#services" data-i18n="service_design_title">Web Design</a></li>
+            <li><a href="#services" data-i18n="service_dev_title">Web Development</a></li>
+            <li><a href="#services" data-i18n="nav_skills">Trading Education</a></li>
+            <li><a href="#services" data-i18n="btn_work_together">Consultation</a></li>
           </ul>
         </div>
 
         <div class="footer-contact">
-          <h4>Contact Info</h4>
+          <h4 data-i18n="footer_info">Contact Info</h4>
           <ul>
-            <li><i class="fas fa-map-marker-alt"></i> Rabat, Morocco</li>
+            <li><i class="fas fa-map-marker-alt"></i> <span data-i18n="about_info_loc_val">Rabat, Morocco</span></li>
             <li><i class="fas fa-envelope"></i> soufianearrahou7@gmail.com</li>
             <li><i class="fas fa-phone"></i> +212 632 326 544</li>
           </ul>
@@ -1208,7 +1208,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>Designed & Developed with <i class="fas fa-heart"></i> by Soufiane Arrahou</p>
+        <p><span data-i18n="footer_credits">Designed & Developed with</span> <i class="fas fa-heart"></i> <span data-i18n="footer_by">by Soufiane Arrahou</span></p>
       </div>
     </div>
   </footer>
@@ -1231,6 +1231,7 @@
   <!-- JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/bg-3d.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

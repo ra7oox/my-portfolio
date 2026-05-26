@@ -145,11 +145,19 @@ window.addEventListener('scroll', () => {
 // ============ TYPING EFFECT ============
 const typingText = document.querySelector('.typing-text');
 if (typingText) {
-  const words = ['Full Stack Developer', 'Web Designer', 'Problem Solver', 'Creative Coder'];
+  const languageWords = {
+    fr: ['Développeur Full Stack', 'Web Designer', 'Créateur de Solutions', 'Codeur Créatif'],
+    en: ['Full Stack Developer', 'Web Designer', 'Solution Architect', 'Creative Coder'],
+    ar: ['مطور ويب متكامل', 'مصمم مواقع ويب', 'محلل ومحل مشاكل', 'مبرمج مبدع']
+  };
+
+  const savedLang = localStorage.getItem('portfolio_lang') || 'fr';
+  let words = languageWords[savedLang] || languageWords.fr;
   let wordIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
   let typingSpeed = 150;
+  let typingTimeout;
 
   function type() {
     const currentWord = words[wordIndex];
@@ -173,11 +181,25 @@ if (typingText) {
       typingSpeed = 500; // Pause before next word
     }
     
-    setTimeout(type, typingSpeed);
+    typingTimeout = setTimeout(type, typingSpeed);
   }
   
   // Start typing effect after delay
-  setTimeout(type, 1000);
+  typingTimeout = setTimeout(type, 1000);
+
+  // Synchronize typing animation with active language toggling
+  window.addEventListener('languageChanged', (e) => {
+    const lang = e.detail.lang;
+    if (languageWords[lang]) {
+      clearTimeout(typingTimeout);
+      words = languageWords[lang];
+      wordIndex = 0;
+      charIndex = 0;
+      isDeleting = false;
+      typingText.textContent = '';
+      type();
+    }
+  });
 }
 
 // ============ SCROLL ANIMATIONS ============
@@ -297,23 +319,32 @@ if (contactForm) {
     const message = document.getElementById('message').value.trim();
     const submitButton = contactForm.querySelector('button[type="submit"]');
     
+    const lang = (typeof i18n !== 'undefined' && i18n.activeLang) ? i18n.activeLang : 'fr';
+    const dict = (typeof i18n !== 'undefined' && i18n.translations) ? i18n.translations[lang] : {
+      val_all_fields: 'Veuillez remplir tous les champs',
+      val_valid_email: 'Veuillez entrer une adresse email valide',
+      msg_sending: 'Envoi en cours...',
+      msg_sent_success: 'Message envoyé avec succès ! Je vous répondrai bientôt.',
+      msg_sent_error: 'Une erreur est survenue.'
+    };
+
     // Basic validation
     if (!name || !email || !subject || !message) {
-      showNotification('Veuillez remplir tous les champs', 'error');
+      showNotification(dict.val_all_fields, 'error');
       return;
     }
     
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      showNotification('Veuillez entrer une adresse email valide', 'error');
+      showNotification(dict.val_valid_email, 'error');
       return;
     }
     
     // Disable submit button and show loading state
     submitButton.disabled = true;
     const originalButtonText = submitButton.innerHTML;
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Envoi en cours...</span>';
+    submitButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${dict.msg_sending}</span>`;
     
     try {
       // Prepare form data
@@ -331,16 +362,16 @@ if (contactForm) {
       const result = await response.json();
       
       if (response.ok) {
-        showNotification('Message envoyé avec succès ! Je vous répondrai bientôt.', 'success');
+        showNotification(dict.msg_sent_success, 'success');
         contactForm.reset();
       } else {
-        const errorMsg = result.errors ? result.errors.map(error => error.message).join(', ') : 'Une erreur est survenue.';
+        const errorMsg = result.errors ? result.errors.map(error => error.message).join(', ') : dict.msg_sent_error;
         showNotification(errorMsg, 'error');
       }
       
     } catch (error) {
       console.error('Error:', error);
-      showNotification('Erreur lors de l\'envoi. Veuillez vérifier votre connexion.', 'error');
+      showNotification(dict.msg_sent_error, 'error');
     } finally {
       // Re-enable submit button
       submitButton.disabled = false;
@@ -566,7 +597,9 @@ emailElements.forEach(el => {
     el.style.cursor = 'pointer';
     el.addEventListener('click', () => {
       navigator.clipboard.writeText(el.textContent).then(() => {
-        showNotification('Email copied to clipboard!', 'success');
+        const lang = (typeof i18n !== 'undefined' && i18n.activeLang) ? i18n.activeLang : 'fr';
+        const msg = (typeof i18n !== 'undefined' && i18n.translations) ? i18n.translations[lang].email_copied : 'Email copié !';
+        showNotification(msg, 'success');
       });
     });
   }

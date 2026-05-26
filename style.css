@@ -275,6 +275,10 @@ nav .container {
   align-items: center;
 }
 
+.logo-container {
+  flex-shrink: 0;
+}
+
 .logo-container .logo {
   font-family: 'Clash Display', sans-serif;
   font-size: 1.8rem;
@@ -282,6 +286,7 @@ nav .container {
   text-decoration: none;
   color: var(--text);
   transition: all var(--transition-normal);
+  white-space: nowrap;
 }
 
 .logo-bracket {
@@ -299,6 +304,21 @@ nav .container {
   list-style: none;
 }
 
+@media (max-width: 1300px) {
+  .nav-links {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .nav-links {
+    gap: 0.8rem;
+  }
+  .nav-link {
+    font-size: 0.95rem;
+  }
+}
+
 .nav-link {
   color: var(--text-dim);
   text-decoration: none;
@@ -307,6 +327,7 @@ nav .container {
   position: relative;
   padding: 0.5rem 0;
   transition: color var(--transition-normal);
+  white-space: nowrap;
 }
 
 .nav-link::after {
@@ -2073,21 +2094,7 @@ nav .container {
   }
 }
 
-@media (max-width: 968px) {
-  html {
-    font-size: 15px;
-  }
-
-  .hero-content,
-  .about-content,
-  .contact-content {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-visual {
-    order: -1;
-  }
-
+@media (max-width: 1150px) {
   .nav-links {
     position: fixed;
     top: 0;
@@ -2114,6 +2121,22 @@ nav .container {
 
   .nav-toggle {
     display: flex;
+  }
+}
+
+@media (max-width: 968px) {
+  html {
+    font-size: 15px;
+  }
+
+  .hero-content,
+  .about-content,
+  .contact-content {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    order: -1;
   }
 
   .hero-stats {
@@ -2515,3 +2538,282 @@ nav .container {
     padding: 1.5rem;
   }
 }
+
+/* ============ LANGUAGE SWITCHER ============ */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 0.4rem 0.8rem;
+  border-radius: 30px;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  margin-left: 1.5rem;
+  transition: all var(--transition-normal);
+  z-index: 1010;
+  flex-shrink: 0;
+}
+
+.lang-switcher:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.1rem 0.4rem;
+  transition: all var(--transition-normal);
+}
+
+.lang-btn:hover {
+  color: var(--accent);
+}
+
+.lang-btn.active {
+  color: var(--accent);
+  text-shadow: 0 0 5px rgba(0, 217, 255, 0.4);
+}
+
+.lang-separator {
+  color: var(--glass-border);
+  font-size: 0.8rem;
+  user-select: none;
+}
+
+/* ============ RIGHT-TO-LEFT (RTL) STYLING ============ */
+[dir="rtl"] {
+  font-family: 'Cairo', 'Satoshi', sans-serif;
+}
+
+[dir="rtl"] body {
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Enforce LTR syntax direction and left-alignment on code visual cards */
+[dir="rtl"] .code-card,
+[dir="rtl"] code,
+[dir="rtl"] pre {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Nav alignment in RTL */
+[dir="rtl"] .logo-bracket {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .lang-switcher {
+  margin-left: 0;
+  margin-right: 1.5rem;
+}
+
+[dir="rtl"] .hero-greeting {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .btn i {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .stat-item {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .stat-item i {
+  transform: scaleX(-1);
+}
+
+/* Timeline in RTL */
+[dir="rtl"] .experience-timeline::before {
+  left: auto;
+  right: 15px;
+}
+
+[dir="rtl"] .experience-item {
+  padding-left: 0;
+  padding-right: 45px;
+}
+
+[dir="rtl"] .experience-dot {
+  left: auto;
+  right: 6px;
+}
+
+[dir="rtl"] .experience-header {
+  flex-direction: row;
+}
+
+[dir="rtl"] .experience-header .header-text {
+  text-align: right;
+}
+
+[dir="rtl"] .experience-body {
+  text-align: right;
+}
+
+[dir="rtl"] .experience-details {
+  text-align: right;
+}
+
+[dir="rtl"] .detail-item {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .detail-item i {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+/* About visual positioning in RTL */
+[dir="rtl"] .about-image-container .experience-badge {
+  left: -25px;
+  right: auto;
+}
+
+[dir="rtl"] .about-text {
+  text-align: right;
+}
+
+[dir="rtl"] .about-info-grid .info-card {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .about-info-grid .info-card i {
+  margin-right: 0;
+  margin-left: 15px;
+}
+
+/* Service lists in RTL */
+[dir="rtl"] .service-card {
+  text-align: right;
+}
+
+[dir="rtl"] .service-card .service-features {
+  text-align: right;
+}
+
+[dir="rtl"] .service-card .service-features li {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+[dir="rtl"] .service-card .service-features li i {
+  margin-right: 0;
+  margin-left: 5px;
+}
+
+/* Process steps in RTL */
+[dir="rtl"] .process-item {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .process-icon-wrapper {
+  margin-right: 0;
+  margin-left: 2rem;
+}
+
+[dir="rtl"] .process-number {
+  left: auto;
+  right: -15px;
+}
+
+/* Portfolio grid cards in RTL */
+[dir="rtl"] .portfolio-content {
+  text-align: right;
+}
+
+[dir="rtl"] .portfolio-tags {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .portfolio-links {
+  justify-content: flex-start;
+}
+
+/* Testimonials lists in RTL */
+[dir="rtl"] .testimonial-card {
+  text-align: right;
+}
+
+[dir="rtl"] .testimonial-author {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .author-info {
+  text-align: right;
+}
+
+/* Contact lists in RTL */
+[dir="rtl"] .contact-info {
+  text-align: right;
+}
+
+[dir="rtl"] .contact-item {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .contact-text {
+  text-align: right;
+  margin-right: 1.5rem;
+  margin-left: 0;
+}
+
+[dir="rtl"] .social-links-contact {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .footer-content {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-brand h3 {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .footer-contact ul li i {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+/* Form fixes */
+[dir="rtl"] .form-group label {
+  text-align: right;
+  display: block;
+}
+
+[dir="rtl"] .form-group input,
+[dir="rtl"] .form-group textarea {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .contact-form .btn {
+  flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+  [dir="rtl"] .lang-switcher {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    justify-content: center;
+  }
+}
