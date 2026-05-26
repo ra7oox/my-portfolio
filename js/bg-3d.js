@@ -492,9 +492,15 @@
     renderer.render(scene, camera);
   }
 
-  // Initialize once window has finished loading
-  window.addEventListener('load', () => {
-    // Delay initialization slightly to let main page render smoothly first
-    setTimeout(init, 200);
-  });
+  // Robust initializer handling all document ready states (prevents mobile loading race-conditions)
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(init, 50);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(init, 50);
+    });
+    window.addEventListener('load', () => {
+      setTimeout(init, 150);
+    });
+  }
 })();
