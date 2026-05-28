@@ -356,7 +356,7 @@ nav .container {
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1005; /* Positioned above the mobile sidebar overlay to stay visible as the close 'X' button */
 }
 
 .nav-toggle span {

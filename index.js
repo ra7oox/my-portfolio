@@ -897,7 +897,7 @@ function initReviewsSection() {
     });
   }
 
-  // Render Stored Custom Reviews from LocalStorage
+  // Render Stored Custom Reviews (from Server with LocalStorage fallback)
   function renderCustomReviews() {
     const slider = document.getElementById('testimonialsSlider');
     if (!slider) return;
@@ -906,40 +906,61 @@ function initReviewsSection() {
     const oldCustomCards = slider.querySelectorAll('.testimonial-card.custom-review');
     oldCustomCards.forEach(c => c.remove());
     
-    const storedReviews = JSON.parse(localStorage.getItem('portfolio_reviews') || '[]');
-    storedReviews.forEach(review => {
-      const card = document.createElement('div');
-      card.className = 'testimonial-card custom-review fade-in visible';
-      
-      let starsHtml = '';
-      for (let i = 1; i <= 5; i++) {
-        if (i <= review.rating) {
-          starsHtml += '<i class="fas fa-star"></i>';
-        } else {
-          starsHtml += '<i class="far fa-star"></i>';
+    function drawReviews(reviewsList) {
+      reviewsList.forEach(review => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card custom-review fade-in visible';
+        
+        let starsHtml = '';
+        for (let i = 1; i <= 5; i++) {
+          if (i <= review.rating) {
+            starsHtml += '<i class="fas fa-star"></i>';
+          } else {
+            starsHtml += '<i class="far fa-star"></i>';
+          }
         }
-      }
-      
-      card.innerHTML = `
-        <div class="testimonial-content">
-          <div class="quote-icon">
-            <i class="fas fa-quote-left"></i>
+        
+        card.innerHTML = `
+          <div class="testimonial-content">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">"${review.text}"</p>
+            <div class="rating">
+              ${starsHtml}
+            </div>
           </div>
-          <p class="testimonial-text">"${review.text}"</p>
-          <div class="rating">
-            ${starsHtml}
+          <div class="testimonial-author">
+            <img src="https://via.placeholder.com/80/151B36/00D9FF?text=${review.name.charAt(0).toUpperCase()}" alt="${review.name}">
+            <div class="author-info">
+              <h4>${review.name}</h4>
+              <p>${review.role}</p>
+            </div>
           </div>
-        </div>
-        <div class="testimonial-author">
-          <img src="https://via.placeholder.com/80/151B36/00D9FF?text=${review.name.charAt(0).toUpperCase()}" alt="${review.name}">
-          <div class="author-info">
-            <h4>${review.name}</h4>
-            <p>${review.role}</p>
-          </div>
-        </div>
-      `;
-      slider.appendChild(card);
-    });
+        `;
+        slider.appendChild(card);
+      });
+    }
+
+    // Try fetching from PHP server API first
+    fetch('reviews.php')
+      .then(response => {
+        if (!response.ok) throw new Error('Server returned error status');
+        return response.json();
+      })
+      .then(res => {
+        if (res && res.success && Array.isArray(res.data)) {
+          drawReviews(res.data);
+        } else {
+          throw new Error('Server API failed');
+        }
+      })
+      .catch(err => {
+        console.warn('PHP Reviews fetch failed, falling back to LocalStorage:', err);
+        // Fallback to LocalStorage
+        const storedReviews = JSON.parse(localStorage.getItem('portfolio_reviews') || '[]');
+        drawReviews(storedReviews);
+      });
   }
 
   // Handle Review Submission
@@ -961,34 +982,72 @@ function initReviewsSection() {
         return;
       }
       
-      const newReview = {
-        id: Date.now().toString(),
+      const reviewPayload = {
         name: nameVal,
         role: roleVal,
         text: textVal,
-        rating: ratingVal,
-        date: new Date().toISOString()
+        rating: ratingVal
       };
-      
-      const storedReviews = JSON.parse(localStorage.getItem('portfolio_reviews') || '[]');
-      storedReviews.push(newReview);
-      localStorage.setItem('portfolio_reviews', JSON.stringify(storedReviews));
-      
-      renderCustomReviews();
-      
-      // Reset Form fields
-      reviewForm.reset();
-      
-      // Reset Rating Stars visual representation to 5 stars
-      stars.forEach(s => {
-        s.classList.add('active');
-        s.classList.remove('far');
-        s.classList.add('fas');
+
+      const submitBtn = reviewForm.querySelector('.btn-submit-review');
+      if (submitBtn) submitBtn.disabled = true;
+
+      // Try sending to PHP backend
+      fetch('reviews.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reviewPayload)
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Network error');
+        return response.json();
+      })
+      .then(res => {
+        if (res && res.success) {
+          // Success on server!
+          renderCustomReviews();
+          onSuccess();
+        } else {
+          throw new Error(res.message || 'API error');
+        }
+      })
+      .catch(err => {
+        console.warn('PHP Reviews save failed, saving to LocalStorage instead:', err);
+        
+        // Save to LocalStorage as a robust fallback
+        const storedReviews = JSON.parse(localStorage.getItem('portfolio_reviews') || '[]');
+        const fallbackReview = {
+          id: Date.now().toString(),
+          ...reviewPayload,
+          date: new Date().toISOString()
+        };
+        storedReviews.push(fallbackReview);
+        localStorage.setItem('portfolio_reviews', JSON.stringify(storedReviews));
+        
+        renderCustomReviews();
+        onSuccess();
+      })
+      .finally(() => {
+        if (submitBtn) submitBtn.disabled = false;
       });
-      document.getElementById('reviewRatingVal').value = "5";
-      
-      const successMsg = dict.review_success || "Merci infiniment pour votre avis !";
-      showNotification(successMsg, 'success');
+
+      function onSuccess() {
+        // Reset Form fields
+        reviewForm.reset();
+        
+        // Reset Rating Stars visual representation to 5 stars
+        stars.forEach(s => {
+          s.classList.add('active');
+          s.classList.remove('far');
+          s.classList.add('fas');
+        });
+        document.getElementById('reviewRatingVal').value = "5";
+        
+        const successMsg = dict.review_success || "Merci infiniment pour votre avis !";
+        showNotification(successMsg, 'success');
+      }
     });
   }
 
