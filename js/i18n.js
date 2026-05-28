@@ -198,7 +198,20 @@ const i18n = {
       "val_valid_email": "Veuillez entrer une adresse email valide",
       "msg_sending": "Envoi en cours...",
       "msg_sent_success": "Message envoyé avec succès ! Je vous répondrai bientôt.",
-      "msg_sent_error": "Une erreur est survenue lors de l'envoi."
+      "msg_sent_error": "Une erreur est survenue lors de l'envoi.",
+      
+      // Leave a Review
+      "review_title": "Laissez un avis",
+      "review_subtitle": "Votre avis compte énormément pour moi",
+      "review_form_name": "Votre Nom complet",
+      "review_form_role": "Votre Rôle / Entreprise",
+      "review_form_rating": "Votre Note",
+      "review_form_text": "Votre Témoignage",
+      "review_btn_submit": "Soumettre l'avis",
+      "review_success": "Merci infiniment pour votre avis !",
+      "review_placeholder_name": "Ex: Jean Dupont",
+      "review_placeholder_role": "Ex: CEO, TechStart",
+      "review_placeholder_text": "Racontez votre expérience de collaboration avec moi..."
     },
     en: {
       // Navbar Links
@@ -391,7 +404,20 @@ const i18n = {
       "val_valid_email": "Please enter a valid email address",
       "msg_sending": "Sending message...",
       "msg_sent_success": "Message sent successfully! I will reply to you soon.",
-      "msg_sent_error": "An error occurred while trying to send the message."
+      "msg_sent_error": "An error occurred while trying to send the message.",
+      
+      // Leave a Review
+      "review_title": "Leave a Review",
+      "review_subtitle": "Your feedback is highly valuable to me",
+      "review_form_name": "Your Full Name",
+      "review_form_role": "Your Role / Company",
+      "review_form_rating": "Your Rating",
+      "review_form_text": "Your Review",
+      "review_btn_submit": "Submit Review",
+      "review_success": "Thank you so much for your review!",
+      "review_placeholder_name": "e.g. John Doe",
+      "review_placeholder_role": "e.g. CEO, TechStart",
+      "review_placeholder_text": "Share details of your experience working with me..."
     },
     ar: {
       // Navbar Links
@@ -584,7 +610,20 @@ const i18n = {
       "val_valid_email": "يرجى إدخال بريد إلكتروني صحيح",
       "msg_sending": "جاري إرسال الرسالة...",
       "msg_sent_success": "تم إرسال رسالتك بنجاح! سأتصل بك في أقرب وقت.",
-      "msg_sent_error": "عذراً، حدث خطأ ما أثناء محاولة إرسال الرسالة."
+      "msg_sent_error": "عذراً، حدث خطأ ما أثناء محاولة إرسال الرسالة.",
+      
+      // Leave a Review
+      "review_title": "اترك تقييمك",
+      "review_subtitle": "رأيك وتجربتك تهماني ويسعدني مشاركتك لها",
+      "review_form_name": "الاسم الكامل",
+      "review_form_role": "صفتك أو شركتك",
+      "review_form_rating": "تقييمك",
+      "review_form_text": "نص التقييم",
+      "review_btn_submit": "إرسال التقييم الآن",
+      "review_success": "شكرًا جزيلًا لتقييمك الرائع!",
+      "review_placeholder_name": "مثال: أحمد العلمي",
+      "review_placeholder_role": "مثال: مدير شركة TechStart",
+      "review_placeholder_text": "حدثني عن تجربتك في العمل والتعاون معي..."
     }
   },
 

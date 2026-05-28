@@ -869,10 +869,138 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeLightbox();
 });
 
+// ============ DYNAMIC CLIENT REVIEWS SECTION ============
+function initReviewsSection() {
+  const stars = document.querySelectorAll('.star-btn');
+  const ratingInput = document.getElementById('reviewRatingVal');
+  const reviewForm = document.getElementById('addReviewForm');
+  
+  // Interactive Star Selection Widget
+  if (stars.length && ratingInput) {
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        const val = parseInt(star.getAttribute('data-value'));
+        ratingInput.value = val;
+        stars.forEach(s => {
+          const sVal = parseInt(s.getAttribute('data-value'));
+          if (sVal <= val) {
+            s.classList.add('active');
+            s.classList.remove('far');
+            s.classList.add('fas');
+          } else {
+            s.classList.remove('active');
+            s.classList.remove('fas');
+            s.classList.add('far');
+          }
+        });
+      });
+    });
+  }
+
+  // Render Stored Custom Reviews from LocalStorage
+  function renderCustomReviews() {
+    const slider = document.getElementById('testimonialsSlider');
+    if (!slider) return;
+    
+    // Clean old custom cards before drawing to prevent layout duplication
+    const oldCustomCards = slider.querySelectorAll('.testimonial-card.custom-review');
+    oldCustomCards.forEach(c => c.remove());
+    
+    const storedReviews = JSON.parse(localStorage.getItem('portfolio_reviews') || '[]');
+    storedReviews.forEach(review => {
+      const card = document.createElement('div');
+      card.className = 'testimonial-card custom-review fade-in visible';
+      
+      let starsHtml = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= review.rating) {
+          starsHtml += '<i class="fas fa-star"></i>';
+        } else {
+          starsHtml += '<i class="far fa-star"></i>';
+        }
+      }
+      
+      card.innerHTML = `
+        <div class="testimonial-content">
+          <div class="quote-icon">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <p class="testimonial-text">"${review.text}"</p>
+          <div class="rating">
+            ${starsHtml}
+          </div>
+        </div>
+        <div class="testimonial-author">
+          <img src="https://via.placeholder.com/80/151B36/00D9FF?text=${review.name.charAt(0).toUpperCase()}" alt="${review.name}">
+          <div class="author-info">
+            <h4>${review.name}</h4>
+            <p>${review.role}</p>
+          </div>
+        </div>
+      `;
+      slider.appendChild(card);
+    });
+  }
+
+  // Handle Review Submission
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const nameVal = document.getElementById('reviewName').value.trim();
+      const roleVal = document.getElementById('reviewRole').value.trim();
+      const textVal = document.getElementById('reviewText').value.trim();
+      const ratingVal = parseInt(document.getElementById('reviewRatingVal').value) || 5;
+      
+      const lang = (typeof i18n !== 'undefined' && i18n.activeLang) ? i18n.activeLang : 'fr';
+      const dict = (typeof i18n !== 'undefined' && i18n.translations) ? i18n.translations[lang] : {};
+      
+      if (!nameVal || !roleVal || !textVal) {
+        const alertMsg = dict.val_all_fields || "Veuillez remplir tous les champs";
+        showNotification(alertMsg, 'error');
+        return;
+      }
+      
+      const newReview = {
+        id: Date.now().toString(),
+        name: nameVal,
+        role: roleVal,
+        text: textVal,
+        rating: ratingVal,
+        date: new Date().toISOString()
+      };
+      
+      const storedReviews = JSON.parse(localStorage.getItem('portfolio_reviews') || '[]');
+      storedReviews.push(newReview);
+      localStorage.setItem('portfolio_reviews', JSON.stringify(storedReviews));
+      
+      renderCustomReviews();
+      
+      // Reset Form fields
+      reviewForm.reset();
+      
+      // Reset Rating Stars visual representation to 5 stars
+      stars.forEach(s => {
+        s.classList.add('active');
+        s.classList.remove('far');
+        s.classList.add('fas');
+      });
+      document.getElementById('reviewRatingVal').value = "5";
+      
+      const successMsg = dict.review_success || "Merci infiniment pour votre avis !";
+      showNotification(successMsg, 'success');
+    });
+  }
+
+  // Run initial render of custom reviews
+  renderCustomReviews();
+}
+
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
   initProjectSliders();
   initLightboxActions();
+  initReviewsSection();
 });
 
 // ============ REVEAL ANIMATIONS ON SCROLL ============

@@ -982,7 +982,7 @@
         <p class="section-subtitle" data-i18n="test_subtitle">Testimonials from satisfied clients</p>
       </div>
 
-      <div class="testimonials-slider">
+      <div class="testimonials-slider" id="testimonialsSlider">
         <div class="testimonial-card fade-in">
           <div class="testimonial-content">
             <div class="quote-icon">
@@ -1057,6 +1057,45 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Leave a Review Form -->
+      <div class="review-form-container fade-in">
+        <div class="review-form-header">
+          <h3 data-i18n="review_title">Laissez un avis</h3>
+          <p data-i18n="review_subtitle">Votre avis compte énormément pour moi</p>
+        </div>
+        <form id="addReviewForm" class="review-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reviewName" data-i18n="review_form_name">Votre Nom complet</label>
+              <input type="text" id="reviewName" required data-i18n="review_placeholder_name" placeholder="Ex: Jean Dupont">
+            </div>
+            <div class="form-group">
+              <label for="reviewRole" data-i18n="review_form_role">Votre Rôle / Entreprise</label>
+              <input type="text" id="reviewRole" required data-i18n="review_placeholder_role" placeholder="Ex: CEO, TechStart">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="rating-label" data-i18n="review_form_rating">Votre Note</label>
+            <div class="rating-input" id="ratingInput">
+              <i class="fas fa-star star-btn active" data-value="1"></i>
+              <i class="fas fa-star star-btn active" data-value="2"></i>
+              <i class="fas fa-star star-btn active" data-value="3"></i>
+              <i class="fas fa-star star-btn active" data-value="4"></i>
+              <i class="fas fa-star star-btn active" data-value="5"></i>
+            </div>
+            <input type="hidden" id="reviewRatingVal" value="5">
+          </div>
+          <div class="form-group">
+            <label for="reviewText" data-i18n="review_form_text">Votre Témoignage</label>
+            <textarea id="reviewText" rows="4" required data-i18n="review_placeholder_text" placeholder="Racontez votre expérience de collaboration avec moi..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit-review">
+            <span data-i18n="review_btn_submit">Soumettre l'avis</span>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
       </div>
     </div>
   </section>
