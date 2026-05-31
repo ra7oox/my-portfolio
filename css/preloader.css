@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Ra7oox Portfolio - Dynamic Loading Curtain & 3D Preloader
+   ========================================================================== */
+
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.loader-curtain {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--bg);
+  z-index: 2;
+  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+#loader-left {
+  left: 0;
+}
+
+#loader-right {
+  right: 0;
+}
+
+.loader-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out;
+}
+
+.loader-svg {
+  width: 160px;
+  height: 80px;
+  transform-style: preserve-3d;
+  animation: logoSpin3D 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.logo-path {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: drawPath 1.4s ease forwards;
+}
+
+.logo-path:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.logo-path:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logoSpin3D {
+  0% {
+    transform: perspective(800px) rotateY(-20deg) rotateX(8deg) translateZ(0);
+    filter: drop-shadow(0 0 8px var(--border-hover));
+  }
+  100% {
+    transform: perspective(800px) rotateY(20deg) rotateX(-8deg) translateZ(35px);
+    filter: drop-shadow(0 0 20px var(--cyan));
+  }
+}
+
+.loader-name {
+  font-family: var(--font-main);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 4px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.8s forwards;
+}
+
+.loader-ox {
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan);
+}
+
+.loader-bar-track {
+  width: 240px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.loader-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  border-radius: 999px;
+  box-shadow: 0 0 8px var(--cyan);
+  transition: width 0.1s linear;
+}
+
+.loader-percent {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,156 @@
+/* ==========================================================================
+   Ra7oox Portfolio - Premium Class Systems & Interactive Components
+   ========================================================================== */
+
+/* Glassmorphism Cards overrides */
+.project-card, .service-card, .testimonial-card,
+.portfolio-card, .experience-card, .info-card, .contact-item,
+.contact-form, .review-form-container {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px !important;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.08s ease;
+  will-change: transform;
+}
+
+.project-card:hover, .service-card:hover, .portfolio-card:hover,
+.testimonial-card:hover, .experience-card:hover, .info-card:hover,
+.contact-item:hover, .review-form-container:hover {
+  border-color: var(--border-hover) !important;
+  box-shadow: var(--glow), 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Spotlight dynamic radial light hover */
+.project-card::before, .service-card::before, .portfolio-card::before,
+.testimonial-card::before, .experience-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(0, 212, 255, 0.07) 0%, transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.project-card:hover::before, .service-card:hover::before,
+.portfolio-card:hover::before, .testimonial-card:hover::before,
+.experience-card:hover::before {
+  opacity: 1;
+}
+
+/* Primary Shimmer Button */
+.btn-primary, .cta-btn, a.primary-btn {
+  background: linear-gradient(135deg, var(--blue), var(--cyan)) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 4px 20px rgba(0, 102, 255, 0.2);
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.btn-primary::after, .cta-btn::after, a.primary-btn::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -80%;
+  width: 45%;
+  height: 220%;
+  background: rgba(255, 255, 255, 0.22);
+  transform: skewX(-20deg);
+  animation: shimmer 4s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { left: -80%; }
+  100% { left: 130%; }
+}
+
+.btn-primary:hover, a.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+}
+
+/* Secondary Button with Border Glow */
+.btn-secondary, .ghost-btn {
+  background: transparent !important;
+  color: var(--cyan) !important;
+  border: 1px solid rgba(0, 212, 255, 0.4) !important;
+  border-radius: 10px !important;
+  transition: box-shadow 0.3s, background 0.3s, transform 0.3s !important;
+  font-weight: 600;
+}
+
+.btn-secondary:hover, .ghost-btn:hover {
+  background: rgba(0, 212, 255, 0.08) !important;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.25) !important;
+  transform: translateY(-3px);
+}
+
+/* Skill progress neon bars */
+.skill-progress, .progress-fill, .progress-bar {
+  background: linear-gradient(90deg, var(--blue), var(--cyan)) !important;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.35) !important;
+  border-radius: 999px !important;
+}
+
+/* Text glow accent colors */
+.text-cyan, .highlight, .accent-text, .name-highlight,
+[style*="color: #00d4ff"], [style*="color:#00d4ff"], [style*="color: var(--accent)"] {
+  color: var(--cyan) !important;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.45);
+}
+
+/* Section titles headings */
+section h2 {
+  font-family: var(--font-main);
+  font-weight: 700;
+}
+
+section h2 span {
+  color: var(--cyan);
+  text-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+}
+
+/* Timeline central neon line draw */
+.timeline::before, .timeline-line, .experience-timeline::before {
+  background: linear-gradient(to bottom, transparent, var(--cyan), transparent) !important;
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+/* Section Dividers */
+section {
+  border-bottom: 1px solid rgba(0, 212, 255, 0.06);
+}
+
+/* Navbar active status glow */
+nav a.active, .navbar a.active {
+  color: var(--cyan) !important;
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+}
+
+nav a.active::after, .navbar a.active::after {
+  width: 100% !important;
+  background: var(--cyan) !important;
+  box-shadow: 0 0 6px var(--cyan);
+}
+
+/* Safeguard LTR text rendering for split-character name elements inside RTL mode */
+.name-highlight {
+  display: inline-block !important;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}

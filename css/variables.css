@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Ra7oox Portfolio - design tokens & core variables
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Cairo:wght@400;600;700&display=swap');
+
+/* ============ DESIGN SYSTEM VARIABLES ============ */
+:root {
+  --bg          : #000000;
+  --bg-2        : #050510;
+  --bg-card     : rgba(255, 255, 255, 0.03);
+  --bg-nav      : rgba(5, 5, 16, 0.98);
+  --cyan        : #00d4ff;
+  --blue        : #0066ff;
+  --purple      : #7c3aed;
+  --text        : #ffffff;
+  --text-muted  : #94a3b8;
+  --border      : rgba(0, 212, 255, 0.12);
+  --border-hover: rgba(0, 212, 255, 0.40);
+  --glow        : 0 0 30px rgba(0, 212, 255, 0.15);
+  --radius      : 16px;
+  --font-main   : 'Space Grotesk', sans-serif;
+  --font-mono   : 'JetBrains Mono', monospace;
+  --bg-input    : rgba(5, 5, 16, 0.45);
+  --bg-input-focus: rgba(5, 5, 16, 0.65);
+  --bg-overlay  : linear-gradient(to bottom, rgba(5, 5, 16, 0.75), rgba(5, 5, 16, 0.98));
+  --bg-slider-btn: rgba(5, 5, 16, 0.8);
+  --bg-track    : rgba(255, 255, 255, 0.05);
+
+  /* Easing and transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-slow: 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ============ LIGHT MODE VARIABLES ============ */
+body.light-mode {
+  --bg          : #f8fafc; /* Sleek light slate */
+  --bg-2        : #f1f5f9; /* Slate 100 */
+  --bg-card     : rgba(15, 23, 42, 0.03); /* Translucent slate cards */
+  --bg-nav      : rgba(248, 250, 252, 0.98); /* Adaptable light nav background */
+  --cyan        : #0ea5e9; /* Sky blue accent */
+  --blue        : #0284c7; /* Sky 600 */
+  --purple      : #4f46e5; /* Indigo 600 */
+  --text        : #0f172a; /* Slate 900 */
+  --text-muted  : #475569; /* Slate 600 */
+  --border      : rgba(14, 165, 233, 0.12);
+  --border-hover: rgba(14, 165, 233, 0.40);
+  --glow        : 0 0 30px rgba(14, 165, 233, 0.15);
+  --bg-input    : rgba(15, 23, 42, 0.04);
+  --bg-input-focus: rgba(255, 255, 255, 0.95);
+  --bg-overlay  : linear-gradient(to bottom, rgba(248, 250, 252, 0.85), rgba(248, 250, 252, 0.98));
+  --bg-slider-btn: rgba(255, 255, 255, 0.8);
+  --bg-track    : rgba(15, 23, 42, 0.08);
+}
+
+body.light-mode .code-card {
+  background: rgba(15, 23, 42, 0.95) !important;
+  color: #ffffff !important;
+}
+
+body.light-mode .control.close { background: #ff5f56; }
+body.light-mode .control.minimize { background: #ffbd2e; }
+body.light-mode .control.maximize { background: #27c93f; }
+body.light-mode .file-name { color: #94a3b8; }
+body.light-mode .code-content { color: #f8fafc; }
+
+/* ============ RESET & BASE SYSTEMS ============ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg);
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: transparent !important;
+  color: var(--text);
+  line-height: 1.625;
+  overflow-x: hidden;
+  position: relative;
+  cursor: none; /* Handled by custom cursor */
+}
+
+/* Base Headings mapping */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-main);
+  color: var(--text);
+  font-weight: 700;
+}
+
+a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  cursor: none; /* Handled by custom cursor */
+}
+
+/* Selection Highlight */
+::selection {
+  background: rgba(0, 212, 255, 0.25);
+  color: #ffffff;
+}
+
+/* ============ SCROLLBAR STYLING ============ */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--blue), var(--cyan));
+  border-radius: 999px;
+}

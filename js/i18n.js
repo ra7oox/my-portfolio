@@ -24,7 +24,7 @@ const i18n = {
 
       // Hero Section
       "hero_hello": "Bonjour, je suis",
-      "hero_description": "Développeur Full Stack passionné avec 2 ans d'expérience dans la création d'expériences digitales exceptionnelles. Spécialisé dans les technologies web modernes et la création de solutions centrées sur l'utilisateur qui font la différence.",
+      "hero_description": "Développeur Full Stack passionné avec 3 ans d'expérience dans la création d'expériences digitales exceptionnelles. Spécialisé dans les technologies web modernes et la création de solutions centrées sur l'utilisateur qui font la différence.",
       "code_role": "Développeur Full Stack",
       "code_location": "Rabat, Maroc",
       "code_passion": "Créer des expériences exceptionnelles",
@@ -59,7 +59,7 @@ const i18n = {
       "about_badge_years": "Années",
       "about_badge_exp": "d'Expérience",
       "about_role": "Développeur Full Stack",
-      "about_desc1": "Bonjour ! Je suis Soufiane Arrahou, un développeur full-stack passionné basé à Rabat, au Maroc. Mon parcours dans le développement web a commencé il y a 2 ans, et depuis, je suis sur un chemin passionnant d'apprentissage continu et de croissance.",
+      "about_desc1": "Bonjour ! Je suis Soufiane Arrahou, un développeur full-stack passionné basé à Rabat, au Maroc. Mon parcours dans le développement web a commencé il y a 3 ans, et depuis, je suis sur un chemin passionnant d'apprentissage continu et de croissance.",
       "about_desc2": "Je me spécialise dans la création d'applications web modernes, réactives et faciles à utiliser. Mon expertise s'étend à la fois aux technologies frontend et backend, me permettant de construire des solutions complètes de la conception au déploiement. Je suis particulièrement passionné par le code propre, le design innovant et la résolution de problèmes complexes.",
       "about_info_name": "Nom",
       "about_info_role": "Rôle",
@@ -230,7 +230,7 @@ const i18n = {
 
       // Hero Section
       "hero_hello": "Hello, I am",
-      "hero_description": "Passionate Full Stack Developer with 2 years of experience in creating exceptional digital experiences. Specialized in modern web technologies and creating user-centric solutions that make a difference.",
+      "hero_description": "Passionate Full Stack Developer with 3 years of experience in creating exceptional digital experiences. Specialized in modern web technologies and creating user-centric solutions that make a difference.",
       "code_role": "Full Stack Developer",
       "code_location": "Rabat, Morocco",
       "code_passion": "Creating amazing experiences",
@@ -265,7 +265,7 @@ const i18n = {
       "about_badge_years": "Years",
       "about_badge_exp": "of Experience",
       "about_role": "Full Stack Developer",
-      "about_desc1": "Hello! I am Soufiane Arrahou, a passionate full-stack developer based in Rabat, Morocco. My journey in web development started 2 years ago, and since then, I have been on an exciting path of continuous learning and growth.",
+      "about_desc1": "Hello! I am Soufiane Arrahou, a passionate full-stack developer based in Rabat, Morocco. My journey in web development started 3 years ago, and since then, I have been on an exciting path of continuous learning and growth.",
       "about_desc2": "I specialize in building modern, responsive, and easy-to-use web applications. My expertise spans both frontend and backend technologies, allowing me to build complete solutions from conception to deployment. I am particularly passionate about clean code, innovative design, and solving complex problems.",
       "about_info_name": "Name",
       "about_info_role": "Role",
@@ -436,7 +436,7 @@ const i18n = {
 
       // Hero Section
       "hero_hello": "مرحباً، أنا",
-      "hero_description": "مطور ويب متكامل (Full Stack) شغوف بخبرة سنتين في بناء تجارب رقمية استثنائية. متوافق مع أحدث تقنيات الويب، وأسعى لابتكار حلول برمجية تتمحور حول تلبية احتياجات المستخدم.",
+      "hero_description": "مطور ويب متكامل (Full Stack) شغوف بخبرة 3 سنوات في بناء تجارب رقمية استثنائية. متوافق مع أحدث تقنيات الويب، وأسعى لابتكار حلول برمجية تتمحور حول تلبية احتياجات المستخدم.",
       "code_role": "مطور ويب متكامل",
       "code_location": "الرباط، المغرب",
       "code_passion": "صنع تجارب رقمية رائعة",
@@ -471,7 +471,7 @@ const i18n = {
       "about_badge_years": "سنوات",
       "about_badge_exp": "من الخبرة",
       "about_role": "مطور ويب متكامل",
-      "about_desc1": "مرحباً! أنا سفيان الراحو، مطور ويب متكامل شغوف أقيم بمدينة الرباط، المغرب. بدأت رحلتي في مجال تطوير الويب منذ سنتين، ومنذ ذلك الحين وأنا في مسار رائع من التعلم المستمر والنمو المهني.",
+      "about_desc1": "مرحباً! أنا سفيان الراحو، مطور ويب متكامل شغوف أقيم بمدينة الرباط، المغرب. بدأت رحلتي في مجال تطوير الويب منذ 3 سنوات، ومنذ ذلك الحين وأنا في مسار رائع من التعلم المستمر والنمو المهني.",
       "about_desc2": "أنا متخصص في بناء تطبيقات ويب حديثة، متجاوبة، وسهلة الاستخدام. تغطي خبرتي كلاً من تقنيات الواجهة الأمامية والخلفية، مما يتيح لي بناء حلول برمجية متكاملة بدءاً من الفكرة وحتى النشر. أنا شغوف جداً بكتابة الأكواد النظيفة، والتصميم المبتكر، وحل المشكلات التقنية المعقدة.",
       "about_info_name": "الاسم",
       "about_info_role": "التخصص",

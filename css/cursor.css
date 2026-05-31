@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Ra7oox Portfolio - Custom Cursor & Scroll Tracker
+   ========================================================================== */
+
+/* ============ LATERAL SCROLL PROGRESS BAR ============ */
+#scroll-progress {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0%;
+  background: linear-gradient(to bottom, var(--blue), var(--cyan));
+  z-index: 9997;
+  box-shadow: 0 0 10px var(--cyan);
+  transition: height 0.08s linear;
+}
+
+/* ============ CUSTOM CURSOR STYLING ============ */
+#c-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.15s, height 0.15s, background 0.15s;
+  mix-blend-mode: screen;
+}
+
+#c-ring {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 212, 255, 0.55);
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s, height 0.25s, border-color 0.2s;
+}
+
+.cursor-hover #c-ring {
+  width: 52px;
+  height: 52px;
+  border-color: var(--cyan);
+}
+
+.cursor-hover #c-dot {
+  width: 4px;
+  height: 4px;
+  background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+  #c-dot, #c-ring {
+    display: none !important;
+  }
+}
+
+/* ============ LIGHT MODE CURSOR CONTRAST SYSTEM ============ */
+body.light-mode #c-dot {
+  mix-blend-mode: normal !important;
+}
+
+body.light-mode .cursor-hover #c-dot {
+  background: var(--text) !important;
+}
