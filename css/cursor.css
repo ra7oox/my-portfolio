@@ -2,17 +2,17 @@
    Ra7oox Portfolio - Custom Cursor & Scroll Tracker
    ========================================================================== */
 
-/* ============ LATERAL SCROLL PROGRESS BAR ============ */
+/* ============ TOP HORIZONTAL SCROLL PROGRESS BAR ============ */
 #scroll-progress {
   position: fixed;
   left: 0;
   top: 0;
-  width: 3px;
-  height: 0%;
-  background: linear-gradient(to bottom, var(--blue), var(--cyan));
-  z-index: 9997;
-  box-shadow: 0 0 10px var(--cyan);
-  transition: height 0.08s linear;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(to right, var(--blue), var(--cyan));
+  z-index: 99997;
+  box-shadow: 0 0 12px var(--cyan);
+  transition: width 0.08s ease-out;
 }
 
 /* ============ CUSTOM CURSOR STYLING ============ */

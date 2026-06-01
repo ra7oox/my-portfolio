@@ -357,35 +357,65 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 300px;
+    width: 310px;
     height: 100vh;
-    background: var(--bg-nav) !important;
+    background: rgba(5, 5, 16, 0.8) !important; /* Semi-transparent plate */
+    border-left: 1px solid var(--border);
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 6rem 2rem 2rem;
-    gap: 2rem;
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
-    transition: right var(--transition-normal);
+    gap: 2.2rem;
+    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.55);
+    transition: right var(--transition-slow);
     z-index: 1002;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
   }
 
   [dir="rtl"] .nav-links {
     right: auto;
     left: -100%;
+    border-left: none;
+    border-right: 1px solid var(--border);
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4);
-    transition: left var(--transition-normal);
+    transition: left var(--transition-slow);
   }
 
   .nav-links.active {
     right: 0;
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
   }
 
   [dir="rtl"] .nav-links.active {
     right: auto;
     left: 0;
+  }
+
+  /* Staggered slide-in entries for nav links when opened */
+  .nav-links.active li {
+    animation: drawerLinkSlide 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  /* Responsive stagger delays */
+  .nav-links.active li:nth-child(1) { animation-delay: 0.08s; }
+  .nav-links.active li:nth-child(2) { animation-delay: 0.13s; }
+  .nav-links.active li:nth-child(3) { animation-delay: 0.18s; }
+  .nav-links.active li:nth-child(4) { animation-delay: 0.23s; }
+  .nav-links.active li:nth-child(5) { animation-delay: 0.28s; }
+  .nav-links.active li:nth-child(6) { animation-delay: 0.33s; }
+  .nav-links.active li:nth-child(7) { animation-delay: 0.38s; }
+  .nav-links.active li:nth-child(8) { animation-delay: 0.43s; }
+  .nav-links.active li:nth-child(9) { animation-delay: 0.48s; }
+
+  @keyframes drawerLinkSlide {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   .nav-toggle {

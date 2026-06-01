@@ -424,6 +424,34 @@
 .portfolio-item {
   position: relative;
   background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+  will-change: transform;
+}
+
+.portfolio-item:hover {
+  border-color: var(--cyan);
+  box-shadow: var(--glow);
+}
+
+/* Glassy glare reflection overlay tracking mouse coordinates */
+.portfolio-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.08), transparent 45%);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  mix-blend-mode: overlay;
+}
+
+.portfolio-item:hover::after {
+  opacity: 1;
 }
 
 .portfolio-item.hide {
@@ -434,57 +462,59 @@
   position: relative;
   overflow: hidden;
   height: 270px;
+  border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .portfolio-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-slow);
+  transition: transform var(--transition-slow), filter var(--transition-slow);
+  will-change: transform, filter;
 }
 
+/* Blur and dim background image on hover to shift focus to details */
 .portfolio-item:hover .portfolio-image img {
-  transform: scale(1.05);
+  transform: scale(1.06);
+  filter: blur(4px) brightness(0.6);
 }
 
 .portfolio-overlay {
   position: absolute;
   inset: 0;
-  background: var(--bg-overlay);
+  background: rgba(5, 5, 16, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: opacity var(--transition-normal);
+  transition: background var(--transition-normal), backdrop-filter var(--transition-normal);
   z-index: 2;
 }
 
+/* Elegant dark glassmorphism on hover */
 .portfolio-item:hover .portfolio-overlay {
-  opacity: 1;
+  background: rgba(2, 2, 8, 0.9);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
 }
 
 .portfolio-content {
   text-align: center;
   padding: 2rem;
-  padding-bottom: 3.5rem;
-  transform: translateY(15px);
-  transition: transform var(--transition-normal);
+  padding-bottom: 2.8rem;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.portfolio-item:hover .portfolio-content {
-  transform: translateY(0);
-}
-
+/* Staggered slide and reveal coordinates */
 .portfolio-content h3 {
-  font-size: 1.6rem;
+  font-size: 1.65rem;
   margin-bottom: 0.8rem;
-}
-
-.portfolio-content p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
+  transform: translateY(45px);
+  transition: transform var(--transition-normal);
+  will-change: transform;
 }
 
 .portfolio-tags {
@@ -492,27 +522,68 @@
   justify-content: center;
   gap: 0.4rem;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.4rem;
+  transform: translateY(45px);
+  transition: transform var(--transition-normal);
+  will-change: transform;
 }
 
 .portfolio-tags span {
   padding: 0.25rem 0.8rem;
-  background: rgba(0, 212, 255, 0.15);
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.15);
   border-radius: 20px;
   font-size: 0.8rem;
   color: var(--cyan);
   font-weight: 500;
 }
 
+/* Detailed description & links hidden by default, sliding up staggered */
+.portfolio-content p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.625;
+  margin-bottom: 1.6rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
 .portfolio-links {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.portfolio-item:hover .portfolio-content h3,
+.portfolio-item:hover .portfolio-tags {
+  transform: translateY(-8px);
+}
+
+.portfolio-item:hover .portfolio-content p {
+  opacity: 1;
+  transform: translateY(-8px);
+  pointer-events: auto;
+  transition-delay: 0.04s;
+}
+
+.portfolio-item:hover .portfolio-links {
+  opacity: 1;
+  transform: translateY(-8px);
+  pointer-events: auto;
+  transition-delay: 0.08s;
 }
 
 .portfolio-link {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -523,8 +594,8 @@
 }
 
 .portfolio-link:hover {
-  transform: translateY(-3px) rotate(360deg);
-  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+  transform: translateY(-4px) rotate(360deg);
+  box-shadow: 0 5px 18px rgba(0, 212, 255, 0.45);
 }
 
 /* ============ PROJECT GALLERY SLIDERS ============ */
@@ -1109,23 +1180,29 @@
 }
 
 .form-group {
-  margin-bottom: 1.2rem;
+  position: relative;
+  margin-bottom: 2.2rem;
 }
 
 .form-group label {
-  display: block;
-  color: var(--cyan);
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 0.6rem;
+  position: absolute;
+  left: 1rem;
+  top: 0.95rem;
+  pointer-events: none;
+  transition: all var(--transition-normal);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-muted);
+  margin-bottom: 0;
+  z-index: 5;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 0.9rem;
+  padding: 1rem;
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -1135,12 +1212,41 @@
   transition: all var(--transition-normal);
 }
 
+/* Hide input placeholders natively by default to avoid overlaps with the label */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: transparent;
+  transition: color var(--transition-fast);
+}
+
+.form-group.focused input::placeholder,
+.form-group.focused textarea::placeholder {
+  color: var(--text-muted);
+}
+
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: var(--cyan);
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.22);
   background: var(--bg-input-focus);
+}
+
+/* High-end floating labels system */
+.form-group.focused label {
+  top: -0.62rem;
+  left: 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--cyan);
+  background: var(--bg-2, #04040c);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  z-index: 10;
 }
 
 .form-group textarea {

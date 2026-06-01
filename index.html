@@ -82,17 +82,53 @@
   </script>
   <!-- Dynamic Loading Curtain Screen (Preloader) -->
   <div id="loading-screen">
-    <div id="loader-left" class="loader-curtain"></div>
-    <div id="loader-right" class="loader-curtain"></div>
+    <!-- Premium Dual-curtain panels that slide vertically for high-end parallax reveal -->
+    <div id="loader-panel-bg" class="loader-panel"></div>
+    <div id="loader-panel-main" class="loader-panel"></div>
+    
     <div class="loader-content">
-      <canvas id="loader-canvas" style="width: 250px; height: 250px; margin-bottom: 5px;"></canvas>
-      <div class="loader-name">
-        <span>RA700</span><span class="loader-ox">OX</span>
+      <!-- Glow-effect Cyber SVG Logo for drawing transition -->
+      <div class="loader-logo-wrapper">
+        <svg class="loader-logo-svg" viewBox="0 0 200 200" width="160" height="160" aria-label="Logo Ra7oox">
+          <defs>
+            <linearGradient id="cyberGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00d4ff" />
+              <stop offset="50%" stop-color="#0979ff" />
+              <stop offset="100%" stop-color="#00d4ff" />
+            </linearGradient>
+            <filter id="cyberGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Hexagon border path -->
+          <polygon class="logo-path logo-hexagon" points="100,15 175,58 175,142 100,185 25,142 25,58" />
+          <!-- Custom Monogram R -->
+          <path class="logo-path logo-char-r" d="M75,65 H115 C130,65 130,90 115,90 H75 V135 M75,90 L118,135" />
+          <!-- Code Brackets -->
+          <path class="logo-path logo-bracket-left" d="M52,80 L38,97 L52,114" />
+          <path class="logo-path logo-bracket-right" d="M148,80 L162,97 L148,114" />
+        </svg>
       </div>
-      <div class="loader-bar-track">
-        <div class="loader-bar-fill" id="loader-bar"></div>
+      
+      <!-- Logo Branding & Status Info -->
+      <div class="loader-brand">
+        <div class="loader-name">
+          <span>RA700</span><span class="loader-ox">OX</span>
+        </div>
+        <div class="loader-status" id="loader-status" data-i18n="loader_status">Initialisation du système...</div>
       </div>
-      <div class="loader-percent" id="loader-percent">0%</div>
+      
+      <!-- Interactive Progress Area -->
+      <div class="loader-progress-area">
+        <div class="loader-bar-track">
+          <div class="loader-bar-fill" id="loader-bar"></div>
+        </div>
+        <div class="loader-percent" id="loader-percent">00%</div>
+      </div>
     </div>
   </div>
 

@@ -53,41 +53,105 @@ function initCursor() {
   const ring = document.getElementById('c-ring');
   if (!dot || !ring) return;
 
-  // Set initial cursor colors matching light/dark themes
-  const isLight = document.body.classList.contains('light-mode');
-  if (isLight) {
-    dot.style.background = '#0ea5e9';
-    ring.style.borderColor = 'rgba(14, 165, 233, 0.55)';
-  } else {
-    dot.style.background = '#00d4ff';
-    ring.style.borderColor = 'rgba(0, 212, 255, 0.55)';
+  // Dynamically append cursor trail elements for the ribbon/trail look
+  const trailCount = 8;
+  const trailDots = [];
+  for (let i = 0; i < trailCount; i++) {
+    const t = document.createElement('div');
+    t.className = 'c-trail';
+    const baseOpacity = 0.8 - (i / trailCount) * 0.7;
+    t.dataset.baseOpacity = baseOpacity;
+    // Stagger sizes and opacities
+    t.style.cssText = `
+      position: fixed;
+      width: ${8 - (i * 0.8)}px;
+      height: ${8 - (i * 0.8)}px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      opacity: ${baseOpacity};
+    `;
+    document.body.appendChild(t);
+    trailDots.push({ el: t, x: 0, y: 0 });
+  }
+
+  // Update cursor colors dynamically based on dark/light mode
+  function updateCursorColors() {
+    const isLight = document.body.classList.contains('light-mode');
+    const accentColor = isLight ? '#0ea5e9' : '#00d4ff';
+    const ringColor = isLight ? 'rgba(14, 165, 233, 0.45)' : 'rgba(0, 212, 255, 0.45)';
+    
+    dot.style.background = accentColor;
+    ring.style.borderColor = ringColor;
+    
+    trailDots.forEach(tNode => {
+      tNode.el.style.background = accentColor;
+      tNode.el.style.boxShadow = `0 0 10px ${accentColor}`;
+    });
+  }
+  updateCursorColors();
+
+  // Listen to themeSwitcher changes or system events to sync colors instantly
+  const themeBtn = document.getElementById('themeSwitcher');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => setTimeout(updateCursorColors, 50));
   }
 
   let rx = 0, ry = 0;
-  let mouseX = 0, mouseY = 0;
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
 
   document.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+    dot.style.opacity = 1;
+    ring.style.opacity = 1;
+    trailDots.forEach(tNode => tNode.el.style.opacity = tNode.el.dataset.baseOpacity);
   });
 
-  // Smooth lerp coordinate loop for outer ring & dot
+  // Interpolation (lerp) loop
   (function lerp() {
-    rx += (mouseX - rx) * 0.12;
-    ry += (mouseY - ry) * 0.12;
+    // 1. Ring lerp coordinates
+    rx += (mouseX - rx) * 0.15;
+    ry += (mouseY - ry) * 0.15;
     
     dot.style.left = mouseX + 'px';
     dot.style.top = mouseY + 'px';
+    
     ring.style.left = rx + 'px';
     ring.style.top = ry + 'px';
+    
+    // 2. Chain-lerp trailing nodes ribbon effect
+    trailDots.forEach((tNode, index) => {
+      const prevX = index === 0 ? mouseX : trailDots[index - 1].x;
+      const prevY = index === 0 ? mouseY : trailDots[index - 1].y;
+      
+      // Rubber-band weight gets increasingly relaxed for a trailing delay
+      const weight = 0.45 - (index * 0.04);
+      tNode.x += (prevX - tNode.x) * weight;
+      tNode.y += (prevY - tNode.y) * weight;
+      
+      tNode.el.style.left = tNode.x + 'px';
+      tNode.el.style.top = tNode.y + 'px';
+    });
     
     requestAnimationFrame(lerp);
   })();
 
-  // Scaling hover classes
-  document.querySelectorAll('a, button, .project-card, .service-card, .filter-btn, .portfolio-link').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  // Scaling hover states on clickables
+  document.querySelectorAll('a, button, .project-card, .service-card, .filter-btn, .portfolio-link, .social-link').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      document.body.classList.add('cursor-hover');
+      gsap.to(dot, { scale: 0.5, duration: 0.2 });
+      gsap.to(ring, { scale: 1.5, duration: 0.25 });
+    });
+    el.addEventListener('mouseleave', () => {
+      document.body.classList.remove('cursor-hover');
+      gsap.to(dot, { scale: 1, duration: 0.2 });
+      gsap.to(ring, { scale: 1, duration: 0.25 });
+    });
   });
 }
 
@@ -442,6 +506,100 @@ function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
+  const inputs = form.querySelectorAll('input, textarea');
+
+  // A. Material Design Floating Labels State Handler
+  inputs.forEach(input => {
+    const group = input.closest('.form-group');
+    if (!group) return;
+
+    function checkVal() {
+      if (input.value.trim() !== '' || input === document.activeElement) {
+        group.classList.add('focused');
+      } else {
+        group.classList.remove('focused');
+      }
+    }
+
+    input.addEventListener('focus', () => group.classList.add('focused'));
+    input.addEventListener('blur', checkVal);
+    input.addEventListener('input', checkVal);
+
+    // Bootstrap autocompletes
+    setTimeout(checkVal, 150);
+  });
+
+  // B. High-Performance Canvas Confetti Burst Engine
+  function triggerConfettiBurst(x, y) {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'confetti-canvas';
+    canvas.style.cssText = 'position: fixed; inset: 0; z-index: 100000; pointer-events: none;';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }, { passive: true });
+
+    const colors = ['#00d4ff', '#0066ff', '#7c3aed', '#ff007f', '#ffcc00', '#2ecc71', '#ff5f56'];
+    const particles = [];
+
+    for (let i = 0; i < 90; i++) {
+      particles.push({
+        x: x || W / 2,
+        y: y || H / 2,
+        vx: (Math.random() - 0.5) * 16,
+        vy: -Math.random() * 15 - 5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        r: Math.random() * 4 + 4,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.2,
+        gravity: 0.38,
+        alpha: 1.0,
+        decay: 0.015 + Math.random() * 0.012
+      });
+    }
+
+    function animateConfetti() {
+      if (particles.length === 0) {
+        canvas.remove();
+        return;
+      }
+
+      ctx.clearRect(0, 0, W, H);
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.rotation += p.rotationSpeed;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0 || p.y > H + 20) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+        ctx.restore();
+      }
+
+      requestAnimationFrame(animateConfetti);
+    }
+    animateConfetti();
+  }
+
+  // C. Interactive Submit Handler
   form.addEventListener('submit', async e => {
     e.preventDefault();
 
@@ -456,7 +614,7 @@ function initContactForm() {
       val_all_fields: 'Veuillez remplir tous les champs',
       val_valid_email: 'Veuillez entrer une adresse email valide',
       msg_sending: 'Envoi en cours...',
-      msg_sent_success: 'Message envoyé avec succès ! Je vous répondrai bientôt.',
+      msg_sent_success: 'Message envoyé avec succès !',
       msg_sent_error: 'Une erreur est survenue.'
     };
 
@@ -472,7 +630,10 @@ function initContactForm() {
 
     submitBtn.disabled = true;
     const originalText = submitBtn.innerHTML;
+
+    // Morph button into spinning loader
     submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${dict.msg_sending}</span>`;
+    submitBtn.style.boxShadow = '0 0 20px var(--cyan)';
 
     try {
       const response = await fetch(form.action, {
@@ -482,18 +643,52 @@ function initContactForm() {
       });
 
       if (response.ok) {
+        // Morph button into glowing success checkmark
+        submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> <span>Message envoyé !</span>`;
+        submitBtn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60) !important';
+        submitBtn.style.boxShadow = '0 0 20px rgba(46, 204, 113, 0.6)';
+
+        // Trigger dynamic confetti burst from the exact center coordinates of the button
+        const rect = submitBtn.getBoundingClientRect();
+        triggerConfettiBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
         showNotification(dict.msg_sent_success, 'success');
         form.reset();
+
+        // Reset floating label classes
+        inputs.forEach(input => {
+          const group = input.closest('.form-group');
+          if (group) group.classList.remove('focused');
+        });
+
+        // Restore button back after 4 seconds
+        setTimeout(() => {
+          gsap.to(submitBtn, {
+            opacity: 1,
+            duration: 0.3,
+            onComplete: () => {
+              submitBtn.innerHTML = originalText;
+              submitBtn.style.background = '';
+              submitBtn.style.boxShadow = '';
+              submitBtn.disabled = false;
+            }
+          });
+        }, 4000);
       } else {
         const res = await response.json();
         const errorMsg = res.errors ? res.errors.map(err => err.message).join(', ') : dict.msg_sent_error;
         showNotification(errorMsg, 'error');
+        submitBtn.innerHTML = originalText;
+        submitBtn.style.background = '';
+        submitBtn.style.boxShadow = '';
+        submitBtn.disabled = false;
       }
     } catch {
       showNotification(dict.msg_sent_error, 'error');
-    } finally {
-      submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
+      submitBtn.style.background = '';
+      submitBtn.style.boxShadow = '';
+      submitBtn.disabled = false;
     }
   });
 }
@@ -679,60 +874,97 @@ function initInteractions() {
     });
   });
 
-  // Lateral Scroll Progress updates
+  // Top Horizontal Scroll Progress updates
   window.addEventListener('scroll', () => {
     const scrollH = document.body.scrollHeight - window.innerHeight;
     if (scrollH <= 0) return;
     const pct = (window.scrollY / scrollH) * 100;
     const barEl = document.getElementById('scroll-progress');
-    if (barEl) barEl.style.height = pct + '%';
+    if (barEl) barEl.style.width = pct + '%';
   }, { passive: true });
 
-  // Typewriter reset coordinates on languages updates
+  // Breathtaking 3D Vertical Cylinder Ticker (Défilement vertical de mots-clés)
   window.addEventListener('languageChanged', e => {
+    // Premium Awwwards keywords matching the user's expertise
     const words = {
-      fr: ['Développeur Full Stack', 'Web Designer', 'Créateur de Solutions', 'Codeur Créatif'],
-      en: ['Full Stack Developer', 'Web Designer', 'Solution Architect', 'Creative Coder'],
-      ar: ['مطور ويب متكامل', 'مصمم مواقع ويب', 'محلل ومحل مشاكل', 'مبرمج مبدع']
+      fr: ['Développeur Full Stack', 'Expert Three.js & GSAP', 'Créateur d\'Expériences', 'UI/UX Designer'],
+      en: ['Full Stack Developer', 'Three.js & GSAP Expert', 'Experience Creator', 'UI/UX Designer'],
+      ar: ['مطور ويب متكامل', 'خبير Three.js & GSAP', 'صانع تجارب رقمية', 'مصمم واجهات']
     };
     
-    // Smooth reset subtitle texts
     const titleEl = document.querySelector('.typing-text');
-    if (titleEl && words[e.detail.lang]) {
-      // Dynamic typing animation is handled via simple interval loops
-      let idx = 0;
-      let charIdx = 0;
-      let isDel = false;
-      let speed = 100;
-      const list = words[e.detail.lang];
+    if (!titleEl || !words[e.detail.lang]) return;
 
-      if (window._typeTimeout) clearInterval(window._typeTimeout);
+    // Clear old timeouts
+    if (window._typeTimeout) clearTimeout(window._typeTimeout);
 
-      function typeTick() {
-        const word = list[idx];
-        if (isDel) {
-          titleEl.textContent = word.substring(0, charIdx - 1);
-          charIdx--;
-          speed = 40;
-        } else {
-          titleEl.textContent = word.substring(0, charIdx + 1);
-          charIdx++;
-          speed = 90;
-        }
+    // Style the parent container for clean vertical overflow clipping
+    titleEl.style.cssText = `
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      height: 1.25em;
+      position: relative;
+      perspective: 400px;
+    `;
 
-        if (!isDel && charIdx === word.length) {
-          isDel = true;
-          speed = 2200; // Freeze at completion
-        } else if (isDel && charIdx === 0) {
-          isDel = false;
-          idx = (idx + 1) % list.length;
-          speed = 500;
-        }
+    const list = words[e.detail.lang];
+    let idx = 0;
 
-        window._typeTimeout = setTimeout(typeTick, speed);
+    function renderNextWord() {
+      const nextWordText = list[idx];
+      
+      // Create new word node
+      const wordSpan = document.createElement('span');
+      wordSpan.className = 'ticker-word';
+      wordSpan.innerHTML = nextWordText;
+      wordSpan.style.cssText = `
+        position: absolute;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        display: inline-block;
+        will-change: transform, opacity;
+      `;
+
+      // If there's an existing word, animate it sliding out, and slide the new one in
+      const currentWord = titleEl.querySelector('.ticker-word');
+      if (currentWord) {
+        // Slide out current word (upward 3D roll)
+        gsap.to(currentWord, {
+          yPercent: -100,
+          rotateX: 95,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power3.inOut',
+          onComplete: () => currentWord.remove()
+        });
+
+        // Slide in new word (from bottom 3D roll)
+        gsap.fromTo(wordSpan,
+          { yPercent: 100, rotateX: -95, opacity: 0 },
+          { yPercent: 0, rotateX: 0, opacity: 1, duration: 0.7, ease: 'power3.inOut' }
+        );
+      } else {
+        // Initial load: simple fade up
+        gsap.fromTo(wordSpan,
+          { yPercent: 60, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }
+        );
       }
-      typeTick();
+
+      titleEl.appendChild(wordSpan);
+
+      // Cycle to the next word index
+      idx = (idx + 1) % list.length;
+      
+      // Schedule next shift after 3.2 seconds
+      window._typeTimeout = setTimeout(renderNextWord, 3200);
     }
+
+    // Reset title inner container and kick off the wheel
+    titleEl.innerHTML = '';
+    renderNextWord();
   });
 
   // Trigger language sync instantly to bootstrap typing words

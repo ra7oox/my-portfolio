@@ -2,14 +2,28 @@
 function startHeroAnimations() {
   gsap.registerPlugin(TextPlugin);
 
-  // Splitter le nom en spans (lettre par lettre) sur .name-highlight
+  // Premium double-span mask reveal on name-highlight
   const nameEl = document.querySelector('.name-highlight');
   if (nameEl) {
-    const text = nameEl.textContent;
-    nameEl.innerHTML = [...text].map(c =>
-      c === ' ' ? '<span style="display:inline-block;width:0.3em"></span>'
-                : `<span class="char" style="display:inline-block">${c}</span>`
-    ).join('');
+    const text = nameEl.textContent.trim();
+    nameEl.innerHTML = '';
+    [...text].forEach(char => {
+      const outer = document.createElement('span');
+      outer.style.cssText = 'display: inline-block; overflow: hidden; vertical-align: bottom;';
+      
+      const inner = document.createElement('span');
+      inner.className = 'char';
+      inner.style.cssText = 'display: inline-block; transform-origin: bottom left; will-change: transform, opacity;';
+      
+      if (char === ' ') {
+        inner.innerHTML = '&nbsp;';
+      } else {
+        inner.textContent = char;
+      }
+      
+      outer.appendChild(inner);
+      nameEl.appendChild(outer);
+    });
   }
 
   const tl = gsap.timeline({ delay: 0.2 });
@@ -22,15 +36,12 @@ function startHeroAnimations() {
     ease: 'power2.out'
   });
 
-  // Nom lettre par lettre
-  tl.from('.name-highlight .char', {
-    opacity: 0,
-    y: 40,
-    rotationX: -90,
-    stagger: 0.04,
-    duration: 0.5,
-    ease: 'back.out(1.5)'
-  }, '-=0.3');
+  // Staggered premium mask reveal for letters
+  tl.fromTo('.name-highlight .char',
+    { yPercent: 105, rotate: 6, opacity: 0 },
+    { yPercent: 0, rotate: 0, opacity: 1, duration: 1.1, stagger: 0.04, ease: 'power4.out' },
+    '-=0.3'
+  );
 
   // Underline qui s'étend
   tl.fromTo('.hero-underline',
@@ -51,24 +62,6 @@ function startHeroAnimations() {
     }, '-=0.3');
   }
 
-  // Count-up stats in Hero Section
-  document.querySelectorAll('.stat-number').forEach((el, i) => {
-    const textVal = el.textContent;
-    const target = parseInt(textVal) || 0;
-    const hasPlus = textVal.includes('+');
-    
-    el.textContent = '0';
-    tl.to(el, {
-      innerText: target,
-      duration: 1.5,
-      snap: { innerText: 1 },
-      ease: 'power1.out',
-      onUpdate: function() {
-        el.textContent = Math.floor(el.innerText) + (hasPlus ? '+' : '');
-      }
-    }, `-=${i === 0 ? 0.5 : 1.0}`);
-  });
-
   // CTA button triggers stagger
   tl.from('.cta-buttons a', {
     opacity: 0,
@@ -77,7 +70,7 @@ function startHeroAnimations() {
     stagger: 0.12,
     ease: 'back.out(1.7)',
     duration: 0.5
-  }, '-=1.0');
+  }, '-=0.3');
 
   // Infinite bouncing motion for scroll indicator
   gsap.to('.scroll-indicator', {
@@ -102,21 +95,47 @@ function startHeroAnimations() {
 function initScrollAnimations() {
   gsap.registerPlugin(ScrollTrigger);
 
-  /* Generic fade-up animations */
-  gsap.utils.toArray('.animate-in').forEach(el => {
-    gsap.from(el, {
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 88%'
-      },
-      opacity: 0,
-      y: 40,
-      duration: 0.7,
-      ease: 'power2.out'
-    });
+  // A. Premium clip-path reveal on major sections (Awwwards-grade layout scanning)
+  gsap.utils.toArray('section').forEach(sec => {
+    if (sec.id === 'home') return;
+    
+    gsap.fromTo(sec,
+      { clipPath: 'polygon(0% 12%, 100% 12%, 100% 100%, 0% 100%)', opacity: 0.8, y: 50 },
+      {
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        opacity: 1,
+        y: 0,
+        duration: 1.4,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
   });
 
-  /* Neon timeline center drawing */
+  // B. Staggered fade-up & mask slide for section titles
+  gsap.utils.toArray('.section-header').forEach(header => {
+    const title = header.querySelector('.section-title');
+    const subtitle = header.querySelector('.section-subtitle');
+    const tag = header.querySelector('.section-tag');
+    
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: header,
+        start: 'top 82%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    if (tag) tl.from(tag, { opacity: 0, scale: 0.9, y: 15, duration: 0.5, ease: 'power2.out' });
+    if (title) tl.from(title, { opacity: 0, y: 30, duration: 0.7, ease: 'power3.out' }, '-=0.3');
+    if (subtitle) tl.from(subtitle, { opacity: 0, y: 20, duration: 0.6, ease: 'power2.out' }, '-=0.3');
+  });
+
+  // C. Neon timeline center drawing for Experience
   const timelineLine = document.querySelector('.experience-timeline::before, .timeline::before');
   if (timelineLine) {
     gsap.from(timelineLine, {
@@ -131,12 +150,12 @@ function initScrollAnimations() {
     });
   }
 
-  /* Alternating experience cards slides */
+  // D. Alternating experience cards slides
   gsap.utils.toArray('.experience-item').forEach((card, i) => {
     gsap.from(card, {
       scrollTrigger: {
         trigger: card,
-        start: 'top 85%'
+        start: 'top 82%'
       },
       x: i % 2 === 0 ? -50 : 50,
       opacity: 0,
@@ -145,27 +164,49 @@ function initScrollAnimations() {
     });
   });
 
-  /* Skill neon progress bars filling */
-  document.querySelectorAll('.skill-progress').forEach(bar => {
-    const progress = bar.closest('.skill-item').querySelector('.skill-percent').textContent.trim();
+  // E. Skill neon progress bars filling & synchronized percent counter increments
+  document.querySelectorAll('.skill-item').forEach(item => {
+    const bar = item.querySelector('.skill-progress');
+    const percentEl = item.querySelector('.skill-percent');
+    if (!bar || !percentEl) return;
+    
+    const targetVal = parseInt(percentEl.textContent) || 0;
+    
+    // Reset to starting values before animation triggers
     bar.style.width = '0%';
-    gsap.to(bar, {
+    percentEl.textContent = '0%';
+    
+    const skillTl = gsap.timeline({
       scrollTrigger: {
-        trigger: bar,
-        start: 'top 92%'
-      },
-      width: progress,
-      duration: 1.3,
-      ease: 'power2.out',
+        trigger: item,
+        start: 'top 92%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    skillTl.to(bar, {
+      width: `${targetVal}%`,
+      duration: 1.4,
+      ease: 'power3.out',
       onComplete: () => bar.classList.add('loaded')
     });
+
+    skillTl.to({ val: 0 }, {
+      val: targetVal,
+      duration: 1.4,
+      ease: 'power3.out',
+      snap: { val: 1 },
+      onUpdate: function() {
+        percentEl.textContent = Math.floor(this.targets()[0].val) + '%';
+      }
+    }, 0);
   });
 
-  /* Service cards stagger details */
+  // F. Service cards stagger reveal
   gsap.from('.service-card', {
     scrollTrigger: {
       trigger: '.services-grid',
-      start: 'top 92%',
+      start: 'top 90%',
       once: true
     },
     opacity: 0,
@@ -176,7 +217,7 @@ function initScrollAnimations() {
     ease: 'back.out(1.2)'
   });
 
-  /* Process steps horizontal pin scrolling (Desktop only) */
+  // G. Process steps horizontal pin scrolling (Desktop only)
   if (window.innerWidth > 1024) {
     const track = document.querySelector('.process-steps');
     if (track) {
@@ -195,25 +236,32 @@ function initScrollAnimations() {
     }
   }
 
-  /* Counter increments inside About Section */
-  document.querySelectorAll('[data-count]').forEach(el => {
-    const target = parseInt(el.getAttribute('data-count')) || 0;
+  // H. Unified statistical counters: s'animent de 0 à leur cible uniquement lorsque visibles
+  document.querySelectorAll('.stat-number, [data-count]').forEach(el => {
+    const textVal = el.getAttribute('data-count') || el.textContent.trim();
+    const target = parseInt(textVal) || 0;
+    const hasPlus = textVal.includes('+') || el.textContent.includes('+');
+    
+    // Set initial zero values
+    el.textContent = '0' + (hasPlus ? '+' : '');
+    
     gsap.to({ val: 0 }, {
       scrollTrigger: {
         trigger: el,
-        start: 'top 88%'
+        start: 'top 88%',
+        toggleActions: 'play none none none'
       },
       val: target,
-      duration: 2.0,
-      ease: 'power1.out',
+      duration: 1.8,
+      ease: 'power2.out',
       snap: { val: 1 },
       onUpdate: function() {
-        el.textContent = Math.floor(this.targets()[0].val) + '+';
+        el.textContent = Math.floor(this.targets()[0].val) + (hasPlus ? '+' : '');
       }
     });
   });
 
-  /* Cascading portfolio cards */
+  // I. Cascading portfolio cards
   gsap.from('.portfolio-item', {
     scrollTrigger: {
       trigger: '#portfolio',
@@ -226,7 +274,7 @@ function initScrollAnimations() {
     ease: 'power2.out'
   });
 
-  /* Navbar background shift & blur on scroll */
+  // J. Navbar background shift & blur on scroll
   ScrollTrigger.create({
     start: 'top -80',
     onUpdate: self => {

@@ -6,126 +6,156 @@
 
 // ============ SECTION 1: LOADING CURTAIN SCREEN ============
 (function initLoader() {
-  let progress = 0;
-  const bar = document.getElementById('loader-bar');
-  const percent = document.getElementById('loader-percent');
-
-  // Interactive 3D mouse tilt parallax on loading screen
   const loaderScreen = document.getElementById('loading-screen');
   const loaderContent = document.querySelector('.loader-content');
-  if (loaderScreen && loaderContent) {
+  const bar = document.getElementById('loader-bar');
+  const percent = document.getElementById('loader-percent');
+  const statusEl = document.getElementById('loader-status');
+  const paths = document.querySelectorAll('.logo-path');
+
+  if (!loaderScreen) return;
+
+  // 1. Dynamically measure and prepare SVG paths for the drawing animation
+  paths.forEach(path => {
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+  });
+
+  // 2. Interactive mouse tilt parallax on loading screen content
+  if (loaderContent) {
     loaderScreen.addEventListener('mousemove', e => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const x = (e.clientX / w - 0.5) * 30; // Max 15 degrees tilt
-      const y = (e.clientY / h - 0.5) * -30;
-      loaderContent.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateZ(20px)`;
+      const x = (e.clientX / w - 0.5) * 24; // Max 12 deg tilt
+      const y = (e.clientY / h - 0.5) * -24;
+      gsap.to(loaderContent, {
+        rotateY: x,
+        rotateX: y,
+        translateZ: 15,
+        duration: 0.4,
+        ease: 'power2.out'
+      });
     });
+    
     loaderScreen.addEventListener('mouseleave', () => {
-      loaderContent.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) translateZ(0)';
+      gsap.to(loaderContent, {
+        rotateY: 0,
+        rotateX: 0,
+        translateZ: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      });
     });
   }
 
+  // 3. Cinematic entry animation: Fade in the content container organically
+  gsap.fromTo(loaderContent, 
+    { opacity: 0, scale: 0.95 },
+    { opacity: 1, scale: 1, duration: 1.2, ease: 'power3.out' }
+  );
+
+  // 4. Staggered logo drawing animation with GSAP
+  // Hexagon border, then central monogram R, then brackets!
+  const svgDrawTimeline = gsap.timeline({ defaults: { ease: 'power2.out' } });
+  
+  svgDrawTimeline.to('.logo-hexagon', { strokeDashoffset: 0, duration: 2.2 }, 0.2)
+                 .to('.logo-char-r', { strokeDashoffset: 0, duration: 1.8 }, 0.6)
+                 .to(['.logo-bracket-left', '.logo-bracket-right'], { strokeDashoffset: 0, duration: 1.0, stagger: 0.15 }, 1.4);
+
+  // 5. Smooth loading percentage tracker with interactive status statements
+  let progress = 0;
+  const statusMessages = {
+    10: 'Initialisation...',
+    30: 'Chargement du noyau WebGL...',
+    55: 'Compilation des Shaders...',
+    75: 'Chargement des composants 3D...',
+    90: 'Synchronisation finale...',
+    100: 'Bienvenue'
+  };
+
   const interval = setInterval(() => {
-    // Increment randomly for a natural, smooth load feel
-    progress += Math.random() * 12 + 3;
+    // Progress increment simulates network/asset load steps
+    progress += Math.random() * 8 + 2;
+    
     if (progress >= 100) {
       progress = 100;
       clearInterval(interval);
+      
       if (bar) bar.style.width = '100%';
       if (percent) percent.textContent = '100%';
-      // Short delay for visual completeness then slide reveal curtains
-      setTimeout(revealSite, 400);
+      if (statusEl) statusEl.textContent = statusMessages[100];
+      
+      // Delay slightly for user to admire the completed glowing logo
+      setTimeout(revealSite, 600);
     } else {
-      if (bar) bar.style.width = Math.min(progress, 100) + '%';
-      if (percent) percent.textContent = Math.floor(Math.min(progress, 100)) + '%';
+      const currentProg = Math.min(progress, 100);
+      if (bar) bar.style.width = currentProg + '%';
+      if (percent) percent.textContent = String(Math.floor(currentProg)).padStart(2, '0') + '%';
+      
+      // Dynamic status messaging updates
+      const matchKey = Object.keys(statusMessages)
+        .map(Number)
+        .sort((a,b) => b-a)
+        .find(key => currentProg >= key);
+      
+      if (matchKey && statusEl) {
+        statusEl.textContent = statusMessages[matchKey];
+      }
     }
-  }, 80);
+  }, 70);
 
+  // 6. Dual-panel premium vertical curtain reveal transition
   function revealSite() {
     const tl = gsap.timeline({
       onComplete: () => {
-        const loaderScreen = document.getElementById('loading-screen');
-        if (loaderScreen) loaderScreen.style.display = 'none';
+        loaderScreen.style.display = 'none';
         window._loaderStopped = true;
         
-        // Start major scripts
+        // Let user scroll and trigger the portfolio start scripts
+        document.body.style.overflow = '';
         window.startSite();
       }
     });
 
-    // 1. UI Dissolve: Fade out the text elements and loading bar with stagger and subtle lift
-    tl.to('.loader-name, .loader-bar-track, .loader-percent', {
+    // Prevent scrolling during reveal transition
+    document.body.style.overflow = 'hidden';
+
+    // A. Dissolve preloader UI elements with stagger and lift
+    tl.to('.loader-content', {
       opacity: 0,
-      scale: 0.92,
-      y: -15,
-      duration: 0.6,
-      stagger: 0.08,
+      scale: 0.94,
+      y: -50,
+      duration: 0.8,
       ease: 'power3.inOut'
     }, 0);
 
-    // 2. 3D Robot Hyperdrive Zoom: Speed up towards the camera for a dynamic flyby
-    if (window._loaderCamera) {
-      tl.to(window._loaderCamera.position, {
-        z: 0.8,
-        y: 0.2,
-        duration: 0.9,
-        ease: 'power3.in'
-      }, 0);
-    }
-
-    // 3. Robot Collapse: Smoothly scale down the robot group as it flies past
-    if (window._loaderRobot) {
-      tl.to(window._loaderRobot.scale, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 0.8,
-        ease: 'power3.in'
-      }, 0.1);
-    }
-
-    // 4. Create and Dynamic Append Cinematic Flash Overlay
-    const flash = document.createElement('div');
-    flash.style.cssText = 'position:fixed; inset:0; z-index:9998; opacity:0; pointer-events:none;';
-    const isLight = document.body.classList.contains('light-mode');
-    flash.style.background = isLight ? '#ffffff' : '#00d4ff';
-    document.body.appendChild(flash);
-
-    // 5. Flash-in Sweep
-    tl.to(flash, {
-      opacity: 1,
-      duration: 0.28,
-      ease: 'power2.in'
-    }, 0.62);
-
-    // 6. Premium Diagonal Curtain Shear Split
-    // Skewing the left and right curtains produces an elegant diagonal curtain separation
-    tl.to('#loader-left', {
-      x: '-110%',
-      skewX: -12,
-      transformOrigin: 'top left',
-      duration: 1.25,
+    // B. Main and BG curtain panels pull up staggered with elastic shear effect (skew)
+    tl.to('#loader-panel-main', {
+      yPercent: -100,
+      duration: 1.35,
       ease: 'power4.inOut'
-    }, 0.45);
+    }, 0.3);
 
-    tl.to('#loader-right', {
-      x: '110%',
-      skewX: -12,
-      transformOrigin: 'bottom right',
-      duration: 1.25,
+    tl.to('#loader-panel-bg', {
+      yPercent: -100,
+      duration: 1.45,
       ease: 'power4.inOut'
-    }, 0.45);
+    }, 0.4);
 
-    // 7. Flash Dissolve & Clean-up
-    tl.to(flash, {
-      opacity: 0,
-      duration: 0.85,
-      ease: 'power2.out',
-      onComplete: () => {
-        flash.remove();
-      }
-    }, 0.9);
+    // C. Physical organic shear (skew) during vertical slides
+    tl.to(['#loader-panel-main', '#loader-panel-bg'], {
+      skewY: -4,
+      duration: 0.65,
+      ease: 'power3.in',
+      transformOrigin: 'top left'
+    }, 0.3);
+
+    tl.to(['#loader-panel-main', '#loader-panel-bg'], {
+      skewY: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, 0.95);
   }
 })();
 
