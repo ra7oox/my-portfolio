@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Non Trouvée | Ra7oox</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="./img/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --cyan: #00d4ff;
+      --cyan-glow: rgba(0, 212, 255, 0.15);
+      --cyan-dim: rgba(0, 212, 255, 0.4);
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --text: #e0e0e0;
+      --text-dim: #888888;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* ── Particle Field ── */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--cyan);
+      opacity: 0;
+      animation: float-particle linear infinite;
+    }
+
+    .particle:nth-child(1)  { width: 3px; height: 3px; left:  5%; animation-duration: 14s; animation-delay: 0s;   }
+    .particle:nth-child(2)  { width: 2px; height: 2px; left: 12%; animation-duration: 18s; animation-delay: 2s;   }
+    .particle:nth-child(3)  { width: 4px; height: 4px; left: 20%; animation-duration: 12s; animation-delay: 4s;   }
+    .particle:nth-child(4)  { width: 2px; height: 2px; left: 28%; animation-duration: 20s; animation-delay: 1s;   }
+    .particle:nth-child(5)  { width: 3px; height: 3px; left: 35%; animation-duration: 16s; animation-delay: 3s;   }
+    .particle:nth-child(6)  { width: 2px; height: 2px; left: 42%; animation-duration: 22s; animation-delay: 5s;   }
+    .particle:nth-child(7)  { width: 4px; height: 4px; left: 50%; animation-duration: 13s; animation-delay: 0.5s; }
+    .particle:nth-child(8)  { width: 2px; height: 2px; left: 58%; animation-duration: 17s; animation-delay: 2.5s; }
+    .particle:nth-child(9)  { width: 3px; height: 3px; left: 65%; animation-duration: 15s; animation-delay: 4.5s; }
+    .particle:nth-child(10) { width: 2px; height: 2px; left: 72%; animation-duration: 19s; animation-delay: 1.5s; }
+    .particle:nth-child(11) { width: 4px; height: 4px; left: 80%; animation-duration: 14s; animation-delay: 3.5s; }
+    .particle:nth-child(12) { width: 2px; height: 2px; left: 88%; animation-duration: 21s; animation-delay: 0.8s; }
+    .particle:nth-child(13) { width: 3px; height: 3px; left: 95%; animation-duration: 16s; animation-delay: 2.8s; }
+    .particle:nth-child(14) { width: 2px; height: 2px; left:  8%; animation-duration: 18s; animation-delay: 5.5s; }
+    .particle:nth-child(15) { width: 3px; height: 3px; left: 45%; animation-duration: 20s; animation-delay: 1.2s; }
+    .particle:nth-child(16) { width: 2px; height: 2px; left: 55%; animation-duration: 15s; animation-delay: 3.8s; }
+    .particle:nth-child(17) { width: 4px; height: 4px; left: 68%; animation-duration: 17s; animation-delay: 0.3s; }
+    .particle:nth-child(18) { width: 2px; height: 2px; left: 32%; animation-duration: 19s; animation-delay: 4.2s; }
+    .particle:nth-child(19) { width: 3px; height: 3px; left: 78%; animation-duration: 13s; animation-delay: 2.2s; }
+    .particle:nth-child(20) { width: 2px; height: 2px; left: 15%; animation-duration: 22s; animation-delay: 6s;   }
+
+    @keyframes float-particle {
+      0%   { transform: translateY(110vh) translateX(0);   opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+    }
+
+    /* ── Ambient Grid ── */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── Radial Glow ── */
+    .radial-glow {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.06) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+      animation: pulse-glow 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1);   }
+      50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    /* ── Content Container ── */
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+    }
+
+    /* ── Logo ── */
+    .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: var(--cyan);
+      border-radius: 1px;
+      box-shadow: 0 0 10px var(--cyan-dim);
+    }
+
+    /* ── Glitch 404 ── */
+    .error-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(8rem, 22vw, 16rem);
+      font-weight: 700;
+      line-height: 1;
+      color: transparent;
+      background: linear-gradient(135deg, var(--cyan) 0%, #0088aa 50%, var(--cyan) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      position: relative;
+      animation: float-text 4s ease-in-out infinite;
+      user-select: none;
+      filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.3));
+    }
+
+    .error-code::before,
+    .error-code::after {
+      content: '404';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--cyan) 0%, #0088aa 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .error-code::before {
+      animation: glitch-1 3s infinite linear alternate-reverse;
+      clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    }
+
+    .error-code::after {
+      animation: glitch-2 3s infinite linear alternate-reverse;
+      clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    }
+
+    @keyframes float-text {
+      0%, 100% { transform: translateY(0);    }
+      50%      { transform: translateY(-12px); }
+    }
+
+    @keyframes glitch-1 {
+      0%   { transform: translate(0);            }
+      20%  { transform: translate(-3px, -1px);    }
+      40%  { transform: translate(3px, 1px);      }
+      60%  { transform: translate(-1px, 2px);     }
+      80%  { transform: translate(2px, -1px);     }
+      100% { transform: translate(0);             }
+    }
+
+    @keyframes glitch-2 {
+      0%   { transform: translate(0);            }
+      20%  { transform: translate(3px, 1px);     }
+      40%  { transform: translate(-2px, -1px);   }
+      60%  { transform: translate(1px, -2px);    }
+      80%  { transform: translate(-3px, 1px);    }
+      100% { transform: translate(0);            }
+    }
+
+    /* ── Decorative Scan Lines ── */
+    .scan-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 212, 255, 0.008) 2px,
+        rgba(0, 212, 255, 0.008) 4px
+      );
+    }
+
+    /* ── Typography ── */
+    .title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 2px;
+      margin-top: 8px;
+    }
+
+    .subtitle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(0.85rem, 2vw, 1.05rem);
+      font-weight: 300;
+      color: var(--text-dim);
+      max-width: 460px;
+      line-height: 1.7;
+      margin-top: 4px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+      margin: 18px 0;
+    }
+
+    /* ── CTA Button ── */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 14px 36px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #000000;
+      background: var(--cyan);
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow:
+        0 0 20px rgba(0, 212, 255, 0.3),
+        0 0 60px rgba(0, 212, 255, 0.1);
+      letter-spacing: 0.5px;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 0 30px rgba(0, 212, 255, 0.5),
+        0 0 80px rgba(0, 212, 255, 0.2),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .cta-btn:hover::before {
+      left: 100%;
+    }
+
+    .cta-btn svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .cta-btn:hover svg {
+      transform: translateX(-3px);
+    }
+
+    /* ── Terminal Decoration ── */
+    .terminal-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 40px;
+      opacity: 0.5;
+      letter-spacing: 1px;
+    }
+
+    .terminal-line .prompt {
+      color: var(--cyan);
+    }
+
+    .terminal-line .blink {
+      animation: blink-cursor 1s step-end infinite;
+    }
+
+    @keyframes blink-cursor {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0; }
+    }
+
+    /* ── Corner Decorations ── */
+    .corner {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .corner::before,
+    .corner::after {
+      content: '';
+      position: absolute;
+      background: var(--cyan-dim);
+    }
+
+    .corner--tl { top: 24px; left: 24px; }
+    .corner--tl::before { top: 0; left: 0; width: 20px; height: 1px; }
+    .corner--tl::after  { top: 0; left: 0; width: 1px; height: 20px; }
+
+    .corner--tr { top: 24px; right: 24px; }
+    .corner--tr::before { top: 0; right: 0; width: 20px; height: 1px; }
+    .corner--tr::after  { top: 0; right: 0; width: 1px; height: 20px; }
+
+    .corner--bl { bottom: 24px; left: 24px; }
+    .corner--bl::before { bottom: 0; left: 0; width: 20px; height: 1px; }
+    .corner--bl::after  { bottom: 0; left: 0; width: 1px; height: 20px; }
+
+    .corner--br { bottom: 24px; right: 24px; }
+    .corner--br::before { bottom: 0; right: 0; width: 20px; height: 1px; }
+    .corner--br::after  { bottom: 0; right: 0; width: 1px; height: 20px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .corner { display: none; }
+
+      .cta-btn {
+        padding: 12px 28px;
+        font-size: 0.9rem;
+      }
+
+      .terminal-line {
+        font-size: 0.65rem;
+      }
+
+      .radial-glow {
+        width: 400px;
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .title {
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-size: 0.8rem;
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient layers -->
+  <div class="grid-overlay"></div>
+  <div class="radial-glow"></div>
+  <div class="scan-lines"></div>
+
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner decorations -->
+  <div class="corner corner--tl"></div>
+  <div class="corner corner--tr"></div>
+  <div class="corner corner--bl"></div>
+  <div class="corner corner--br"></div>
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="logo">Ra7oox</div>
+
+    <div class="error-code">404</div>
+
+    <h1 class="title">Page Non Trouvée</h1>
+
+    <p class="subtitle">La page que vous cherchez n'existe pas ou a été déplacée.</p>
+
+    <div class="divider"></div>
+
+    <a href="index.html" class="cta-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Retour à l'Accueil
+    </a>
+
+    <div class="terminal-line">
+      <span class="prompt">ra7oox@portfolio:~$</span> error 404 — route not found<span class="blink">▌</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -3,16 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Soufiane Arrahou - Full Stack Developer</title>
-  <meta name="description" content="Portfolio of Soufiane Arrahou - Full Stack Developer specializing in modern web technologies">
-  <meta name="keywords" content="web developer, full stack, portfolio, Morocco, Rabat">
-  
-  <!-- Favicons -->
-  <link rel="icon" href="./img/favicon.png">
-  
-  <!-- Google Fonts - Awwwards Design System Typographies -->
+  <title>Soufiane Arrahou | Ra7oox - Développeur Full Stack</title>
+  <meta name="description" content="Découvrez le portfolio professionnel de Soufiane Arrahou (Ra7oox) - Développeur Full Stack basé à Rabat, Maroc. Projets Web, Three.js, et solutions sur-mesure.">
+  <meta name="keywords" content="web developer, full stack, portfolio, Morocco, Rabat, Soufiane Arrahou, Ra7oox, Three.js, GSAP">
+  <meta name="theme-color" content="#000000">
+
+  <!-- SEO & Social Sharing (Open Graph / Facebook / LinkedIn) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ra7oox.github.io/my-portfolio/">
+  <meta property="og:title" content="Soufiane Arrahou | Ra7oox - Développeur Full Stack">
+  <meta property="og:description" content="Découvrez le portfolio professionnel de Soufiane Arrahou (Ra7oox) - Développeur Full Stack basé à Rabat, Maroc. Projets Web, Three.js, et solutions sur-mesure.">
+  <meta property="og:image" content="https://ra7oox.github.io/my-portfolio/img/website1.PNG">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://ra7oox.github.io/my-portfolio/">
+  <meta name="twitter:title" content="Soufiane Arrahou | Ra7oox - Développeur Full Stack">
+  <meta name="twitter:description" content="Découvrez le portfolio professionnel de Soufiane Arrahou (Ra7oox) - Développeur Full Stack basé à Rabat, Maroc. Projets Web, Three.js, et solutions sur-mesure.">
+  <meta name="twitter:image" content="https://ra7oox.github.io/my-portfolio/img/website1.PNG">
+
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://ra7oox.github.io/my-portfolio/">
+
+  <!-- Favicons & Manifest -->
+  <link rel="icon" href="./img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="./img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- DNS Prefetch & Preconnect for CDNs -->
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts - Awwwards Design System Typographies -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   
   <!-- Font Awesome Icons -->
@@ -20,11 +46,35 @@
   
   <!-- Consolidated Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- JSON-LD Structured Data for Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Soufiane Arrahou",
+    "alternateName": "Ra7oox",
+    "jobTitle": "Développeur Full Stack",
+    "url": "https://ra7oox.github.io/my-portfolio/",
+    "sameAs": [
+      "https://github.com/Ra7oox",
+      "https://www.linkedin.com/in/soufiane-arrahou",
+      "https://twitter.com/soufianeGa6552",
+      "https://www.instagram.com/ra7oox/"
+    ],
+    "image": "https://ra7oox.github.io/my-portfolio/img/me.jfif",
+    "description": "Développeur Full Stack passionné avec 3 ans d'expérience dans la création d'expériences digitales exceptionnelles."
+  }
+  </script>
 </head>
 <body>
   <script>
     (function() {
-      const savedTheme = localStorage.getItem('portfolio_theme') || 'dark';
+      let savedTheme = localStorage.getItem('portfolio_theme');
+      if (!savedTheme) {
+        const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        savedTheme = prefersLight ? 'light' : 'dark';
+      }
       if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
       }
@@ -77,20 +127,20 @@
       </ul>
 
       <!-- Sleek Glassmorphic Language Switcher -->
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="fr" onclick="i18n.setLanguage('fr')">FR</button>
+      <div class="lang-switcher" role="navigation" aria-label="Sélecteur de langue">
+        <button class="lang-btn active" data-lang="fr" onclick="i18n.setLanguage('fr')" aria-label="Changer la langue en Français">FR</button>
         <span class="lang-separator">|</span>
-        <button class="lang-btn" data-lang="en" onclick="i18n.setLanguage('en')">EN</button>
+        <button class="lang-btn" data-lang="en" onclick="i18n.setLanguage('en')" aria-label="Change language to English">EN</button>
         <span class="lang-separator">|</span>
-        <button class="lang-btn" data-lang="ar" onclick="i18n.setLanguage('ar')">العربية</button>
+        <button class="lang-btn" data-lang="ar" onclick="i18n.setLanguage('ar')" aria-label="تغيير اللغة إلى العربية">العربية</button>
       </div>
 
       <!-- Sleek Glassmorphic Theme Switcher -->
-      <button class="theme-switcher" id="themeSwitcher" aria-label="Toggle Theme" title="Changer de thème">
+      <button class="theme-switcher" id="themeSwitcher" aria-label="Toggle Theme" title="Changer de thème" tabindex="0">
         <i class="fas fa-moon theme-icon"></i>
       </button>
 
-      <div class="nav-toggle" id="navToggle">
+      <div class="nav-toggle" id="navToggle" role="button" aria-label="Menu principal" aria-expanded="false" tabindex="0">
         <span></span>
         <span></span>
         <span></span>
@@ -224,7 +274,7 @@
       <div class="about-content">
         <div class="about-image-container">
           <div class="image-wrapper">
-            <img src="./img/WhatsApp Image 2025-11-24 at 22.22.07.jpeg" alt="Soufiane Arrahou" class="about-image" onerror="this.src='https://via.placeholder.com/500x600/050510/00d4ff?text=Soufiane+Arrahou'">
+             <img src="./img/WhatsApp Image 2025-11-24 at 22.22.07.jpeg" alt="Soufiane Arrahou" class="about-image" loading="lazy" width="500" height="600" onerror="this.src='https://via.placeholder.com/500x600/050510/00d4ff?text=Soufiane+Arrahou'">
             <div class="image-overlay"></div>
           </div>
           <div class="experience-badge">
@@ -287,10 +337,16 @@
             </div>
           </div>
 
-          <a href="#contact" class="btn btn-primary">
-            <span data-i18n="btn_work_together">Travaillons Ensemble</span>
-            <i class="fas fa-arrow-right"></i>
-          </a>
+          <div class="about-actions" style="margin-top: 25px; display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="#contact" class="btn btn-primary">
+              <span data-i18n="btn_work_together">Travaillons Ensemble</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="./assets/CV_Soufiane_Arrahou.pdf" download class="btn btn-secondary" id="downloadCVBtn">
+              <span data-i18n="btn_download_cv">Télécharger mon CV</span>
+              <i class="fas fa-download"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -722,10 +778,10 @@
           <div class="portfolio-image">
             <div class="project-slider" id="samtech-slider">
               <div class="slider-wrapper">
-                <div class="slide"><img src="./img/samtech/samtech1.png" alt="SAMTECH - Dashboard" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+1'"></div>
-                <div class="slide"><img src="./img/samtech/samtech2.png" alt="SAMTECH - Produits" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+2'"></div>
-                <div class="slide"><img src="./img/samtech/samtech3.png" alt="SAMTECH - Catalogue" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+3'"></div>
-                <div class="slide"><img src="./img/samtech/samtech4.png" alt="SAMTECH - Avis" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+4'"></div>
+                <div class="slide"><img src="./img/samtech/samtech1.png" alt="SAMTECH - Dashboard" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+1'"></div>
+                <div class="slide"><img src="./img/samtech/samtech2.png" alt="SAMTECH - Produits" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+2'"></div>
+                <div class="slide"><img src="./img/samtech/samtech3.png" alt="SAMTECH - Catalogue" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+3'"></div>
+                <div class="slide"><img src="./img/samtech/samtech4.png" alt="SAMTECH - Avis" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SAMTECH+4'"></div>
               </div>
               <div class="slider-controls">
                 <button class="slider-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
@@ -764,11 +820,11 @@
           <div class="portfolio-image">
             <div class="project-slider" id="skillswap-slider">
               <div class="slider-wrapper">
-                <div class="slide"><img src="./img/skillswap/skillswap1.jpeg" alt="SkillSwap - Agenda" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+1'"></div>
-                <div class="slide"><img src="./img/skillswap/skillswap2.jpeg" alt="SkillSwap - Friends" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+2'"></div>
-                <div class="slide"><img src="./img/skillswap/skillswap3.jpeg" alt="SkillSwap - Messages" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+3'"></div>
-                <div class="slide"><img src="./img/skillswap/skillswap4.jpeg" alt="SkillSwap - Map" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+4'"></div>
-                <div class="slide"><img src="./img/skillswap/skillswap5.jpeg" alt="SkillSwap - Profile" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+5'"></div>
+                <div class="slide"><img src="./img/skillswap/skillswap1.jpeg" alt="SkillSwap - Agenda" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+1'"></div>
+                <div class="slide"><img src="./img/skillswap/skillswap2.jpeg" alt="SkillSwap - Friends" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+2'"></div>
+                <div class="slide"><img src="./img/skillswap/skillswap3.jpeg" alt="SkillSwap - Messages" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+3'"></div>
+                <div class="slide"><img src="./img/skillswap/skillswap4.jpeg" alt="SkillSwap - Map" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+4'"></div>
+                <div class="slide"><img src="./img/skillswap/skillswap5.jpeg" alt="SkillSwap - Profile" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=SkillSwap+5'"></div>
               </div>
               <div class="slider-controls">
                 <button class="slider-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
@@ -805,7 +861,7 @@
         <!-- Project: ENT Salé -->
         <div class="portfolio-item" data-category="fullstack">
           <div class="portfolio-image">
-            <img src="./img/entsale.png" alt="ENT Salé" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=ENT+Sal%C3%A9'">
+            <img src="./img/entsale.png" alt="ENT Salé" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=ENT+Sal%C3%A9'">
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>ENT Salé</h3>
@@ -834,7 +890,7 @@
         <!-- Project: BiblioFlow -->
         <div class="portfolio-item" data-category="fullstack">
           <div class="portfolio-image">
-            <img src="./img/biblioflow.png" alt="BiblioFlow" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=BiblioFlow'">
+            <img src="./img/biblioflow.png" alt="BiblioFlow" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=BiblioFlow'">
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>BiblioFlow</h3>
@@ -863,7 +919,7 @@
         <!-- Project: TicketWave -->
         <div class="portfolio-item" data-category="fullstack">
           <div class="portfolio-image">
-            <img src="./img/ticketwave.png" alt="TicketWave" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=TicketWave'">
+            <img src="./img/ticketwave.png" alt="TicketWave" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=TicketWave'">
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>TicketWave</h3>
@@ -892,7 +948,7 @@
         <!-- Project: Portfolio V1 -->
         <div class="portfolio-item" data-category="frontend">
           <div class="portfolio-image">
-            <img src="./img/website2.PNG" alt="First Portfolio" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=Portfolio+V1'">
+            <img src="./img/website2.PNG" alt="First Portfolio" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=Portfolio+V1'">
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>Portfolio V1</h3>
@@ -921,7 +977,7 @@
         <!-- Project: E-Commerce Platform -->
         <div class="portfolio-item" data-category="design">
           <div class="portfolio-image">
-            <img src="./img/website1.PNG" alt="E-Commerce Design" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=E-Commerce'">
+            <img src="./img/website1.PNG" alt="E-Commerce Design" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=E-Commerce'">
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>E-Commerce Platform</h3>
@@ -950,7 +1006,7 @@
         <!-- Project: Weather Dashboard -->
         <div class="portfolio-item" data-category="frontend">
           <div class="portfolio-image">
-            <img src="./img/weather.png" alt="Weather App" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=Weather+App'">
+            <img src="./img/weather.png" alt="Weather App" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=Weather+App'">
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>Weather Dashboard</h3>
@@ -979,7 +1035,7 @@
         <!-- Project: Task Management System -->
         <div class="portfolio-item" data-category="fullstack">
           <div class="portfolio-image">
-            <img src="./img/taskmanager.png" alt="Task Manager" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=Task+Manager'">
+            <img src="./img/taskmanager.png" alt="Task Manager" loading="lazy" width="600" height="400" onerror="this.src='https://via.placeholder.com/600x400/050510/00d4ff?text=Task+Manager'">
             <div class="portfolio-overlay">
               <div class="portfolio-content">
                 <h3>Task Management System</h3>
@@ -1035,7 +1091,7 @@
             </div>
           </div>
           <div class="testimonial-author">
-            <img src="https://via.placeholder.com/80/050510/00d4ff?text=Client" alt="Client">
+            <img src="https://via.placeholder.com/80/050510/00d4ff?text=Client" alt="Client" loading="lazy" width="80" height="80">
             <div class="author-info">
               <h4 data-i18n="test1_author">Mohamed Alami</h4>
               <p data-i18n="test1_role">CEO, TechStart</p>
@@ -1060,7 +1116,7 @@
             </div>
           </div>
           <div class="testimonial-author">
-            <img src="./img/oussama elmloudi.jfif" alt="Oussama" onerror="this.src='https://via.placeholder.com/80/050510/00d4ff?text=Oussama'">
+            <img src="./img/oussama elmloudi.jfif" alt="Oussama" loading="lazy" width="80" height="80" onerror="this.src='https://via.placeholder.com/80/050510/00d4ff?text=Oussama'">
             <div class="author-info">
               <h4 data-i18n="test2_author">Oussama Elmloudi</h4>
               <p data-i18n="test2_role">Friend & Supporter</p>
@@ -1085,7 +1141,7 @@
             </div>
           </div>
           <div class="testimonial-author">
-            <img src="./img/youssef abis.jfif" alt="Youssef" onerror="this.src='https://via.placeholder.com/80/050510/00d4ff?text=Youssef'">
+            <img src="./img/youssef abis.jfif" alt="Youssef" loading="lazy" width="80" height="80" onerror="this.src='https://via.placeholder.com/80/050510/00d4ff?text=Youssef'">
             <div class="author-info">
               <h4 data-i18n="test3_author">Youssef Abis</h4>
               <p data-i18n="test3_role">Trading Student</p>
@@ -1113,12 +1169,12 @@
           </div>
           <div class="form-group">
             <label class="rating-label" data-i18n="review_form_rating">Votre Note</label>
-            <div class="rating-input" id="ratingInput">
-              <i class="fas fa-star star-btn active" data-value="1"></i>
-              <i class="fas fa-star star-btn active" data-value="2"></i>
-              <i class="fas fa-star star-btn active" data-value="3"></i>
-              <i class="fas fa-star star-btn active" data-value="4"></i>
-              <i class="fas fa-star star-btn active" data-value="5"></i>
+            <div class="rating-input" id="ratingInput" role="radiogroup" aria-label="Note de 1 à 5 étoiles">
+              <i class="fas fa-star star-btn active" data-value="1" role="radio" aria-checked="true" tabindex="0" aria-label="Notez 1 étoile sur 5"></i>
+              <i class="fas fa-star star-btn active" data-value="2" role="radio" aria-checked="true" tabindex="0" aria-label="Notez 2 étoiles sur 5"></i>
+              <i class="fas fa-star star-btn active" data-value="3" role="radio" aria-checked="true" tabindex="0" aria-label="Notez 3 étoiles sur 5"></i>
+              <i class="fas fa-star star-btn active" data-value="4" role="radio" aria-checked="true" tabindex="0" aria-label="Notez 4 étoiles sur 5"></i>
+              <i class="fas fa-star star-btn active" data-value="5" role="radio" aria-checked="true" tabindex="0" aria-label="Notez 5 étoiles sur 5"></i>
             </div>
             <input type="hidden" id="reviewRatingVal" value="5">
           </div>
@@ -1293,13 +1349,13 @@
     <div class="lightbox-overlay"></div>
     <div class="lightbox-container">
       <span class="lightbox-close">&times;</span>
-      <img class="lightbox-content" id="lightbox-img" src="" alt="Aperçu projet">
+      <img class="lightbox-content" id="lightbox-img" src="" alt="Aperçu projet" loading="lazy">
       <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
   </div>
 
   <!-- Back to Top -->
-  <button id="backToTop" class="back-to-top" title="Back to top">
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page" title="Back to top">
     <i class="fas fa-arrow-up"></i>
   </button>
 

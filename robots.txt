@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /config.php
+Disallow: /connexion.php
+Disallow: /contact.php
+Disallow: /reviews.php
+Disallow: /test-phpmailer.php
+Disallow: /contact_log.txt
+Disallow: /rate_limit.json
+Disallow: /python.py
+Disallow: /kk.html
+
+Sitemap: https://ra7oox.github.io/my-portfolio/sitemap.xml

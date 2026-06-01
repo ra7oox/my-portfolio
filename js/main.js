@@ -47,6 +47,7 @@
       onComplete: () => {
         const loaderScreen = document.getElementById('loading-screen');
         if (loaderScreen) loaderScreen.style.display = 'none';
+        window._loaderStopped = true;
         
         // Start major scripts
         window.startSite();

@@ -68,6 +68,7 @@ const i18n = {
       "about_info_loc_val": "Rabat, Maroc",
       "about_info_edu_val": "Informatique",
       "btn_work_together": "Travaillons Ensemble",
+      "btn_download_cv": "Télécharger mon CV",
 
       // Skills Section
       "skills_tag": "Mon Expertise",
@@ -274,6 +275,7 @@ const i18n = {
       "about_info_loc_val": "Rabat, Morocco",
       "about_info_edu_val": "Computer Science",
       "btn_work_together": "Let's Work Together",
+      "btn_download_cv": "Download CV",
 
       // Skills Section
       "skills_tag": "My Expertise",
@@ -480,6 +482,7 @@ const i18n = {
       "about_info_loc_val": "الرباط، المغرب",
       "about_info_edu_val": "علوم الكمبيوتر",
       "btn_work_together": "لنعمل معاً",
+      "btn_download_cv": "تحميل السيرة الذاتية",
 
       // Skills Section
       "skills_tag": "مجالات خبرتي",

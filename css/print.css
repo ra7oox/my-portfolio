@@ -1,0 +1,228 @@
+/* ==========================================================================
+   Ra7oox Portfolio - Sleek Print & PDF Export Stylesheet
+   ========================================================================== */
+
+@media print {
+  /* 1. Force light backgrounds and dark text for ink saving and readability */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+    cursor: default !important;
+  }
+
+  /* 2. Hide purely interactive, animated, dynamic or dark ambient layers */
+  #hero-canvas,
+  #c-dot,
+  #c-ring,
+  #scroll-progress,
+  #loading-screen,
+  .theme-switcher,
+  .lang-switcher,
+  .nav-toggle,
+  .back-to-top,
+  .corner,
+  .quote-icon,
+  .review-form-container,
+  .slider-controls,
+  .slider-pagination,
+  .portfolio-links,
+  .social-links-hero,
+  .hero-underline,
+  .wave,
+  .preloader {
+    display: none !important;
+  }
+
+  /* 3. Static headers and navigation layout adjustments */
+  nav {
+    position: relative !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 10px 0 !important;
+  }
+
+  .nav-links {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 15px !important;
+    list-style: none !important;
+  }
+
+  .nav-links a {
+    font-size: 9pt !important;
+    color: #334155 !important;
+  }
+
+  /* 4. Page layout structures */
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 15px !important;
+  }
+
+  section {
+    padding: 30px 0 !important;
+    page-break-inside: avoid; /* Prevent section split across pages */
+  }
+
+  /* 5. Hero Section clean styling */
+  #home {
+    min-height: auto !important;
+    height: auto !important;
+    padding-top: 20px !important;
+  }
+
+  .hero-title {
+    font-size: 28pt !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hero-description {
+    font-size: 12pt !important;
+    color: #334155 !important;
+    max-width: 100% !important;
+  }
+
+  .floating-card {
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    background: #f8fafc !important;
+    page-break-inside: avoid;
+  }
+
+  .code-card {
+    background: #0f172a !important; /* Keep syntax highlight legible */
+  }
+  
+  .code-card * {
+    color: inherit !important; /* Retain color scheme for code blocks */
+  }
+
+  /* 6. Grid & Flex structures */
+  .about-content,
+  .contact-content {
+    display: block !important;
+  }
+
+  .about-image-container {
+    display: none !important; /* Hide massive photos */
+  }
+
+  .about-info-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 20px !important;
+  }
+
+  .info-card {
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px !important;
+    page-break-inside: avoid;
+  }
+
+  /* 7. Timeline blocks */
+  .experience-timeline {
+    border-left: 2px solid #cbd5e1 !important;
+  }
+
+  .experience-item {
+    page-break-inside: avoid;
+    margin-bottom: 20px !important;
+  }
+
+  /* 8. Skills layouts */
+  .skills-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 15px !important;
+  }
+
+  .skill-category {
+    border: 1px solid #e2e8f0 !important;
+    padding: 15px !important;
+    page-break-inside: avoid;
+  }
+
+  .skill-progress {
+    background: #e2e8f0 !important;
+  }
+
+  .progress-fill {
+    background: #000000 !important;
+  }
+
+  /* 9. Projects Grid layout */
+  .portfolio-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+
+  .portfolio-item {
+    border: 1px solid #e2e8f0 !important;
+    page-break-inside: avoid;
+  }
+
+  .portfolio-image img {
+    max-height: 180px !important;
+    object-fit: cover !important;
+  }
+
+  .portfolio-overlay {
+    position: relative !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: transparent !important;
+    padding: 15px !important;
+  }
+
+  .portfolio-content h3 {
+    color: #000000 !important;
+    font-size: 14pt !important;
+  }
+
+  .portfolio-content p {
+    color: #334155 !important;
+    font-size: 10pt !important;
+  }
+
+  .portfolio-tags span {
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+    background: #f1f5f9 !important;
+    padding: 2px 6px !important;
+    font-size: 8pt !important;
+  }
+
+  /* 10. Testimonials */
+  .testimonials-slider {
+    display: block !important;
+  }
+
+  .testimonial-card {
+    border: 1px solid #e2e8f0 !important;
+    margin-bottom: 15px !important;
+    padding: 15px !important;
+    page-break-inside: avoid;
+  }
+
+  /* 11. Links and info */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")"; /* Display actual URL link next to anchor text */
+    font-size: 8pt;
+    color: #64748b;
+  }
+}

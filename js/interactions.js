@@ -31,16 +31,17 @@ function initTilt() {
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
       
-      // Calculate smooth tilt values
-      card.style.transform = `perspective(900px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateZ(6px)`;
-      
-      // Pass shifting coordinate variables to CSS variables for centered spotlight radial glows
-      card.style.setProperty('--mx', ((x + 0.5) * 100) + '%');
-      card.style.setProperty('--my', ((y + 0.5) * 100) + '%');
+      requestAnimationFrame(() => {
+        card.style.transform = `perspective(900px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateZ(6px)`;
+        card.style.setProperty('--mx', ((x + 0.5) * 100) + '%');
+        card.style.setProperty('--my', ((y + 0.5) * 100) + '%');
+      });
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+      requestAnimationFrame(() => {
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+      });
     });
   });
 }
@@ -68,17 +69,15 @@ function initCursor() {
   document.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    
-    // Instantly translate center dot coordinates
-    dot.style.left = mouseX + 'px';
-    dot.style.top = mouseY + 'px';
   });
 
-  // Smooth lerp coordinate loop for outer ring
+  // Smooth lerp coordinate loop for outer ring & dot
   (function lerp() {
     rx += (mouseX - rx) * 0.12;
     ry += (mouseY - ry) * 0.12;
     
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
     ring.style.left = rx + 'px';
     ring.style.top = ry + 'px';
     
@@ -286,11 +285,20 @@ function initReviewsSection() {
           if (sVal <= val) {
             s.classList.add('active', 'fas');
             s.classList.remove('far');
+            s.setAttribute('aria-checked', 'true');
           } else {
             s.classList.remove('active', 'fas');
             s.classList.add('far');
+            s.setAttribute('aria-checked', 'false');
           }
         });
+      });
+
+      star.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          star.click();
+        }
       });
     });
   }
@@ -562,7 +570,11 @@ function initInteractions() {
   }
 
   // Load and apply theme on start
-  const savedTheme = localStorage.getItem('portfolio_theme') || 'dark';
+  let savedTheme = localStorage.getItem('portfolio_theme');
+  if (!savedTheme) {
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    savedTheme = prefersLight ? 'light' : 'dark';
+  }
   applyTheme(savedTheme);
 
   if (themeBtn) {
@@ -601,8 +613,16 @@ function initInteractions() {
 
   if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
-      navToggle.classList.toggle('active');
+      const isActive = navToggle.classList.toggle('active');
       navLinks.classList.toggle('active');
+      navToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    });
+
+    navToggle.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navToggle.click();
+      }
     });
   }
 

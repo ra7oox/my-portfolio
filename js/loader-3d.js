@@ -185,6 +185,10 @@
   // Tick Animation Loop
   const clock = new THREE.Clock();
   function animate() {
+    if (window._loaderStopped) {
+      if (renderer) renderer.dispose();
+      return;
+    }
     requestAnimationFrame(animate);
 
     const t = clock.getElapsedTime();
