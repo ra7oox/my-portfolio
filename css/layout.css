@@ -452,7 +452,17 @@ nav .container {
   100% { opacity: 0; transform: translateX(-50%) translateY(14px); }
 }
 
-/* Hide Typewriter Cursor in favor of 3D word ticker */
+/* Premium Blinking Cursor with Neon Cyan Glow */
 .cursor-blink {
-  display: none !important;
+  display: inline-block !important;
+  color: var(--cyan);
+  margin-left: 5px;
+  font-weight: 700;
+  animation: cursorBlink 1.0s step-end infinite;
+  text-shadow: 0 0 10px var(--cyan);
+}
+
+@keyframes cursorBlink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
 }

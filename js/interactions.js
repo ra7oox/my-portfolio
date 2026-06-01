@@ -883,9 +883,8 @@ function initInteractions() {
     if (barEl) barEl.style.width = pct + '%';
   }, { passive: true });
 
-  // Breathtaking 3D Vertical Cylinder Ticker (Défilement vertical de mots-clés)
+  // Premium Humanized Typewriter (Écrit et efface lettre par lettre avec vitesse variable)
   window.addEventListener('languageChanged', e => {
-    // Premium Awwwards keywords matching the user's expertise
     const words = {
       fr: ['Développeur Full Stack', 'Expert Three.js & GSAP', 'Créateur d\'Expériences', 'UI/UX Designer'],
       en: ['Full Stack Developer', 'Three.js & GSAP Expert', 'Experience Creator', 'UI/UX Designer'],
@@ -898,73 +897,44 @@ function initInteractions() {
     // Clear old timeouts
     if (window._typeTimeout) clearTimeout(window._typeTimeout);
 
-    // Style the parent container for clean vertical overflow clipping
-    titleEl.style.cssText = `
-      display: inline-block;
-      overflow: hidden;
-      vertical-align: bottom;
-      height: 1.25em;
-      position: relative;
-      perspective: 400px;
-    `;
+    // Reset styles and clear content
+    titleEl.style.cssText = '';
+    titleEl.innerHTML = '';
 
     const list = words[e.detail.lang];
-    let idx = 0;
+    let wordIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+    let typingSpeed = 90;
 
-    function renderNextWord() {
-      const nextWordText = list[idx];
+    function typeEffect() {
+      const currentWord = list[wordIdx];
       
-      // Create new word node
-      const wordSpan = document.createElement('span');
-      wordSpan.className = 'ticker-word';
-      wordSpan.innerHTML = nextWordText;
-      wordSpan.style.cssText = `
-        position: absolute;
-        left: 0;
-        top: 0;
-        white-space: nowrap;
-        display: inline-block;
-        will-change: transform, opacity;
-      `;
-
-      // If there's an existing word, animate it sliding out, and slide the new one in
-      const currentWord = titleEl.querySelector('.ticker-word');
-      if (currentWord) {
-        // Slide out current word (upward 3D roll)
-        gsap.to(currentWord, {
-          yPercent: -100,
-          rotateX: 95,
-          opacity: 0,
-          duration: 0.7,
-          ease: 'power3.inOut',
-          onComplete: () => currentWord.remove()
-        });
-
-        // Slide in new word (from bottom 3D roll)
-        gsap.fromTo(wordSpan,
-          { yPercent: 100, rotateX: -95, opacity: 0 },
-          { yPercent: 0, rotateX: 0, opacity: 1, duration: 0.7, ease: 'power3.inOut' }
-        );
+      if (isDeleting) {
+        // Delete letter
+        titleEl.textContent = currentWord.substring(0, charIdx - 1);
+        charIdx--;
+        typingSpeed = 35; // Deletes faster
       } else {
-        // Initial load: simple fade up
-        gsap.fromTo(wordSpan,
-          { yPercent: 60, opacity: 0 },
-          { yPercent: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }
-        );
+        // Type letter
+        titleEl.textContent = currentWord.substring(0, charIdx + 1);
+        charIdx++;
+        typingSpeed = 80 + Math.random() * 40; // Simulates organic human speed variance
       }
 
-      titleEl.appendChild(wordSpan);
+      // Check state changes
+      if (!isDeleting && charIdx === currentWord.length) {
+        isDeleting = true;
+        typingSpeed = 2000; // Pause at completed word
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        wordIdx = (wordIdx + 1) % list.length;
+        typingSpeed = 450; // Brief pause before typing next word
+      }
 
-      // Cycle to the next word index
-      idx = (idx + 1) % list.length;
-      
-      // Schedule next shift after 3.2 seconds
-      window._typeTimeout = setTimeout(renderNextWord, 3200);
+      window._typeTimeout = setTimeout(typeEffect, typingSpeed);
     }
-
-    // Reset title inner container and kick off the wheel
-    titleEl.innerHTML = '';
-    renderNextWord();
+    typeEffect();
   });
 
   // Trigger language sync instantly to bootstrap typing words
