@@ -107,14 +107,21 @@
 
   // 6. Dual-panel premium vertical curtain reveal transition
   function revealSite() {
+    // Start site initialization immediately so everything is split/reset before curtains move
+    window.startSite();
+
     const tl = gsap.timeline({
       onComplete: () => {
         loaderScreen.style.display = 'none';
         window._loaderStopped = true;
         
-        // Let user scroll and trigger the portfolio start scripts
+        // Let user scroll freely
         document.body.style.overflow = '';
-        window.startSite();
+
+        // Refresh ScrollTrigger to ensure correct trigger positions
+        if (window.ScrollTrigger) {
+          window.ScrollTrigger.refresh();
+        }
       }
     });
 

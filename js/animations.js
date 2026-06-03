@@ -2,31 +2,46 @@
 function startHeroAnimations() {
   gsap.registerPlugin(TextPlugin);
 
-  // Premium double-span mask reveal on name-highlight
+  // Premium double-span mask reveal on name-highlight (split by words to prevent wrapping letters)
   const nameEl = document.querySelector('.name-highlight');
   if (nameEl) {
     const text = nameEl.textContent.trim();
     nameEl.innerHTML = '';
-    [...text].forEach(char => {
-      const outer = document.createElement('span');
-      outer.style.cssText = 'display: inline-block; overflow: hidden; vertical-align: bottom;';
+    
+    // Split by spaces to get words
+    const words = text.split(/\s+/);
+    words.forEach((word, wordIdx) => {
+      // Create a word container that prevents characters inside from wrapping
+      const wordSpan = document.createElement('span');
+      wordSpan.style.cssText = 'display: inline-block; white-space: nowrap;';
       
-      const inner = document.createElement('span');
-      inner.className = 'char';
-      inner.style.cssText = 'display: inline-block; transform-origin: bottom left; will-change: transform, opacity;';
-      
-      if (char === ' ') {
-        inner.innerHTML = '&nbsp;';
-      } else {
+      [...word].forEach(char => {
+        const outer = document.createElement('span');
+        outer.style.cssText = 'display: inline-block; overflow: hidden; vertical-align: bottom;';
+        
+        const inner = document.createElement('span');
+        inner.className = 'char';
+        inner.style.cssText = 'display: inline-block; transform-origin: bottom left; will-change: transform, opacity;';
         inner.textContent = char;
-      }
+        
+        outer.appendChild(inner);
+        wordSpan.appendChild(outer);
+      });
       
-      outer.appendChild(inner);
-      nameEl.appendChild(outer);
+      nameEl.appendChild(wordSpan);
+      
+      // Add standard space between words (not after the last word)
+      if (wordIdx < words.length - 1) {
+        const space = document.createElement('span');
+        space.style.cssText = 'display: inline-block;';
+        space.innerHTML = '&nbsp;';
+        nameEl.appendChild(space);
+      }
     });
   }
 
-  const tl = gsap.timeline({ delay: 0.2 });
+  // Hero animations timeline synchronized with loader curtains reveal
+  const tl = gsap.timeline({ delay: 0.8 });
 
   // Greeting
   tl.from('.hero-greeting, .greeting', {
@@ -50,15 +65,14 @@ function startHeroAnimations() {
     '-=0.2'
   );
 
-  // Description Description typewriter
+  // Description reveal using opacity and slide (avoids height collapse & layout shifts)
   const subtitle = document.querySelector('.hero-description');
   if (subtitle) {
-    const originalText = subtitle.textContent.trim();
-    subtitle.textContent = '';
-    tl.to(subtitle, {
-      duration: originalText.length * 0.018,
-      text: originalText,
-      ease: 'none'
+    tl.from(subtitle, {
+      opacity: 0,
+      y: 15,
+      duration: 0.8,
+      ease: 'power2.out'
     }, '-=0.3');
   }
 
@@ -70,7 +84,35 @@ function startHeroAnimations() {
     stagger: 0.12,
     ease: 'back.out(1.7)',
     duration: 0.5
+  }, '-=0.4');
+
+  // Hero stats stagger reveal (keeps layout intact)
+  tl.from('.hero-stats .stat-item', {
+    opacity: 0,
+    y: 15,
+    stagger: 0.1,
+    duration: 0.6,
+    ease: 'power2.out'
   }, '-=0.3');
+
+  // Social links hero reveal
+  tl.from('.social-links-hero .social-link', {
+    opacity: 0,
+    scale: 0.8,
+    y: 15,
+    stagger: 0.08,
+    duration: 0.5,
+    ease: 'back.out(1.5)'
+  }, '-=0.3');
+
+  // Developer.js floating card reveal (slide-in from right)
+  tl.from('.hero-visual .floating-card', {
+    opacity: 0,
+    x: 40,
+    scale: 0.95,
+    duration: 0.8,
+    ease: 'power3.out'
+  }, '-=0.8');
 
   // Infinite bouncing motion for scroll indicator
   gsap.to('.scroll-indicator', {
