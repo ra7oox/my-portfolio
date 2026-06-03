@@ -1421,5 +1421,373 @@
   
   <!-- Consolidated Main script (Last) -->
   <script src="js/main.js"></script>
+
+  <!-- Three.js CDN for the 3D Background -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  
+  <!-- === RA7OOX 3D BACKGROUND — CODING UNIVERSE === -->
+  <script>
+  (function() {
+    'use strict';
+    
+    // 1. Inject styles for the WebGL background canvas
+    const style = document.createElement('style');
+    style.textContent = `
+      #ra7oox-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1.2s ease;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // 2. Create and inject canvas element
+    const canvas = document.createElement('canvas');
+    canvas.id = 'ra7oox-bg';
+    document.body.insertBefore(canvas, document.body.firstChild);
+
+    // 3. Performance adaptive configs (mobile check)
+    const isMobile = window.innerWidth < 768;
+    const numCubes = isMobile ? 60 : 120;
+    const numNeuralPoints = isMobile ? 25 : 50;
+
+    // 4. Initialize Scene, Camera, and WebGL Renderer
+    const scene = new THREE.Scene();
+    scene.background = null; // Transparent scene lets styling background-color shine through
+    
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 3;
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: !isMobile,
+      powerPreference: "high-performance"
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+
+    // 5. Create Objects
+
+    // Group A: Binary Rain Nodes (120 wireframe cubes drifting Y)
+    const cubeGeo = new THREE.BoxGeometry(0.08, 0.08, 0.08);
+    const colors = [0x00d4ff, 0x7c3aed, 0x3b82f6]; // Cyan, Purple, Blue
+    const cubes = [];
+    const cubeGroup = new THREE.Group();
+    
+    for (let i = 0; i < numCubes; i++) {
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const mat = new THREE.MeshBasicMaterial({
+        color: color,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.25
+      });
+      const cube = new THREE.Mesh(cubeGeo, mat);
+      
+      cube.position.set(
+        (Math.random() - 0.5) * 12,
+        (Math.random() - 0.5) * 8,
+        Math.random() * 7 - 5
+      );
+      
+      cubeGroup.add(cube);
+      cubes.push(cube);
+    }
+    scene.add(cubeGroup);
+
+    // Group B: Code Brackets (Outline < /> lines at corners)
+    const brackets = [];
+    const bracketGroup = new THREE.Group();
+    
+    if (!isMobile) {
+      const bracketPoints = [
+        // <
+        new THREE.Vector3(-0.4, 0.3, 0), new THREE.Vector3(-0.7, 0, 0),
+        new THREE.Vector3(-0.7, 0, 0), new THREE.Vector3(-0.4, -0.3, 0),
+        // /
+        new THREE.Vector3(-0.1, -0.4, 0), new THREE.Vector3(0.1, 0.4, 0),
+        // >
+        new THREE.Vector3(0.4, 0.3, 0), new THREE.Vector3(0.7, 0, 0),
+        new THREE.Vector3(0.7, 0, 0), new THREE.Vector3(0.4, -0.3, 0)
+      ];
+      const bracketGeo = new THREE.BufferGeometry().setFromPoints(bracketPoints);
+      
+      const positions = [
+        new THREE.Vector3(-3.5, 2.0, -2),   // Top Left
+        new THREE.Vector3(3.5, 2.0, -2),    // Top Right
+        new THREE.Vector3(-3.5, -2.0, -2),  // Bottom Left
+        new THREE.Vector3(3.5, -2.0, -2),   // Bottom Right
+        new THREE.Vector3(-4.0, 0, -4),     // Far Left
+        new THREE.Vector3(4.0, 0, -4)       // Far Right
+      ];
+      
+      positions.forEach((pos, i) => {
+        const mat = new THREE.LineBasicMaterial({
+          color: 0x00d4ff,
+          transparent: true,
+          opacity: 0.1
+        });
+        const b = new THREE.LineSegments(bracketGeo, mat);
+        b.position.copy(pos);
+        b.rotation.set(
+          Math.random() * 0.4 - 0.2,
+          Math.random() * Math.PI,
+          Math.random() * 0.4 - 0.2
+        );
+        b.scale.setScalar(1.2 + Math.random() * 0.4);
+        bracketGroup.add(b);
+        brackets.push(b);
+      });
+      scene.add(bracketGroup);
+    }
+
+    // Group C: Neural Network Nodes & Pulse Links
+    const neuralPoints = [];
+    const connections = [];
+    const neuralGroup = new THREE.Group();
+    
+    for (let i = 0; i < numNeuralPoints; i++) {
+      const p = new THREE.Vector3(
+        (Math.random() - 0.5) * 6,
+        (Math.random() - 0.5) * 4,
+        (Math.random() - 0.5) * 4 - 1
+      );
+      p.userData = {
+        velocity: new THREE.Vector3(
+          (Math.random() - 0.5) * 0.15,
+          (Math.random() - 0.5) * 0.15,
+          (Math.random() - 0.5) * 0.15
+        )
+      };
+      neuralPoints.push(p);
+    }
+    
+    for (let i = 0; i < numNeuralPoints; i++) {
+      const p1 = neuralPoints[i];
+      const distances = neuralPoints
+        .map((p2, idx) => ({ idx, dist: p1.distanceTo(p2) }))
+        .filter(d => d.idx !== i)
+        .sort((a, b) => a.dist - b.dist);
+      
+      const numConnects = Math.min(2, distances.length);
+      for (let j = 0; j < numConnects; j++) {
+        const targetIdx = distances[j].idx;
+        const duplicate = connections.find(c => 
+          (c.userData.p1Idx === i && c.userData.p2Idx === targetIdx) || 
+          (c.userData.p1Idx === targetIdx && c.userData.p2Idx === i)
+        );
+        if (!duplicate) {
+          const mat = new THREE.LineBasicMaterial({
+            color: 0x00d4ff,
+            transparent: true,
+            opacity: 0.15
+          });
+          const lineGeo = new THREE.BufferGeometry().setFromPoints([p1, neuralPoints[targetIdx]]);
+          const line = new THREE.Line(lineGeo, mat);
+          line.userData = { p1Idx: i, p2Idx: targetIdx };
+          neuralGroup.add(line);
+          connections.push(line);
+        }
+      }
+    }
+    scene.add(neuralGroup);
+
+    // Group D: Curly Brace Symbols (Outline ShapeGeometry)
+    const braces = [];
+    const braceGroup = new THREE.Group();
+    
+    function createBraceShape(isLeft) {
+      const shape = new THREE.Shape();
+      const s = isLeft ? 1 : -1;
+      
+      shape.moveTo(0.2 * s, 0.5);
+      shape.quadraticCurveTo(0.0 * s, 0.5, 0.0 * s, 0.3);
+      shape.lineTo(0.0 * s, 0.1);
+      shape.quadraticCurveTo(0.0 * s, 0.0, -0.15 * s, 0.0);
+      shape.quadraticCurveTo(0.0 * s, 0.0, 0.0 * s, -0.1);
+      shape.lineTo(0.0 * s, -0.3);
+      shape.quadraticCurveTo(0.0 * s, -0.5, 0.2 * s, -0.5);
+      
+      shape.lineTo(0.2 * s, -0.44);
+      shape.quadraticCurveTo(0.06 * s, -0.44, 0.06 * s, -0.3);
+      shape.lineTo(0.06 * s, -0.08);
+      shape.quadraticCurveTo(0.06 * s, -0.04, -0.07 * s, 0.0);
+      shape.quadraticCurveTo(0.06 * s, 0.04, 0.06 * s, 0.08);
+      shape.lineTo(0.06 * s, 0.3);
+      shape.quadraticCurveTo(0.06 * s, 0.44, 0.2 * s, 0.44);
+      shape.closePath();
+      return shape;
+    }
+    
+    if (!isMobile) {
+      const leftShape = createBraceShape(true);
+      const rightShape = createBraceShape(false);
+      const leftGeo = new THREE.ShapeGeometry(leftShape);
+      const rightGeo = new THREE.ShapeGeometry(rightShape);
+      
+      for (let i = 0; i < 3; i++) {
+        const mat = new THREE.MeshBasicMaterial({
+          color: 0x00d4ff,
+          transparent: true,
+          opacity: 0.06,
+          side: THREE.DoubleSide,
+          wireframe: true
+        });
+        
+        const leftMesh = new THREE.Mesh(leftGeo, mat);
+        const rightMesh = new THREE.Mesh(rightGeo, mat);
+        
+        const cx = (Math.random() - 0.5) * 8;
+        const cy = (Math.random() - 0.5) * 5;
+        const cz = Math.random() * 5 - 4;
+        
+        leftMesh.position.set(cx - 0.8, cy, cz);
+        rightMesh.position.set(cx + 0.8, cy, cz);
+        
+        braceGroup.add(leftMesh);
+        braceGroup.add(rightMesh);
+        braces.push(leftMesh, rightMesh);
+      }
+      scene.add(braceGroup);
+    }
+
+    // 6. Interactive controls & Parallax tracking
+    let targetX = 0;
+    let targetY = 0;
+    let scrollDelta = 0;
+    let lastScrollY = window.scrollY;
+
+    function handleMouseMove(x, y) {
+      targetX = (x / window.innerWidth - 0.5) * 0.4;
+      targetY = -(y / window.innerHeight - 0.5) * 0.4;
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      handleMouseMove(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        handleMouseMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      scrollDelta += currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    // 7. Watch for Loader complete to trigger smooth canvas fade-in
+    const loader = document.getElementById('loading-screen');
+    
+    function reveal3D() {
+      setTimeout(() => {
+        canvas.style.opacity = '1';
+      }, 100);
+    }
+
+    if (!loader || window._loaderStopped || window.getComputedStyle(loader).display === 'none') {
+      reveal3D();
+    } else {
+      const observer = new MutationObserver(() => {
+        const display = window.getComputedStyle(loader).display;
+        if (display === 'none' || window._loaderStopped) {
+          reveal3D();
+          observer.disconnect();
+        }
+      });
+      observer.observe(loader, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
+
+    // 8. Handle Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight, false);
+    });
+
+    // 9. Intersection Observer (Pause rendering when offscreen/tab inactive)
+    let isVisible = true;
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          clock.getDelta(); // Reset clock delta
+          animate();
+        }
+      });
+    });
+    visibilityObserver.observe(canvas);
+
+    // 10. Animation loop
+    const clock = new THREE.Clock();
+    let rafId = null;
+
+    function animate() {
+      if (!isVisible) return;
+      rafId = requestAnimationFrame(animate);
+
+      const delta = Math.min(clock.getDelta(), 0.05);
+      const time = clock.getElapsedTime();
+
+      // 1. Float cubes (sine wave Y drift)
+      cubes.forEach((cube, i) => {
+        cube.position.y += Math.sin(time * 0.5 + i) * 0.0008;
+        cube.rotation.x += delta * 0.2;
+        cube.rotation.z += delta * 0.1;
+      });
+
+      // 2. Pulse neural connections & update drift positions
+      neuralPoints.forEach(p => {
+        p.addScaledVector(p.userData.velocity, delta);
+        if (Math.abs(p.x) > 4) p.userData.velocity.x *= -1;
+        if (Math.abs(p.y) > 3) p.userData.velocity.y *= -1;
+        if (p.z > 1 || p.z < -4) p.userData.velocity.z *= -1;
+      });
+
+      connections.forEach((line, i) => {
+        const p1 = neuralPoints[line.userData.p1Idx];
+        const p2 = neuralPoints[line.userData.p2Idx];
+        line.geometry.setFromPoints([p1, p2]);
+        line.material.opacity = 0.15 + 0.12 * Math.sin(time * 1.2 + i * 0.3);
+      });
+
+      // 3. Rotate brackets slowly
+      brackets.forEach((b, i) => {
+        b.rotation.y += delta * (i % 2 === 0 ? 0.08 : -0.06);
+      });
+
+      // Rotate tech symbols
+      braces.forEach((b) => {
+        b.rotation.y += delta * 0.1;
+        b.rotation.x += delta * 0.05;
+      });
+
+      // 4. Smooth camera follow mouse
+      camera.position.x += (targetX - camera.position.x) * 0.03;
+      camera.position.y += (targetY - camera.position.y) * 0.03;
+      camera.lookAt(scene.position);
+
+      // Scroll-based parallax physics
+      scene.position.z += scrollDelta * 0.0008;
+      scene.position.z = Math.max(-5, Math.min(2, scene.position.z));
+      
+      neuralGroup.rotation.y += scrollDelta * 0.0003;
+      
+      // Decay scroll delta to create a smooth deceleration
+      scrollDelta *= 0.9;
+
+      renderer.render(scene, camera);
+    }
+  })();
+  </script>
 </body>
 </html>
